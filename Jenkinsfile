@@ -12,7 +12,7 @@ pipeline
     {
       steps {
          sh" docker build -t pipeline_demo . "
-         sh" docker run -dp 8000:8080 pipeline_demo:latest --restart=on-failure  --name pipeline_demo "
+         sh" docker run -dp 8000:8000 pipeline_demo:latest --restart=on-failure  --name pipeline_demo "
          //  sh"docker compose up -d"
       }
     }
