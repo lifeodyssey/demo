@@ -66,21 +66,10 @@ tasks.jacocoTestReport {
         csv.required.set(false)
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
-    classDirectories.setFrom(
-        files(
-            classDirectories.files.map
-            {
-                fileTree(it).apply {
-                    exclude("com/example/demo/DemoApplication")
-                }
-            }
-        )
-    )
 }
 tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
-            classDirectories.setFrom(tasks.jacocoTestReport.get().classDirectories)
             limit {
                 minimum = "0.8".toBigDecimal()
             }
