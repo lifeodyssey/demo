@@ -6,6 +6,10 @@ plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
+    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
+    jacoco
+    application
+    id("maven-publish")
 }
 
 group = "com.example"
@@ -33,6 +37,12 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-mustache")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    testImplementation(kotlin("test"))
 }
 
 tasks.withType<KotlinCompile> {
@@ -44,4 +54,50 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(false)
+        csv.required.set(false)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map
+            {
+                fileTree(it).apply {
+                    exclude("com/example/demo/DemoApplication")
+                }
+            }
+        )
+    )
+}
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            classDirectories.setFrom(tasks.jacocoTestReport.get().classDirectories)
+            limit {
+                minimum = "0.8".toBigDecimal()
+            }
+        }
+    }
+}
+
+application {
+    mainClass.set("com.example.demo.DemoApplication")
+}
+tasks.build {
+    dependsOn(tasks.jacocoTestCoverageVerification)
+}
+jacoco {
+    applyTo(tasks.run.get())
+}
+tasks.register<JacocoReport>("applicationCodeCoverageReport") {
+    executionData(tasks.run.get())
+    sourceSets(sourceSets.main.get())
 }
