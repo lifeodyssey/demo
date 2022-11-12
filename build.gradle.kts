@@ -78,7 +78,7 @@ tasks.jacocoTestCoverageVerification {
 }
 
 application {
-    mainClass.set("com.example.demo.DemoApplication")
+    mainClass.set("com.example.demo.DemoApplicationKt")
 }
 tasks.build {
     dependsOn(tasks.jacocoTestCoverageVerification)
