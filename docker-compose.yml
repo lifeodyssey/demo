@@ -1,0 +1,25 @@
+version: "0.1"
+services:
+  backend:
+    image: pipeline_demo:latest
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    container_name: pipelineDemoContainer
+    links:
+      - postgres
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - 5433:5433
+    environment:
+      POSTGRES_USER: zhenjia
+      POSTGRES_PASSWORD: zhenjia
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+    container_name: deploy_pg_database
+volumes:
+  postgres:
