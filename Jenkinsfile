@@ -11,9 +11,11 @@ pipeline
       stage('Deploy')
     {
       steps {
-         sh" docker build -t pipeline_demo . "
-         sh" docker run -dp 8000:8000 pipeline_demo:latest --restart=on-failure  --name pipeline_demo "
+         sh" docker build -t demo . "
+         //sh" docker run -dp 127.0.0.1:8000:8000 demo:latest --restart=on-failure  --name pipeline_demo "
          //  sh"docker compose up -d"
+         sh" docker run -d -p 8000:8000 demo:latest  "
+
       }
     }
   }

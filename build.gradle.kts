@@ -9,7 +9,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
     jacoco
     application
-    id("maven-publish")
 }
 
 group = "com.example"
