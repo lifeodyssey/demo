@@ -12,7 +12,8 @@ pipeline
     {
       steps {
          sh" docker build -t demo . "
-         sh" docker run -d -p 8000:8000 demo:latest  "
+         sh" chmod +x deploy.sh"
+         sh" ./deploy.sh"
       }
     }
   }
