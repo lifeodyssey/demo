@@ -9,6 +9,6 @@ class HelloController {
     @RequestMapping("/")
     @ResponseBody
     fun getHello(): String {
-        return "Hello TWs"
+        return "Hello blue/green deployment"
     }
 }
