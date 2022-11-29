@@ -1,25 +1,35 @@
-version: "0.1"
-services:
-  backend:
-    image: pipeline_demo:latest
-    ports:
-      - "8000:8000"
-    restart: unless-stopped
-    container_name: pipelineDemoContainer
-    links:
-      - postgres
-    depends_on:
-      - postgres
+version: "3.9"
 
-  postgres:
-    image: postgres:latest
-    ports:
-      - 5433:5433
+x-application_standard: &application_standard
+  image: demo:latest
+  networks:
+    - application
+
+services:
+  demo-app-blue:
+    <<: *application_standard
+    container_name: demo_app_blue
     environment:
-      POSTGRES_USER: zhenjia
-      POSTGRES_PASSWORD: zhenjia
+      APPLICATION: blue
+  demo-app-green:
+    <<: *application_standard
+    container_name: demo_app_green
+    environment:
+      APPLICATION: green
+
+  nginx:
+    image: nginx
+    container_name: local_nginx
+    ports:
+      - "80:80"
     volumes:
-      - postgres:/var/lib/postgresql/data/
-    container_name: deploy_pg_database
-volumes:
-  postgres:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - demo-app-blue
+      - demo-app-green
+    networks:
+      - application
+
+networks:
+  application:
+    driver: bridge
