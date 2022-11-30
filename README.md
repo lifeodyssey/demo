@@ -2,7 +2,7 @@
 
 Tech stack: Kotlin, Spring Boot, MongoDB, Mongock, Docker, Jenkins, Nginx, Spring Cloud
 
-Practice: Test-Driven-Development
+Practice: Test-Driven-Development, Trunk-Based-Development
 
 Architecture: microservice and backend-for-frontend
 
