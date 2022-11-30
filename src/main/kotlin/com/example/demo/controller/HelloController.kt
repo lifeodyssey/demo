@@ -9,6 +9,6 @@ class HelloController {
     @RequestMapping("/")
     @ResponseBody
     fun getHello(): String {
-        return "Hello blue/green deployment"
+        return "Hello blue/green deployment with nginx"
     }
 }
