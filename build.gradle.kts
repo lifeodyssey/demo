@@ -44,6 +44,9 @@ dependencies {
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
     implementation("io.springfox:springfox-boot-starter:3.0.0")
     testImplementation(kotlin("test"))
+    implementation("io.mongock:mongock:5.2.1")
+    implementation("io.mongock:mongock-springboot:5.2.1")
+    implementation("io.mongock:mongodb-springdata-v3-driver:5.2.1")
 }
 
 tasks.withType<KotlinCompile> {

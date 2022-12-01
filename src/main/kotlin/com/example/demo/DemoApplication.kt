@@ -1,5 +1,6 @@
 package com.example.demo
 
+import io.mongock.runner.springboot.EnableMongock
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
@@ -13,6 +14,7 @@ import org.springframework.boot.runApplication
         MongoDataAutoConfiguration::class
     ]
 )
+@EnableMongock
 class DemoApplication
 
 fun main(args: Array<String>) {
