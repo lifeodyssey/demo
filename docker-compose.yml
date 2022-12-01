@@ -4,6 +4,7 @@ x-application_standard: &application_standard
   image: demo:latest
   networks:
     - application
+    - deploy_network
 
 services:
   demo-app-blue:
@@ -32,4 +33,6 @@ services:
 
 networks:
   application:
+    driver: bridge
+  deploy_network:
     driver: bridge
