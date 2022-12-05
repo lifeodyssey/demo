@@ -1,4 +1,4 @@
-package com.example.demo.model.book
+package com.example.demo.entity.book
 
 data class Author(
     val authorName: String
