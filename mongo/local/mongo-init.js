@@ -10,3 +10,4 @@ db.createUser(
         ]
     }
 );
+//TODO:could not initiate db and user in the beginning
