@@ -41,8 +41,10 @@ dependencies {
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
     implementation("io.springfox:springfox-boot-starter:3.0.0")
     testImplementation(kotlin("test"))
-    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.1.0")
-    implementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.1.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.5.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
+
 //    implementation("io.mongock:mongock:5.2.1")
 //    implementation("io.mongock:mongock-springboot:5.2.1")
 //    implementation("io.mongock:mongodb-springdata-v3-driver:5.2.1")

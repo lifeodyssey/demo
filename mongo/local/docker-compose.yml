@@ -6,15 +6,15 @@ services:
     container_name: local_mongo
     restart: always
     environment:
-      MONGO_INITDB_DATABASE: book_database
-      MONGO_INITDB_ROOT_USERNAME: local_mongo_username
-      MONGO_INITDB_ROOT_PASSWORD: local_mongo_pwd
+      - MONGO_INITDB_DATABASE=book_database
+      - MONGO_INITDB_ROOT_USERNAME=local_mongo_username
+      - MONGO_INITDB_ROOT_PASSWORD=local_mongo_pwd
     ports:
       - "27017:27017"
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - type: volume
-        source: local_mongodb_data
+        source: mongodb_data
         target: /data/db
     networks:
       - mongo_network
@@ -23,4 +23,4 @@ networks:
   mongo_network:
     driver: bridge
 volumes:
-  local_mongodb_data:
+  mongodb_data:

@@ -1,13 +1,6 @@
-db.createUser(
-    {
-        user: "zhenjia",
-        pwd: "zhenjia",
-        roles: [
-            {
-                role: "readWrite",
-                db:"book_database"
-            }
-        ]
-    }
-);
+conn = new Mongo();
+db = conn.getDB("bookDatabase");
+
+db.bookDatabase.createIndex({ "uuid": 1}, { unique: false });
+
 //TODO:could not initiate db and user in the beginning

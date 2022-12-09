@@ -1,43 +1,19 @@
-package com.example.demo.integration.controller.bookController
+package com.example.demo.system
 
-import com.example.demo.controller.BookController
-import com.example.demo.service.BookService
 import models.dto.AuthorDto
 import models.dto.BookDto
 import models.dto.DetailDto
 import models.dto.RatesDto
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.DisplayName
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.json.JacksonTester
-import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
-import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.http.HttpEntity
 import java.util.UUID
 
-@ExtendWith(SpringExtension::class)
-@WebMvcTest(BookController::class)
-@AutoConfigureJsonTesters
-class BookControllerTest {
-    @MockBean
-    lateinit var bookService: BookService
-
+class BookAPITests : DemoApplicationTestBase() {
     @Autowired
-    lateinit var mockMvc: MockMvc
-
-    @Autowired
-    lateinit var bookJson: JacksonTester<BookDto>
-    private val uuid = UUID.randomUUID()
+    private lateinit var restTemplate: TestRestTemplate
     private val title = "System Design Interview – An insider's guide"
     private val author = AuthorDto("Alex Xu")
     private val rates = RatesDto()
@@ -46,8 +22,7 @@ class BookControllerTest {
     private val detail = DetailDto(isbn = "979-8664653403")
 
     @Test
-    @DisplayName("/book (post)")
-    fun should_create_book_item_successfully() {
+    fun should_create_new_book_and_return_response() {
         // Given
         val bookDto = BookDto(
             title = title,
@@ -56,18 +31,10 @@ class BookControllerTest {
             abstract = abstract,
             details = detail
         )
-        val createBookRequest: MockHttpServletRequestBuilder = post("/book")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(bookJson.write(bookDto).json)
+        val createBookRequest = HttpEntity<BookDto>(bookDto)
         // When
-        whenever(bookService.createBook(bookDto)).thenReturn(uuid)
-        val createBookResponse = mockMvc.perform(
-            createBookRequest
-        )
-            .andReturn()
-            .response
+        val postBookEntity = restTemplate.postForObject("/book", createBookRequest, UUID::class.java)
         // Then
-        assertEquals(HttpStatus.CREATED.value(), createBookResponse.status)
-        verify(bookService).createBook(bookDto)
+        assertThat(postBookEntity).isNotNull
     }
 }
