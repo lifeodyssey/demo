@@ -1,13 +1,13 @@
 package models.entity
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import nonapi.io.github.classgraph.json.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.math.BigDecimal
-import java.util.UUID
 
 @Document(collection = "book")
 data class Book(
-    @Id var bookID: UUID,
+    @JsonProperty("bookID") @Id var bookID: String,
     val title: String,
     val authors: List<Author>,
     val rates: Rates,

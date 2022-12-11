@@ -2,8 +2,9 @@ package com.example.demo.repository
 
 import models.entity.Book
 import org.springframework.data.mongodb.repository.MongoRepository
-import org.springframework.stereotype.Repository
+import java.util.Optional
 
-@Repository
-interface BookRepository : MongoRepository<Book, Int>
+interface BookRepository : MongoRepository<Book, String>{
+    fun findByBookID(bookId: String):Optional<Book>
+}
 // TODO https://www.fivetran.com/blog/when-to-use-nosql-mongodb

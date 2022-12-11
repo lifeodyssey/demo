@@ -1,21 +1,21 @@
 package com.example.demo.mapper
 
+// import models.dto.ItemPriceDto
+// import models.dto.ReviewDto
+// import models.entity.ItemPrice
+// import models.entity.Review
 import models.dto.AuthorDto
 import models.dto.BookDto
 import models.dto.DetailDto
-// import models.dto.ItemPriceDto
 import models.dto.RatesDto
-// import models.dto.ReviewDto
 import models.entity.Author
 import models.entity.Book
 import models.entity.Detail
-// import models.entity.ItemPrice
 import models.entity.Rates
-// import models.entity.Review
-import java.util.UUID
+import org.bson.types.ObjectId
 
 fun BookDto.toBook(): Book = Book(
-    bookID = UUID.randomUUID(),
+    bookID = ObjectId().toString(),
     title = this.title,
     authors = this.authors.map { it.toAuthor() },
     rates = this.rates.toRate(),

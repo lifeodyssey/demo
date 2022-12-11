@@ -8,7 +8,7 @@ import models.dto.BookDto
 import models.dto.DetailDto
 import models.dto.RatesDto
 import models.entity.Book
-import org.junit.jupiter.api.DisplayName
+import org.bson.types.ObjectId
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentCaptor
@@ -19,6 +19,11 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
+import java.util.*
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @ExtendWith(MockitoExtension::class)
 internal class BookServiceTest {
@@ -38,17 +43,17 @@ internal class BookServiceTest {
     @Captor
     lateinit var bookCaptor: ArgumentCaptor<Book>
 
+    private val bookDto = BookDto(
+        title = title,
+        authors = listOf(author),
+        rates = rates,
+        abstract = abstract,
+        details = detail
+    )
+
     @Test
-    @DisplayName("# Create and return a new book")
     fun could_create_and_return_book_id() {
         // Given
-        val bookDto = BookDto(
-            title = title,
-            authors = listOf(author),
-            rates = rates,
-            abstract = abstract,
-            details = detail
-        )
         val savedBook = bookDto.toBook()
 
 //        whenever(bookRepository.save(any())).thenReturn(savedBook)//TODO when whenever mockk any
@@ -63,4 +68,39 @@ internal class BookServiceTest {
 //        assertEquals(savedBook.bookID, createdBookID)
 //        verify(bookRepository.save(any()))
     }
+
+    //    @Test
+//    fun could_find_book_by_id() {
+//        // Given
+//        val savedBook = bookDto.toBook()
+//        val savedBookID= savedBook.bookID
+//        `when`(bookRepository.findById(any())).thenReturn(Optional.of(savedBook))
+//        // When
+//        val foundBook = bookService.findBookByID(savedBookID)
+//        // Then
+//        verify(bookRepository).findById(any())
+//        assertEquals(foundBook!!.bookID, savedBookID)
+//    }
+    @Test
+    fun `findBookById should return book if found`() {
+        val savedBook = bookDto.toBook()
+        whenever(bookRepository.findByBookID(savedBook.bookID)).thenReturn(Optional.of(savedBook))
+
+        val result = bookService.findBookByID(savedBook.bookID)
+
+        assertTrue(result.isPresent)
+        assertEquals(savedBook, result.get())
+    }
+    @Test
+    fun `findBookById should return empty optional if book not found`() {
+        whenever(bookRepository.findByBookID(any())).thenReturn(Optional.empty())
+
+        val result = bookService.findBookByID(ObjectId().toString())
+
+        assertFalse(result.isPresent)
+    }
 }
+
+
+
+

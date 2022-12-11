@@ -6,7 +6,7 @@ services:
     container_name: local_mongo
     restart: always
     environment:
-      - MONGO_INITDB_DATABASE=book_database
+      - MONGO_INITDB_DATABASE=admin
       - MONGO_INITDB_ROOT_USERNAME=local_mongo_username
       - MONGO_INITDB_ROOT_PASSWORD=local_mongo_pwd
     ports:

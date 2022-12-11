@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
+//@EnableMongoRepositories
 class DemoApplication
 
 fun main(args: Array<String>) {

@@ -1,6 +1,14 @@
-conn = new Mongo();
-db = conn.getDB("bookDatabase");
+db.auth('local_mongo_username', 'local_mongo_pwd')
 
-db.bookDatabase.createIndex({ "uuid": 1}, { unique: false });
+db = db.getSiblingDB('book')
 
-//TODO:could not initiate db and user in the beginning
+db.createUser({
+    user: 'bookadmin',
+    pwd: 'bookpwd',
+    roles: [
+        {
+            role: 'root',
+            db: 'book',
+        },
+    ],
+});
