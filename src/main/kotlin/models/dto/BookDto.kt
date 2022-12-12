@@ -1,15 +1,18 @@
 package models.dto
 
 import java.math.BigDecimal
+import javax.validation.constraints.NotBlank
 
 data class BookDto(
+    @NotBlank(message = "Title is required")
     val title: String,
+    @NotBlank(message = "Author is required")
     val authors: List<AuthorDto>,
     val rates: RatesDto,
-    val abstract: String,
+    val abstract: String="",
 //    val prices: List<ItemPriceDto>? = null,
+    @NotBlank(message = "Details is required")
     val details: DetailDto,
-//    val reviews: List<ReviewDto>? = null,
 )
 
 data class AuthorDto(
@@ -28,14 +31,9 @@ data class RatesDto(
 //    val type: String?
 // )
 
-// data class ReviewDto(
-//    val reviewerName: String,
-//    val reviewContent: String,
-//    val helpful: Int,
-//    val rate: BigDecimal
-// )
 
 data class DetailDto(
     val asin: String? = null,
+    @NotBlank(message = "ISBN is required")
     val isbn: String,
 )

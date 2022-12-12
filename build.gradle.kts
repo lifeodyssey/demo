@@ -45,6 +45,8 @@ dependencies {
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.5.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
     testImplementation("io.mockk:mockk:1.13.3")
+    implementation ("org.springframework.boot:spring-boot-starter-validation")
+
 //    implementation("io.mongock:mongock:5.2.1")
 //    implementation("io.mongock:mongock-springboot:5.2.1")
 //    implementation("io.mongock:mongodb-springdata-v3-driver:5.2.1")

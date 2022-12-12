@@ -6,5 +6,6 @@ import java.util.Optional
 
 interface BookRepository : MongoRepository<Book, String> {
     fun findByBookID(bookId: String): Optional<Book>
+    fun deleteByBookID(bookId: String)
 }
 // TODO https://www.fivetran.com/blog/when-to-use-nosql-mongodb
