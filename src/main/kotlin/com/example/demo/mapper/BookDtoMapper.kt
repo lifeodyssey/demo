@@ -52,4 +52,3 @@ fun DetailDto.toDetail() = Detail(
 //    helpful = this.helpful,
 //    rate = this.rate
 // )
-// TODO DO PO Entity https://github.com/FasterXML/jackson-module-kotlin

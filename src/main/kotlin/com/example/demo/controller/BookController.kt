@@ -11,27 +11,25 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/books")
 class BookController {
     @Autowired
     private lateinit var bookService: BookService
-    @ResponseStatus(HttpStatus.CREATED)
+
     @PostMapping
-    fun createBook(@RequestBody book: BookDto): String {
-        return bookService.createBook(book)
+    fun createBook(@RequestBody book: BookDto): ResponseEntity<String> {
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(book).bookID)
     }
 
     @GetMapping("/{bookID}")
     fun findBookByID(@PathVariable bookID: String): ResponseEntity<Book> {
         val book = bookService.findBookByID(bookID)
-        return if (book.isPresent){
+        return if (book.isPresent) {
             ResponseEntity.ok(book.get())
-        }
-        else{
+        } else {
             ResponseEntity.notFound().build()
         }
     }

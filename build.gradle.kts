@@ -44,7 +44,7 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.5.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
-
+    testImplementation("io.mockk:mockk:1.13.3")
 //    implementation("io.mongock:mongock:5.2.1")
 //    implementation("io.mongock:mongock-springboot:5.2.1")
 //    implementation("io.mongock:mongodb-springdata-v3-driver:5.2.1")

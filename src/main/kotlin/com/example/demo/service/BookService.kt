@@ -12,10 +12,9 @@ import java.util.Optional
 class BookService {
     @Autowired
     private lateinit var bookRepository: BookRepository
-    fun createBook(book: BookDto): String {
+    fun createBook(book: BookDto): Book {
         val bookToSave = book.toBook()
-        val savedBook = bookRepository.save(bookToSave)
-        return savedBook.bookID
+        return bookRepository.save(bookToSave)
     }
 
     fun findBookByID(bookID: String): Optional<Book> {

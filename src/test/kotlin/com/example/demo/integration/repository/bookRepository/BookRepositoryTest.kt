@@ -48,7 +48,7 @@ class BookRepositoryTest {
     }
 
     @Test
-    fun could_save_book_in_mongodb() {//TODO rewrite test function name
+    fun `save should return book if created`() {
         // Given
         val book =
             Book(
@@ -64,6 +64,7 @@ class BookRepositoryTest {
         // Then
         assertEquals(book.bookID, savedBook.bookID)
         assertEquals(book.title, savedBook.title)
+        assertEquals(book.authors.size,savedBook.authors.size)
         assertEquals(book.authors[0].authorName, savedBook.authors[0].authorName)
         assertEquals(book.rates.rate, savedBook.rates.rate)
         assertEquals(book.rates.rateAmount, savedBook.rates.rateAmount)
@@ -79,10 +80,10 @@ class BookRepositoryTest {
     @Test
     fun `findBookById should return book if found`() {
         val book = bookRepository.findByBookID(bookID)
-
         assertTrue(book.isPresent)
         assertEquals(bookID, book.get().bookID)
         assertEquals(title, book.get().title)
+        assertEquals(1,book.get().authors.size)
         assertEquals(author.authorName, book.get().authors[0].authorName)
         assertEquals(rates.rate, book.get().rates.rate)
         assertEquals(rates.rateAmount, book.get().rates.rateAmount)

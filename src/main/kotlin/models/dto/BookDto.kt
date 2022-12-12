@@ -21,19 +21,19 @@ data class RatesDto(
     val rateAmount: Int = 0
 )
 
-//data class ItemPriceDto(
+// data class ItemPriceDto(
 //    val currency: String,
 //    val price: BigDecimal,
 //    val category: String,
 //    val type: String?
-//)
+// )
 
-//data class ReviewDto(
+// data class ReviewDto(
 //    val reviewerName: String,
 //    val reviewContent: String,
 //    val helpful: Int,
 //    val rate: BigDecimal
-//)
+// )
 
 data class DetailDto(
     val asin: String? = null,
