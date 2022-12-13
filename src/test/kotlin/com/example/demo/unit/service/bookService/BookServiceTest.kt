@@ -9,6 +9,7 @@ import models.dto.DetailDto
 import models.dto.RatesDto
 import models.entity.Book
 import org.bson.types.ObjectId
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentCaptor
@@ -42,15 +43,21 @@ internal class BookServiceTest {
 
     @Captor
     lateinit var bookCaptor: ArgumentCaptor<Book>
-
-    private val bookDto = BookDto(
-        title = title,
-        authors = listOf(author),
-        rates = rates,
-        abstract = abstract,
-        details = detail
-    )
-    private val savedBook = bookDto.toBook()
+    private lateinit var savedBookId:String
+    private lateinit var savedBook:Book
+    private lateinit var bookDto:BookDto
+    @BeforeEach
+    fun prepareDatInDB(){
+        bookDto = BookDto(
+            title = title,
+            authors = listOf(author),
+            rates = rates,
+            abstract = abstract,
+            details = detail
+        )
+        savedBook = bookDto.toBook()
+        savedBookId = ObjectId().toString()
+    }
 
     @Test
     fun `createBook should return book if found`() {
@@ -64,16 +71,15 @@ internal class BookServiceTest {
 
     @Test
     fun `findBookById should return book if found`() {
-        val savedBook = bookDto.toBook()
-        whenever(bookRepository.findByBookID(savedBook.bookID)).thenReturn(Optional.of(savedBook))
-        val result = bookService.findBookByID(savedBook.bookID)
+        whenever(bookRepository.findById(savedBookId)).thenReturn(Optional.of(savedBook))
+        val result = bookService.findBookByID(savedBookId)
         assertTrue(result.isPresent)
         assertEquals(savedBook, result.get())
     }
 
     @Test
     fun `findBookById should return empty optional if book not found`() {
-        whenever(bookRepository.findByBookID(any())).thenReturn(Optional.empty())
+        whenever(bookRepository.findById(any())).thenReturn(Optional.empty())
         val result = bookService.findBookByID(ObjectId().toString())
         assertFalse(result.isPresent)
     }

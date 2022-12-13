@@ -1,6 +1,6 @@
 # A demo code repository to practice basic work and best practice of backend development
 
-Tech stack: Kotlin, Spring Boot, MongoDB, Mongock, Docker, Jenkins, Nginx, Spring Cloud
+Tech stack: Kotlin, Spring Boot, MongoDB, Mongock, Mockk, Docker, Jenkins, Nginx, Spring Cloud
 
 Practice: Test-Driven-Development(TDD), Trunk-Based-Development
 
@@ -13,7 +13,6 @@ Feature
 - Basic CRUD RESTFULL API with TDD
 - MongoDB migration by Mongock
 - Exception handling
-- Test Double with Unit Test, Integration Test, E2E test, Contract Test
 - Logging
 
 # Feature
@@ -22,12 +21,12 @@ Feature
 
 ## TDD
 
-Controller: Integration Test
+Controller: Integration Test @WebMvcTest
 
-Service: Unit Test
+Service: Unit Test Mockk(difference between mockk and Mokito)
 
-Repository: In-memory DB Test
+Repository: In-memory DB Test by @DataMongoTest
 
-as well as End To End (System Test) implemented (with transactional database operation)
+as well as End To End (System Test) implemented @SpringBootTest
 
 

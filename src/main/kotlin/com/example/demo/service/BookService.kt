@@ -21,14 +21,14 @@ class BookService {
     }
 
     fun findBookByID(bookID: String): Optional<Book> {
-        return bookRepository.findByBookID(bookID)
+        return bookRepository.findById(bookID)
     }
 
     fun findAllBooks(): List<Book> {
         return bookRepository.findAll()
     }
     fun updateBookByID(bookId: String, book: BookDto) {
-        val bookToBeUpdated = bookRepository.findByBookID(bookId = bookId)
+        val bookToBeUpdated = bookRepository.findById(bookId)
         if (bookToBeUpdated.isPresent) {
             val updatedBook = bookToBeUpdated.get().copy(
                 bookID=bookId,
@@ -38,7 +38,7 @@ class BookService {
                 abstract = book.abstract,
                 details = book.details.toDetail()
             )
-            bookRepository.deleteByBookID(bookId)
+            bookRepository.deleteById(bookId)
             bookRepository.save(updatedBook)
         } else {
             throw Exception("Book with id $bookId not found")
@@ -46,9 +46,9 @@ class BookService {
     }
 
     fun deleteBookById(bookId: String) {
-        val book = bookRepository.findByBookID(bookId)
+        val book = bookRepository.findById(bookId)
         if (book.isPresent) {
-            bookRepository.deleteByBookID(bookId)
+            bookRepository.deleteById(bookId)
         } else {
             throw Exception("Book with id $bookId not found")
         }
@@ -56,5 +56,9 @@ class BookService {
     fun deleteAllBooks() {
         bookRepository.deleteAll()
     }
-
 }
+
+//TODO 1.using _id as book id instead of new id
+//TODO 2.write more response body
+//todo 3. exception handling??
+//todo 4. add test

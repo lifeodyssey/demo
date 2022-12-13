@@ -79,7 +79,7 @@ class BookRepositoryTest {
 
     @Test
     fun `findBookById should return book if found`() {
-        val book = bookRepository.findByBookID(bookID)
+        val book = bookRepository.findById(bookID)
         assertTrue(book.isPresent)
         assertEquals(bookID, book.get().bookID)
         assertEquals(title, book.get().title)

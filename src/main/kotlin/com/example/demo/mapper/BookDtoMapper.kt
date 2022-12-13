@@ -12,10 +12,9 @@ import models.entity.Author
 import models.entity.Book
 import models.entity.Detail
 import models.entity.Rates
-import org.bson.types.ObjectId
 
 fun BookDto.toBook(): Book = Book(
-    bookID = ObjectId().toString(),
+    bookID = null,
     title = this.title,
     authors = this.authors.map { it.toAuthor() },
     rates = this.rates.toRate(),
