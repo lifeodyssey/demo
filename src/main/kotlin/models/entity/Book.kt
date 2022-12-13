@@ -7,7 +7,7 @@ import java.math.BigDecimal
 
 @Document(collection = "book")
 data class Book(
-    @MongoId @Id var bookID: String?,
+    @MongoId @Id var bookId: String?,
     val title: String,
     val authors: List<Author>,
     val rates: Rates,

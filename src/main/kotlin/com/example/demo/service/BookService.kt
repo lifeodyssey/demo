@@ -9,7 +9,6 @@ import models.dto.BookDto
 import models.entity.Book
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class BookService {
@@ -20,26 +19,31 @@ class BookService {
         return bookRepository.save(bookToSave)
     }
 
-    fun findBookByID(bookID: String): Optional<Book> {
-        return bookRepository.findById(bookID)
+    fun findBookById(bookId: String): Book {
+        val foundedBook = bookRepository.findById(bookId)
+        if (foundedBook.isPresent) {
+            return foundedBook.get()
+        } else {
+            throw Exception("Book with id $bookId not found")
+        }
     }
 
     fun findAllBooks(): List<Book> {
         return bookRepository.findAll()
     }
-    fun updateBookByID(bookId: String, book: BookDto) {
+
+    fun updateBookById(bookId: String, book: BookDto): Book {
         val bookToBeUpdated = bookRepository.findById(bookId)
         if (bookToBeUpdated.isPresent) {
             val updatedBook = bookToBeUpdated.get().copy(
-                bookID=bookId,
+                bookId = bookId,
                 title = book.title,
                 authors = book.authors.map { it.toAuthor() },
                 rates = book.rates.toRate(),
                 abstract = book.abstract,
                 details = book.details.toDetail()
             )
-            bookRepository.deleteById(bookId)
-            bookRepository.save(updatedBook)
+            return bookRepository.save(updatedBook)
         } else {
             throw Exception("Book with id $bookId not found")
         }
@@ -53,12 +57,11 @@ class BookService {
             throw Exception("Book with id $bookId not found")
         }
     }
+
     fun deleteAllBooks() {
         bookRepository.deleteAll()
     }
 }
 
-//TODO 1.using _id as book id instead of new id
-//TODO 2.write more response body
 //todo 3. exception handling??
 //todo 4. add test

@@ -8,22 +8,24 @@ import models.dto.BookDto
 import models.dto.DetailDto
 import models.dto.RatesDto
 import models.entity.Book
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.catchThrowable
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentCaptor
-import org.mockito.Captor
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
+import org.mockito.kotlin.doNothing
+import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import java.util.Optional
+import java.util.*
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @ExtendWith(MockitoExtension::class)
@@ -41,13 +43,13 @@ internal class BookServiceTest {
     @InjectMocks
     lateinit var bookService: BookService
 
-    @Captor
-    lateinit var bookCaptor: ArgumentCaptor<Book>
-    private lateinit var savedBookId:String
-    private lateinit var savedBook:Book
-    private lateinit var bookDto:BookDto
+//    @Captor
+//    lateinit var bookCaptor: ArgumentCaptor<Book>
+    private lateinit var savedBookId: String
+    private lateinit var savedBook: Book
+    private lateinit var bookDto: BookDto
     @BeforeEach
-    fun prepareDatInDB(){
+    fun prepareDatInDB() {
         bookDto = BookDto(
             title = title,
             authors = listOf(author),
@@ -55,32 +57,113 @@ internal class BookServiceTest {
             abstract = abstract,
             details = detail
         )
-        savedBook = bookDto.toBook()
-        savedBookId = ObjectId().toString()
+
+        savedBook = bookDto.toBook().copy(
+            bookId = ObjectId().toString()
+        )
+        savedBookId= savedBook.bookId!!
     }
 
     @Test
-    fun `createBook should return book if found`() {
+    fun `createBook should return book if saved`() {
         // Given
-        `when`(bookRepository.save(bookCaptor.capture())).thenReturn(savedBook)
+//        `when`(bookRepository.save(bookCaptor.capture())).thenReturn(savedBook)
+        `when`(bookRepository.save(any())).thenReturn(savedBook)
+
         // When
-        bookService.createBook(bookDto)
+        val createBook = bookService.createBook(bookDto)
         // Then
-        verify(bookRepository).save(bookCaptor.capture()) // todo:verify other output
+        verify(bookRepository).save(any()) // todo:verify other output
+        assertEquals(createBook,savedBook)
     }
 
     @Test
     fun `findBookById should return book if found`() {
         whenever(bookRepository.findById(savedBookId)).thenReturn(Optional.of(savedBook))
-        val result = bookService.findBookByID(savedBookId)
-        assertTrue(result.isPresent)
-        assertEquals(savedBook, result.get())
+        val foundedBook = bookService.findBookById(savedBookId)
+
+        verify(bookRepository).findById(savedBookId)
+        assertThat(foundedBook).isNotNull
+        assertEquals(savedBook, foundedBook)
     }
 
     @Test
-    fun `findBookById should return empty optional if book not found`() {
-        whenever(bookRepository.findById(any())).thenReturn(Optional.empty())
-        val result = bookService.findBookByID(ObjectId().toString())
-        assertFalse(result.isPresent)
+    fun `findBookById should throw exception if book not found`() {
+        val wrongBookId = ObjectId().toString()
+        whenever(bookRepository.findById(wrongBookId)).thenReturn(Optional.empty())
+        assertThrows<Exception> { bookService.findBookById(wrongBookId) }
+
+        val thrownException= catchThrowable { bookService.findBookById(wrongBookId) }
+        verify(bookRepository,times(2)).findById(wrongBookId)
+        assertEquals("Book with id $wrongBookId not found",thrownException.message)
+    }
+
+    @Test
+    fun `findAllBooks should return all the books in the db`() {
+        whenever(bookRepository.findAll()).thenReturn(listOf(savedBook))
+        val bookList = bookService.findAllBooks()
+
+        verify(bookRepository).findAll()
+        assertTrue(bookList.isNotEmpty())
+        assertEquals(1, bookList.size)
+        assertEquals(savedBook, bookList[0])
+    }
+
+    @Test
+    fun `updateBookById should return book if updated`() {
+        val updatedBookDto = bookDto.copy(title = "system design volume 22")
+        val updateBook=savedBook.copy(title="system design volume 22")
+        whenever(bookRepository.findById(savedBookId)).thenReturn(Optional.of(savedBook))
+        `when`(bookRepository.save(any())).thenReturn(updateBook)
+        val updateResult = bookService.updateBookById(savedBookId,updatedBookDto)
+
+        verify(bookRepository).findById(savedBookId)
+        verify(bookRepository).save(any())
+        assertThat(updateBook).isNotNull
+        assertEquals(updateBook, updateResult)
+    }
+
+    @Test
+    fun `updateBookById should throw exception if book not found`() {
+        val wrongBookId = ObjectId().toString()
+        whenever(bookRepository.findById(wrongBookId)).thenReturn(Optional.empty())
+        assertThrows<Exception> { bookService.updateBookById(wrongBookId, bookDto) }
+
+        val thrownException= catchThrowable { bookService.updateBookById(wrongBookId,bookDto) }
+        verify(bookRepository,times(2)).findById(wrongBookId)
+        assertEquals("Book with id $wrongBookId not found",thrownException.message)
+    }
+
+    @Test
+    fun `deleteBookById should return nothing if founded`() {
+
+        whenever(bookRepository.findById(savedBookId)).thenReturn(Optional.of(savedBook))
+        doNothing().`when`(bookRepository).deleteById(savedBookId)
+        bookService.deleteBookById(savedBookId)
+        verify(bookRepository).findById(savedBookId)
+        verify(bookRepository).deleteById(savedBookId)
+    }
+
+    @Test
+    fun `deleteBookById should throw exception if book not found`() {
+        val wrongBookId = ObjectId().toString()
+        whenever(bookRepository.findById(wrongBookId)).thenReturn(Optional.empty())
+        assertThrows<Exception> { bookService.deleteBookById(wrongBookId) }
+
+        val thrownException= catchThrowable { bookService.deleteBookById(wrongBookId) }
+        verify(bookRepository, times(2)).findById(wrongBookId)
+        assertEquals("Book with id $wrongBookId not found",thrownException.message)
+    }
+
+    @Test
+    fun `deleteAllBooks should delete all the books in db`() {
+        // Given
+        bookRepository.save(bookDto.toBook())
+        bookRepository.save(bookDto.toBook())
+        // When
+        bookRepository.deleteAll()
+        // Then
+        assertEquals(0,bookRepository.findAll().size)
+
     }
 }

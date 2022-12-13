@@ -11,9 +11,10 @@ import models.dto.DetailDto
 import models.dto.RatesDto
 import models.entity.Book
 import org.bson.types.ObjectId
+import org.hamcrest.Matchers.hasSize
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.kotlin.any
+import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,11 +26,12 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.util.Optional
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(BookController::class)
@@ -43,7 +45,7 @@ class BookControllerTest {
 
     @Autowired
     lateinit var bookJson: JacksonTester<BookDto>
-    private val bookID = ObjectId().toString()
+    private val bookId = ObjectId().toString()
     private val title = "System Design Interview – An insider's guide"
     private val author = AuthorDto("Alex Xu")
     private val rates = RatesDto()
@@ -54,7 +56,7 @@ class BookControllerTest {
         title = title, authors = listOf(author), rates = rates, abstract = abstract, details = detail
     )
     private val savedBook = Book(
-        bookID = bookID,
+        bookId = bookId,
         title = title,
         authors = listOf(author.toAuthor()),
         rates = rates.toRate(),
@@ -63,40 +65,101 @@ class BookControllerTest {
     )
 
     @Test
-    fun `createBook should return book ID if created`() {
+    fun `createBook should return book Id if created`() {
         // Given
         val createBookRequest: MockHttpServletRequestBuilder =
             post("/books").contentType(MediaType.APPLICATION_JSON).content(bookJson.write(bookDto).json)
-        bookID
+        bookId
         whenever(bookService.createBook(bookDto)).thenReturn(savedBook)
         // When
         mockMvc.perform(createBookRequest)
             // Then
-            .andExpect(status().isCreated).andExpect(jsonPath("$").value(bookID))
+            .andExpect(status().isCreated).andExpect(jsonPath("$").value(bookId))
         verify(bookService).createBook(bookDto)
     }
 
     @Test
     fun `findBookById should return book if found`() {
         // Given
-        whenever(bookService.findBookByID(bookID)).thenReturn(Optional.of(savedBook))
+        whenever(bookService.findBookById(bookId)).thenReturn(savedBook)
         // When
-        mockMvc.perform(get("/books/$bookID"))
+        mockMvc.perform(get("/books/$bookId"))
             // Then
-            .andExpect(status().isOk).andExpect(jsonPath("$.bookID").value(bookID))
-            .andExpect(jsonPath("$.title").value(title))
+            .andExpect(status().isOk).andExpect(jsonPath("$.bookId").value(bookId))
+            .andExpect(jsonPath("$.title").value(title)).andExpect(jsonPath("$.authors", hasSize<Int>(1)))
             .andExpect(jsonPath("$.authors[0].authorName").value(author.authorName))
             .andExpect(jsonPath("$.rates.rate").value(rates.rate))
             .andExpect(jsonPath("$.rates.rateAmount").value(rates.rateAmount))
             .andExpect(jsonPath("$.abstract").value(abstract)).andExpect(jsonPath("$.details.isbn").value(detail.isbn))
 
-        verify(bookService).findBookByID(bookID)
+        verify(bookService).findBookById(bookId)
+    }
+
+
+    @Test
+    fun `findAll should return all books`() {
+        // Given
+        whenever(bookService.findAllBooks()).thenReturn(listOf(savedBook))
+        // When
+        mockMvc.perform(get("/books"))
+            // Then
+            .andExpect(status().isOk).andExpect(jsonPath("$", hasSize<Int>(1)))
+            .andExpect(jsonPath("$[0].bookId").value(bookId)).andExpect(jsonPath("$[0].title").value(title))
+            .andExpect(jsonPath("$[0].authors", hasSize<Int>(1)))
+            .andExpect(jsonPath("$[0].authors[0].authorName").value(author.authorName))
+            .andExpect(jsonPath("$[0].rates.rate").value(rates.rate))
+            .andExpect(jsonPath("$[0].rates.rateAmount").value(rates.rateAmount))
+            .andExpect(jsonPath("$[0].abstract").value(abstract))
+            .andExpect(jsonPath("$[0].details.isbn").value(detail.isbn))
+
+        verify(bookService).findAllBooks()
     }
 
     @Test
-    fun `findBookById should return 404 if book not found`() {
-        whenever(bookService.findBookByID(any())).thenReturn(Optional.empty())
+    fun `updateBookById should return updated book`() {
+        // Given
+        val updatedBookDto = bookDto.copy(title = "system design volume 2")
+        val updatedBook = savedBook.copy(title = "system design volume 2")
+        val updateBookRequest: MockHttpServletRequestBuilder =
+            put("/books/$bookId").contentType(MediaType.APPLICATION_JSON).content(bookJson.write(updatedBookDto).json)
+        whenever(bookService.updateBookById(bookId, updatedBookDto)).thenReturn(updatedBook)
 
-        mockMvc.perform(get("/book/1")).andExpect(status().isNotFound)
+        // When
+        mockMvc.perform(updateBookRequest)
+            // Then
+            .andExpect(status().isOk).andExpect(jsonPath("$.bookId").value(bookId))
+            .andExpect(jsonPath("$.title").value(updatedBook.title)).andExpect(jsonPath("$.authors", hasSize<Int>(1)))
+            .andExpect(jsonPath("$.authors[0].authorName").value(author.authorName))
+            .andExpect(jsonPath("$.rates.rate").value(rates.rate))
+            .andExpect(jsonPath("$.rates.rateAmount").value(rates.rateAmount))
+            .andExpect(jsonPath("$.abstract").value(abstract)).andExpect(jsonPath("$.details.isbn").value(detail.isbn))
+
+        verify(bookService).updateBookById(bookId, updatedBookDto)
+    }
+
+    @Test
+    fun `deleteBookById should return no content`() {
+
+        // Given
+
+        doNothing().`when`(bookService).deleteBookById(bookId)
+        // When
+        mockMvc.perform(delete("/books/$bookId"))
+            // Then
+            .andExpect(status().isNoContent)
+        verify(bookService).deleteBookById(bookId)
+    }
+
+    @Test
+    fun `deleteAllBooks should return no content`() {
+
+        // Given
+
+        doNothing().`when`(bookService).deleteAllBooks()
+        // When
+        mockMvc.perform(delete("/books"))
+            // Then
+            .andExpect(status().isNoContent)
+        verify(bookService).deleteAllBooks()
     }
 }

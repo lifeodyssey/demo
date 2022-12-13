@@ -8,9 +8,7 @@ import models.dto.DetailDto
 import models.dto.RatesDto
 import models.entity.Book
 import org.assertj.core.api.Assertions.assertThat
-import org.bson.types.ObjectId
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -18,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.http.HttpEntity
+import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 
 @ExtendWith(MockKExtension::class)
@@ -40,13 +39,13 @@ class BookE2ETests : DemoApplicationTestBase() {
         abstract = abstract,
         details = detail
     )
-    private val savedBook = bookDto.toBook()
+    private lateinit var savedBook :Book
 
     @BeforeEach
     fun beforeEach() {
         mongoTemplate.dropCollection(Book::class.java)
         mongoTemplate.createCollection(Book::class.java)
-        mongoTemplate.save(savedBook)
+        savedBook = mongoTemplate.save(bookDto.toBook())
     }
 
     @Test
@@ -63,12 +62,12 @@ class BookE2ETests : DemoApplicationTestBase() {
     @Test
     fun `getBookById should return book when book is found`() {
         // Given
-        val bookID = savedBook.bookID
+        val bookId = savedBook.bookId
         // When
-        val getBookEntity = restTemplate.getForEntity("/books/$bookID", Book::class.java)
+        val getBookEntity = restTemplate.getForEntity("/books/$bookId", Book::class.java)
         // Then
         assertThat(getBookEntity.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(getBookEntity.body!!.bookID).isEqualTo(savedBook.bookID)
+        assertThat(getBookEntity.body!!.bookId).isEqualTo(savedBook.bookId)
         assertThat(getBookEntity.body!!.title).isEqualTo(savedBook.title)
         assertThat(getBookEntity.body!!.authors.size).isEqualTo(savedBook.authors.size)
         assertThat(getBookEntity.body!!.authors[0].authorName).isEqualTo(savedBook.authors[0].authorName)
@@ -79,12 +78,48 @@ class BookE2ETests : DemoApplicationTestBase() {
     }
 
     @Test
-    fun `getBookById should return 404 when book is not found`() {
-        val bookId = ObjectId()
+    fun `findAllBook should return all books in the db`() {
 
-        val getBookEntity = restTemplate
-            .getForEntity("/books/$bookId", Book::class.java)
-        assertEquals(HttpStatus.NOT_FOUND, getBookEntity.statusCode)
-        assertNull(getBookEntity.body)
+        val getBookEntity = restTemplate.getForEntity("/books", List::class.java)
+        // Then
+        assertThat(getBookEntity.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(getBookEntity.body!!.size).isEqualTo(1)
+//        assertThat(getBookEntity.body!![0]).isEqualTo(savedBook)TODO: assert content
     }
+
+    @Test
+    fun `updateBookById should return updated book`() {
+        val updatedBookDto = bookDto.copy(title = "system design volume 22")
+        val updateBookRequest = HttpEntity<BookDto>(updatedBookDto)
+        val putBookEntity = restTemplate.exchange("/books/${savedBook.bookId}",HttpMethod.PUT,updateBookRequest, Book ::class.java)
+        // Then
+        assertThat(putBookEntity.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(putBookEntity.body!!.bookId).isEqualTo(savedBook.bookId)
+        assertThat(putBookEntity.body!!.title).isEqualTo(updatedBookDto.title)
+        assertThat(putBookEntity.body!!.authors.size).isEqualTo(savedBook.authors.size)
+        assertThat(putBookEntity.body!!.authors[0].authorName).isEqualTo(savedBook.authors[0].authorName)
+        assertThat(putBookEntity.body!!.rates.rate).isEqualTo(savedBook.rates.rate)
+        assertThat(putBookEntity.body!!.rates.rateAmount).isEqualTo(savedBook.rates.rateAmount)
+        assertThat(putBookEntity.body!!.abstract).isEqualTo(savedBook.abstract)
+        assertThat(putBookEntity.body!!.details.isbn).isEqualTo(savedBook.details.isbn)
+    }
+
+    @Test
+    fun `deleteBookById should return return no content `() {
+        // Given
+        // When
+        val response=restTemplate.exchange("/books/${savedBook.bookId}",HttpMethod.DELETE,null,Unit::class.java)
+        // Then
+        assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
+    }
+
+    @Test
+    fun `deleteAllBook should return return no content `() {
+        // Given
+        // When
+        val response=restTemplate.exchange("/books",HttpMethod.DELETE,null,Unit::class.java)
+        // Then
+        assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
+    }
+
 }

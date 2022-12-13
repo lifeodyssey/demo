@@ -14,7 +14,7 @@ import models.entity.Detail
 import models.entity.Rates
 
 fun BookDto.toBook(): Book = Book(
-    bookID = null,
+    bookId = null,
     title = this.title,
     authors = this.authors.map { it.toAuthor() },
     rates = this.rates.toRate(),

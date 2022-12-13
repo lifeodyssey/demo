@@ -23,17 +23,13 @@ class BookController {
 
     @PostMapping
     fun createBook(@RequestBody book: BookDto): ResponseEntity<String> {
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(book).bookID)
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(book).bookId)
     }
 
-    @GetMapping("/{bookID}")
-    fun findBookByID(@PathVariable bookID: String): ResponseEntity<Book> {
-        val book = bookService.findBookByID(bookID)
-        return if (book.isPresent) {
-            ResponseEntity.ok(book.get())
-        } else {
-            ResponseEntity.notFound().build()
-        }
+    @GetMapping("/{bookId}")
+    fun findBookById(@PathVariable bookId: String): ResponseEntity<Book> {
+        val book = bookService.findBookById(bookId)
+        return ResponseEntity.ok(book)
     }
 
     @GetMapping
@@ -43,19 +39,19 @@ class BookController {
     }
 
     @PutMapping("/{bookId}")
-    fun updateBookByID(@PathVariable bookId: String, @RequestBody book: BookDto): ResponseEntity<String> {
-        bookService.updateBookByID(bookId, book)
-        return ResponseEntity.ok().build()
+    fun updateBookById(@PathVariable bookId: String, @RequestBody book: BookDto): ResponseEntity<Book> {
+        val updatedBook = bookService.updateBookById(bookId, book)
+        return ResponseEntity.ok(updatedBook)
     }
 
     @DeleteMapping("/{bookId}")
-    fun deleteBookByID(@PathVariable bookId: String): ResponseEntity<Void> {
+    fun deleteBookById(@PathVariable bookId: String): ResponseEntity<Unit> {
         bookService.deleteBookById(bookId)
         return ResponseEntity.noContent().build()
     }
 
     @DeleteMapping
-    fun deleteAllBooks(): ResponseEntity<Void> {
+    fun deleteAllBooks(): ResponseEntity<Unit> {
         bookService.deleteAllBooks()
         return ResponseEntity.noContent().build()
     }
