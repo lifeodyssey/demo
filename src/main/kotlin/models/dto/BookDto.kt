@@ -1,5 +1,6 @@
 package models.dto
 
+import com.mongodb.client.model.geojson.GeoJsonObjectType
 import java.math.BigDecimal
 import javax.validation.constraints.NotBlank
 
@@ -9,8 +10,8 @@ data class BookDto(
     @NotBlank(message = "Author is required")
     val authors: List<AuthorDto>,
     val rates: RatesDto,
-    val abstract: String="",
-//    val prices: List<ItemPriceDto>? = null,
+    val abstract: String = "",
+    val bookItems: List<BookItemDto>? = null,
     @NotBlank(message = "Details is required")
     val details: DetailDto,
 )
@@ -24,13 +25,13 @@ data class RatesDto(
     val rateAmount: Int = 0
 )
 
-// data class ItemPriceDto(
-//    val currency: String,
-//    val price: BigDecimal,
-//    val category: String,
-//    val type: String?
-// )
-
+data class BookItemDto(
+    val currency: String,
+    val price: BigDecimal,
+    val category: String,
+    val type: String?,
+    val location: GeoJsonObjectType?
+)
 
 data class DetailDto(
     val asin: String? = null,

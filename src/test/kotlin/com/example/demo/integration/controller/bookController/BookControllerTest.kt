@@ -127,11 +127,13 @@ class BookControllerTest {
         mockMvc.perform(updateBookRequest)
             // Then
             .andExpect(status().isOk).andExpect(jsonPath("$.bookId").value(bookId))
-            .andExpect(jsonPath("$.title").value(updatedBook.title)).andExpect(jsonPath("$.authors", hasSize<Int>(1)))
+            .andExpect(jsonPath("$.title").value(updatedBook.title))
+            .andExpect(jsonPath("$.authors", hasSize<Int>(1)))
             .andExpect(jsonPath("$.authors[0].authorName").value(author.authorName))
             .andExpect(jsonPath("$.rates.rate").value(rates.rate))
             .andExpect(jsonPath("$.rates.rateAmount").value(rates.rateAmount))
-            .andExpect(jsonPath("$.abstract").value(abstract)).andExpect(jsonPath("$.details.isbn").value(detail.isbn))
+            .andExpect(jsonPath("$.abstract").value(abstract))
+            .andExpect(jsonPath("$.details.isbn").value(detail.isbn))
 
         verify { bookService.updateBookById(bookId, updatedBookDto) }
     }

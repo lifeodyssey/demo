@@ -48,9 +48,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "mockito-core")
     }
-//    implementation("io.mongock:mongock:5.2.1")
-//    implementation("io.mongock:mongock-springboot:5.2.1")
-//    implementation("io.mongock:mongodb-springdata-v3-driver:5.2.1")
+    implementation("io.mongock:mongock:5.2.1")
+    implementation("io.mongock:mongock-springboot:5.2.1")
+    implementation("io.mongock:mongodb-springdata-v3-driver:5.2.1")
 }
 
 tasks.withType<KotlinCompile> {

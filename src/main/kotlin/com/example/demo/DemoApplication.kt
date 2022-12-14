@@ -1,9 +1,11 @@
 package com.example.demo
 
+import io.mongock.runner.springboot.EnableMongock
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
+@EnableMongock
 class DemoApplication
 
 fun main(args: Array<String>) {
