@@ -1,6 +1,6 @@
 package models.dto
 
-import com.mongodb.client.model.geojson.GeoJsonObjectType
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import java.math.BigDecimal
 import javax.validation.constraints.NotBlank
 
@@ -30,7 +30,7 @@ data class BookItemDto(
     val price: BigDecimal,
     val category: String,
     val type: String?,
-    val location: GeoJsonObjectType?
+    val location: GeoJsonPoint
 )
 
 data class DetailDto(

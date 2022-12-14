@@ -6,10 +6,12 @@ package com.example.demo.mapper
 // import models.entity.Review
 import models.dto.AuthorDto
 import models.dto.BookDto
+import models.dto.BookItemDto
 import models.dto.DetailDto
 import models.dto.RatesDto
 import models.entity.Author
 import models.entity.Book
+import models.entity.BookItem
 import models.entity.Detail
 import models.entity.Rates
 
@@ -19,9 +21,8 @@ fun BookDto.toBook(): Book = Book(
     authors = this.authors.map { it.toAuthor() },
     rates = this.rates.toRate(),
     abstract = this.abstract,
-//    prices = this.prices?.map { it.toItemPrice() },
+    bookItems = this.bookItems?.map { it.toBookItem() },
     details = this.details.toDetail(),
-//    reviews = this.reviews?.map { it.toReview() }
 )
 
 fun AuthorDto.toAuthor() = Author(
@@ -33,21 +34,15 @@ fun RatesDto.toRate() = Rates(
     rateAmount = this.rateAmount
 )
 
-// fun ItemPriceDto.toItemPrice() = ItemPrice(
-//    currency = this.currency,
-//    category = this.category,
-//    price = this.price,
-//    type = this.type
-// )
+fun BookItemDto.toBookItem() = BookItem(
+    currency = this.currency,
+    category = this.category,
+    price = this.price,
+    type = this.type,
+    location = this.location
+)
 
 fun DetailDto.toDetail() = Detail(
     isbn = this.isbn,
     asin = this.asin
 )
-
-// fun ReviewDto.toReview() = Review(
-//    reviewerName = this.reviewerName,
-//    reviewContent = this.reviewContent,
-//    helpful = this.helpful,
-//    rate = this.rate
-// )

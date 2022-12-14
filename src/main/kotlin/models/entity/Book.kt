@@ -1,7 +1,7 @@
 package models.entity
 
-import com.mongodb.client.model.geojson.GeoJsonObjectType
 import nonapi.io.github.classgraph.json.Id
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.MongoId
 import java.math.BigDecimal
@@ -31,7 +31,7 @@ data class BookItem(
     val price: BigDecimal,
     val category: String,
     val type: String?,
-    val location: GeoJsonObjectType?
+    val location: GeoJsonPoint
 )
 
 data class Rates(
