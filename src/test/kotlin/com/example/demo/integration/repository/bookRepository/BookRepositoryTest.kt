@@ -23,6 +23,7 @@ import kotlin.test.assertTrue
 class BookRepositoryTest {
     @Autowired
     private lateinit var bookRepository: BookRepository
+
     @Autowired
     private lateinit var mongoTemplate: MongoTemplate
     private val title = "System Design Interview – An insider's guide"
@@ -35,47 +36,45 @@ class BookRepositoryTest {
 
     @BeforeEach
     fun prepareDataForTest() {
-        val book =
-            Book(
-                bookId = bookId,
-                title = title,
-                authors = listOf(author),
-                rates = rates,
-                abstract = abstract,
-                details = detail
-            )
+        val book = Book(
+            bookId = bookId,
+            title = title,
+            authors = listOf(author),
+            rates = rates,
+            abstract = abstract,
+            details = detail
+        )
         mongoTemplate.save(book)
     }
 
     @Test
     fun `save should return book if created`() {
         // Given
-        val book =
-            Book(
-                bookId = bookId,
-                title = title,
-                authors = listOf(author),
-                rates = rates,
-                abstract = abstract,
-                details = detail
-            )
+        val book = Book(
+            bookId = bookId,
+            title = title,
+            authors = listOf(author),
+            rates = rates,
+            abstract = abstract,
+            details = detail
+        )
         // When
         val savedBook = bookRepository.save(book)
         // Then
         assertEquals(book.bookId, savedBook.bookId)
         assertEquals(book.title, savedBook.title)
-        assertEquals(book.authors.size,savedBook.authors.size)
+        assertEquals(book.authors.size, savedBook.authors.size)
         assertEquals(book.authors[0].authorName, savedBook.authors[0].authorName)
         assertEquals(book.rates.rate, savedBook.rates.rate)
         assertEquals(book.rates.rateAmount, savedBook.rates.rateAmount)
         assertEquals(book.abstract, savedBook.abstract)
         assertEquals(book.details.isbn, savedBook.details.isbn)
     }
+
     @AfterEach
     fun cleanUpDatabase() {
         bookRepository.deleteAll()
     }
-
 
     @Test
     fun `findById should return book if found`() {
@@ -83,7 +82,7 @@ class BookRepositoryTest {
         assertTrue(book.isPresent)
         assertEquals(bookId, book.get().bookId)
         assertEquals(title, book.get().title)
-        assertEquals(1,book.get().authors.size)
+        assertEquals(1, book.get().authors.size)
         assertEquals(author.authorName, book.get().authors[0].authorName)
         assertEquals(rates.rate, book.get().rates.rate)
         assertEquals(rates.rateAmount, book.get().rates.rateAmount)
@@ -101,22 +100,21 @@ class BookRepositoryTest {
     fun `findAll should return all books in the DB`() {
         val bookList = bookRepository.findAll()
         assertTrue(bookList.isNotEmpty())
-        assertEquals(1,bookList.size)
-        assertEquals(bookId,bookList[0].bookId)
+        assertEquals(1, bookList.size)
+        assertEquals(bookId, bookList[0].bookId)
     }
 
     @Test
     fun `deleteById should delete book in the DB`() {
         bookRepository.deleteById(bookId)
-        val book=bookRepository.findById(bookId)
+        val book = bookRepository.findById(bookId)
         assertFalse(book.isPresent)
     }
+
     @Test
     fun `deleteAll should delete all books in the DB`() {
         bookRepository.deleteAll()
-        val bookList=bookRepository.findAll()
-        assertEquals(0,bookList.size)
+        val bookList = bookRepository.findAll()
+        assertEquals(0, bookList.size)
     }
-
-
 }
