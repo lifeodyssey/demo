@@ -6,20 +6,17 @@ x-application_standard: &application_standard
     - application
     - deploy_mongo_network
 
-
 services:
   demo-app-blue:
     <<: *application_standard
     container_name: demo_app_blue
     environment:
       APPLICATION: blue
-      SPRING_PROFILE_ACTIVE: deploy
   demo-app-green:
     <<: *application_standard
     container_name: demo_app_green
     environment:
       APPLICATION: green
-      SPRING_PROFILE_ACTIVE: deploy
 
 
   nginx:
@@ -34,6 +31,7 @@ services:
       - demo-app-green
     networks:
       - application
+      - deploy_mongo_network
 
 
 networks:
