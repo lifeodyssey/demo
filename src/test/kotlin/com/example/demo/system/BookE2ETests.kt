@@ -39,7 +39,7 @@ class BookE2ETests : DemoApplicationTestBase() {
         abstract = abstract,
         details = detail
     )
-    private lateinit var savedBook :Book
+    private lateinit var savedBook: Book
 
     @BeforeEach
     fun beforeEach() {
@@ -91,7 +91,8 @@ class BookE2ETests : DemoApplicationTestBase() {
     fun `updateBookById should return updated book`() {
         val updatedBookDto = bookDto.copy(title = "system design volume 22")
         val updateBookRequest = HttpEntity<BookDto>(updatedBookDto)
-        val putBookEntity = restTemplate.exchange("/books/${savedBook.bookId}",HttpMethod.PUT,updateBookRequest, Book ::class.java)
+        val putBookEntity =
+            restTemplate.exchange("/books/${savedBook.bookId}", HttpMethod.PUT, updateBookRequest, Book::class.java)
         // Then
         assertThat(putBookEntity.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(putBookEntity.body!!.bookId).isEqualTo(savedBook.bookId)
@@ -108,7 +109,7 @@ class BookE2ETests : DemoApplicationTestBase() {
     fun `deleteBookById should return return no content `() {
         // Given
         // When
-        val response=restTemplate.exchange("/books/${savedBook.bookId}",HttpMethod.DELETE,null,Unit::class.java)
+        val response = restTemplate.exchange("/books/${savedBook.bookId}", HttpMethod.DELETE, null, Unit::class.java)
         // Then
         assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
     }
@@ -117,9 +118,8 @@ class BookE2ETests : DemoApplicationTestBase() {
     fun `deleteAllBook should return return no content `() {
         // Given
         // When
-        val response=restTemplate.exchange("/books",HttpMethod.DELETE,null,Unit::class.java)
+        val response = restTemplate.exchange("/books", HttpMethod.DELETE, null, Unit::class.java)
         // Then
         assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
     }
-
 }
