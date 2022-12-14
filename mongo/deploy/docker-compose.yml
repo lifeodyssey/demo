@@ -3,14 +3,14 @@ version: '3.8'
 services:
   mongodb:
     image: mongo:latest
-    container_name: local_mongo
+    container_name: deploy_mongo
     restart: always
     environment:
       - MONGO_INITDB_DATABASE=admin
-      - MONGO_INITDB_ROOT_USERNAME=local_mongo_username
-      - MONGO_INITDB_ROOT_PASSWORD=local_mongo_pwd
+      - MONGO_INITDB_ROOT_USERNAME=deploy_mongo_username
+      - MONGO_INITDB_ROOT_PASSWORD=deploy_mongo_pwd
     ports:
-      - "27017:27017"
+      - "27018:27017"
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - type: volume

@@ -2,6 +2,15 @@ CONTAINER_PREFIX="demo"
 CURRENT_VERSION=$(docker ps|grep --max-count=1 -oP "${CONTAINER_PREFIX}_app_\K(.*)" || echo "green")
 NEW_VERSION=$([ "$CURRENT_VERSION" == "green" ] && echo "blue" || echo "green")
 
+function check_mongo_container() {
+  if [[ $(docker ps -q -f name=deploy_mongo) ]]; then
+    echo "The deploy mongo container is already running"
+  else
+    CURRENT_DIR=$(pwd)
+    docker-compose -f "$CURRENT_DIR/mongo/deploy/docker-compose.yml" up -d
+    echo "The deploy mongo container is running"
+  fi
+}
 function replace_version {
   sed "s/CURRENT_VERSION/$NEW_VERSION/g" nginx/original.conf > nginx/default.conf
 }
@@ -14,6 +23,7 @@ function redirect_traffic {
   return $exitcode
 }
 
+check_mongo_container
 echo "Current version: $CURRENT_VERSION"
 echo "New version: $NEW_VERSION"
 

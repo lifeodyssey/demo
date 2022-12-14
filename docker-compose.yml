@@ -1,9 +1,12 @@
-version: "3.9"
+version: "3.8"
 
 x-application_standard: &application_standard
   image: demo:latest
   networks:
     - application
+    - deploy_mongo_network
+  depends_on:
+    - deploy_mongo
 
 services:
   demo-app-blue:
@@ -11,11 +14,14 @@ services:
     container_name: demo_app_blue
     environment:
       APPLICATION: blue
+      SPRING_PROFILE_ACTIVE: deploy
   demo-app-green:
     <<: *application_standard
     container_name: demo_app_green
     environment:
       APPLICATION: green
+      SPRING_PROFILE_ACTIVE: deploy
+
 
   nginx:
     image: nginx
@@ -30,6 +36,9 @@ services:
     networks:
       - application
 
+
 networks:
   application:
+    driver: bridge
+  deploy_mongo_network:
     driver: bridge
