@@ -5,8 +5,7 @@ x-application_standard: &application_standard
   networks:
     - application
     - deploy_mongo_network
-  depends_on:
-    - deploy_mongo
+
 
 services:
   demo-app-blue:
