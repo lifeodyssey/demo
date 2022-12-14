@@ -1,55 +1,38 @@
-CONTAINER_PREFIX="demo"
-CURRENT_VERSION=$(docker ps|grep --max-count=1 -oP "${CONTAINER_PREFIX}_app_\K(.*)" || echo "green")
-NEW_VERSION=$([ "$CURRENT_VERSION" == "green" ] && echo "blue" || echo "green")
+#!/bin/sh
 
-function check_mongo_container() {
-  if [[ $(docker ps -q -f name=deploy_mongo) ]]; then
-    echo "The deploy mongo container is already running"
-  else
-    CURRENT_DIR=$(pwd)
-    docker-compose -f "$CURRENT_DIR/mongo/deploy/docker-compose.yml" up -d
-    echo "The deploy mongo container is running"
-  fi
-}
-function replace_version {
-  sed "s/CURRENT_VERSION/$NEW_VERSION/g" nginx/original.conf > nginx/default.conf
-}
+MONGO_CONTAINER_EXIST=$(docker ps -q -f name=deploy_mongo)
+DOCKER_SWARM_EXIST=$(docker info 2>/dev/null | grep -q "Swarm: active")
+SERVICE_EXIST=$(docker service ls | grep -q "book_service")
 
-function redirect_traffic {
-  echo "Redirect traffic"
-  replace_version
-  docker exec -ti "${CONTAINER_PREFIX}_nginx" service nginx reload
-  exitcode=$?
-  return $exitcode
-}
-
-check_mongo_container
-echo "Current version: $CURRENT_VERSION"
-echo "New version: $NEW_VERSION"
-
-NGINX_IS_RUNNING=$(docker ps|grep --max-count=1 -oP "${CONTAINER_PREFIX}_nginx")
-
-echo "Starting deploy"
-
-if [ "$NGINX_IS_RUNNING" == "${CONTAINER_PREFIX}_nginx" ]
-then
-  echo "Deploy blue-green"
-  docker-compose -f docker-compose.yml up -d "app-${NEW_VERSION}"
-
-  while [ "$(docker inspect -f .State.Status ${CONTAINER_PREFIX}_app_"${NEW_VERSION}")" != "running" ]; do
-    sleep 1;
-    echo "Waiting container to be healthy"
-  done;
-
-  redirect_traffic
+echo "Deploy Start"
+if [ -n "$MONGO_CONTAINER_EXIST" ]; then
+  echo "The deploy mongo container is already running"
 else
-  echo "First deploy"
-
-  docker-compose -f docker-compose.yml down
-  replace_version
-  docker-compose -f docker-compose.yml up -d
+  CURRENT_DIR=$(pwd)
+  docker-compose -f "$CURRENT_DIR/mongo/deploy/docker-compose.yml" up -d
+  echo "The deploy mongo container is running"
 fi
 
-echo "Kill old container"
+if [ -n "$DOCKER_SWARM_EXIST" ]; then
+  echo"The docker swarm is running"
+else
+  docker swarm init
+fi
 
-docker rm -f "${CONTAINER_PREFIX}_app_${CURRENT_VERSION}"
+docker build -t book_demo:latest .
+docker tag book_demo:latest book_demo:latest
+
+if [ -n "$SERVICE_EXIST" ]; then
+  docker service update \
+    book_demo:latest \
+    --detach=false \
+    --name book_service
+else
+  docker service create\
+    --detach=false \
+    --name book_service\
+    --publish 3000:3000\
+    book_demo:latest
+fi
+docker swarm leave
+echo "Deployment complete"

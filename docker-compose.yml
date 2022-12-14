@@ -38,4 +38,5 @@ networks:
   application:
     driver: bridge
   deploy_mongo_network:
-    driver: bridge
+    external:
+      name: deploy_mongo_network
