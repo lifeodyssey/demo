@@ -62,6 +62,4 @@ class BookService {
         bookRepository.deleteAll()
     }
 }
-
-//todo 3. exception handling??
-//todo 4. add test
+// todo 3. exception handling??
