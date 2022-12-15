@@ -1,38 +1,30 @@
 #!/bin/sh
-
-MONGO_CONTAINER_EXIST=$(docker ps -q -f name=deploy_mongo)
-DOCKER_SWARM_EXIST=$(docker info 2>/dev/null | grep -q "Swarm: active")
-SERVICE_EXIST=$(docker service ls | grep -q "book_service")
-
-echo "Deploy Start"
-if [ -n "$MONGO_CONTAINER_EXIST" ]; then
-  echo "The deploy mongo container is already running"
+docker build -t demo . -q
+if [ "$(docker container ls --filter name=deploy_mongo -q)" ]; then
+  echo "Container deploy_mongo is running"
 else
-  CURRENT_DIR=$(pwd)
-  docker-compose -f "$CURRENT_DIR/mongo/deploy/docker-compose.yml" up -d
-  echo "The deploy mongo container is running"
+  # Run the container using docker-compose
+  docker-compose -f "$(pwd)/mongo/deploy/docker-compose.yml" up -d
 fi
 
-if [ -n "$DOCKER_SWARM_EXIST" ]; then
-  echo"The docker swarm is running"
-else
-  docker swarm init
-fi
+# Check if nginx is running
+if [ "$(docker container ls --filter name=nginx -q)" ]; then
+  # Check which app (blue or green) is currently running
+  if [ "$(docker container ls --filter name=demo_app_blue -q)" ]; then
+    # Run the green app and stop the blue app
+    docker-compose -f docker-compose.yml up -d --no-recreate
+    docker container stop demo_app_blue -q
+    echo "New version is demo app green"
+  elif [ "$(docker container ls --filter name=demo_app_green -q)" ]; then
+    # Run the blue app and stop the green app
+    docker-compose -f docker-compose.yml up -d --no-recreate
+    docker container stop demo_app_green -q
+    echo "New version is demo app blue"
 
-docker build -t book_demo:latest .
-docker tag book_demo:latest book_demo:latest
-
-if [ -n "$SERVICE_EXIST" ]; then
-  docker service update \
-    book_demo:latest \
-    --detach=false \
-    --name book_service
-else
-  docker service create\
-    --detach=false \
-    --name book_service\
-    --publish 3000:3000\
-    book_demo:latest
+  else
+    # Start nginx and stop the local_demo_blue app
+    docker-compose -f docker-compose.yml up -d --no-recreate
+    docker container stop demo_app_green -q
+    echo "New version is demo app blue"
+  fi
 fi
-docker swarm leave
-echo "Deployment complete"

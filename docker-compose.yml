@@ -4,7 +4,8 @@ x-application_standard: &application_standard
   image: demo:latest
   networks:
     - application
-    - deploy_mongo_network
+  extra_hosts:
+    - host.docker.internal:172.18.0.1
 
 services:
   demo-app-blue:
@@ -23,7 +24,7 @@ services:
     image: nginx
     container_name: local_nginx
     ports:
-      - "80:80"
+      - "81:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
@@ -31,12 +32,8 @@ services:
       - demo-app-green
     networks:
       - application
-      - deploy_mongo_network
 
 
 networks:
   application:
     driver: bridge
-  deploy_mongo_network:
-    external:
-      name: deploy_mongo_network

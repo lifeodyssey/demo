@@ -30,7 +30,7 @@ data class BookItemDto(
     val price: BigDecimal,
     val category: String,
     val type: String?,
-    val location: GeoJsonPoint
+    val location: GeoJsonPoint?
 )
 
 data class DetailDto(
