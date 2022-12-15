@@ -17,16 +17,10 @@ Feature
 
 # Feature
 
-## Jenkins CI/CD pipeline and blue/green deployment by Nginx
-
-## TDD
-
-Controller: Integration Test @WebMvcTest
-
-Service: Unit Test Mockk(difference between mockk and Mokito)
-
-Repository: In-memory DB Test by @DataMongoTest
-
-as well as End To End (System Test) implemented @SpringBootTest
+## Jenkins CI/CD pipeline and mocked blue/green deployment by Nginx
 
 
+
+
+## Basic CRUD RESTFULL API with TDD
+## MongoDB migration by Mongock
