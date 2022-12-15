@@ -13,18 +13,18 @@ if [ "$(docker container ls --filter name=nginx -q)" ]; then
   if [ "$(docker container ls --filter name=demo_app_blue -q)" ]; then
     # Run the green app and stop the blue app
     docker-compose -f docker-compose.yml up -d --no-recreate
-    docker container stop -q demo_app_blue
+    docker container stop demo_app_blue
     echo "New version is demo app green"
   elif [ "$(docker container ls --filter name=demo_app_green -q)" ]; then
     # Run the blue app and stop the green app
     docker-compose -f docker-compose.yml up -d --no-recreate
-    docker container stop -q demo_app_green
+    docker container stop demo_app_green
     echo "New version is demo app blue"
 
   else
     # Start nginx and stop the local_demo_blue app
     docker-compose -f docker-compose.yml up -d --no-recreate
-    docker container stop -q demo_app_green
+    docker container stop demo_app_green
     echo "New version is demo app blue"
   fi
 fi
