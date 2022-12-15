@@ -1,5 +1,6 @@
 package com.example.demo.service
 
+import com.example.demo.exception.ApiError
 import com.example.demo.mapper.toAuthor
 import com.example.demo.mapper.toBook
 import com.example.demo.mapper.toDetail
@@ -20,11 +21,12 @@ class BookService {
     }
 
     fun findBookById(bookId: String): Book {
-        val foundedBook = bookRepository.findById(bookId)
-        if (foundedBook.isPresent) {
-            return foundedBook.get()
-        } else {
-            throw Exception("Book with id $bookId not found")
+        try {
+            return bookRepository.findById(bookId).orElseThrow {
+                ApiError("Book with id $bookId not found", 404)
+            }
+        } catch (e: ApiError) {
+            throw e
         }
     }
 
@@ -33,9 +35,11 @@ class BookService {
     }
 
     fun updateBookById(bookId: String, book: BookDto): Book {
-        val bookToBeUpdated = bookRepository.findById(bookId)
-        if (bookToBeUpdated.isPresent) {
-            val updatedBook = bookToBeUpdated.get().copy(
+        try {
+            val bookToBeUpdated = bookRepository.findById(bookId).orElseThrow {
+                ApiError("Book with id $bookId not found", 404)
+            }
+            val updatedBook = bookToBeUpdated.copy(
                 bookId = bookId,
                 title = book.title,
                 authors = book.authors.map { it.toAuthor() },
@@ -44,17 +48,19 @@ class BookService {
                 details = book.details.toDetail()
             )
             return bookRepository.save(updatedBook)
-        } else {
-            throw Exception("Book with id $bookId not found")
+        } catch (e: ApiError) {
+            throw e
         }
     }
 
     fun deleteBookById(bookId: String) {
-        val book = bookRepository.findById(bookId)
-        if (book.isPresent) {
+        try {
+            bookRepository.findById(bookId).orElseThrow {
+                ApiError("Book with id $bookId not found", 404)
+            }
             bookRepository.deleteById(bookId)
-        } else {
-            throw Exception("Book with id $bookId not found")
+        } catch (e: ApiError) {
+            throw e
         }
     }
 
@@ -62,4 +68,3 @@ class BookService {
         bookRepository.deleteAll()
     }
 }
-// todo 3. exception handling??

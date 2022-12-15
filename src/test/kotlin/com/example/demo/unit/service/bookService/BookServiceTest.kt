@@ -1,5 +1,6 @@
 package com.example.demo.unit.service.bookService
 
+import com.example.demo.exception.ApiError
 import com.example.demo.mapper.toBook
 import com.example.demo.repository.BookRepository
 import com.example.demo.service.BookService
@@ -15,10 +16,10 @@ import models.dto.DetailDto
 import models.dto.RatesDto
 import models.entity.Book
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.catchThrowable
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import java.util.Optional
 import kotlin.test.assertEquals
@@ -77,13 +78,13 @@ internal class BookServiceTest {
     }
 
     @Test
-    fun `findBookById should throw exception if book not found`() {
-        val wrongBookId = ObjectId().toString()
-        every { bookRepository.findById(wrongBookId) }.returns(Optional.empty())
-
-        val thrownException = catchThrowable { bookService.findBookById(wrongBookId) }
-        verify(exactly = 1) { bookRepository.findById(wrongBookId) }
-        assertEquals("Book with id $wrongBookId not found", thrownException.message)
+    fun `findBookById should throw ApiError if book not found`() {
+        // Given
+        every { bookRepository.findById(any()) } returns Optional.empty()
+        // When Then
+        assertThrows<ApiError> {
+            bookService.findBookById("123")
+        }
     }
 
     @Test
@@ -112,18 +113,17 @@ internal class BookServiceTest {
     }
 
     @Test
-    fun `updateBookById should throw exception if book not found`() {
-        val wrongBookId = ObjectId().toString()
-        every { bookRepository.findById(wrongBookId) }.returns(Optional.empty())
-
-        val thrownException = catchThrowable { bookService.updateBookById(wrongBookId, bookDto) }
-        verify(exactly = 1) { bookRepository.findById(wrongBookId) }
-        assertEquals("Book with id $wrongBookId not found", thrownException.message)
+    fun `updateBookById should throw ApiError if book not found`() {
+        // Given
+        every { bookRepository.findById(any()) } returns Optional.empty()
+        // When Then
+        assertThrows<ApiError> {
+            bookService.updateBookById("123", bookDto)
+        }
     }
 
     @Test
     fun `deleteBookById should return nothing if founded`() {
-
         every { bookRepository.findById(savedBookId) }.returns(Optional.of(savedBook))
         justRun { bookRepository.deleteById(savedBookId) }
         bookService.deleteBookById(savedBookId)
@@ -132,13 +132,13 @@ internal class BookServiceTest {
     }
 
     @Test
-    fun `deleteBookById should throw exception if book not found`() {
-        val wrongBookId = ObjectId().toString()
-        every { bookRepository.findById(wrongBookId) }.returns(Optional.empty())
-
-        val thrownException = catchThrowable { bookService.deleteBookById(wrongBookId) }
-        verify(exactly = 1) { bookRepository.findById(wrongBookId) }
-        assertEquals("Book with id $wrongBookId not found", thrownException.message)
+    fun `deleteBookById should throw ApiError if book not found`() {
+        // Given
+        every { bookRepository.findById(any()) } returns Optional.empty()
+        // When Then
+        assertThrows<ApiError> {
+            bookService.deleteBookById("123")
+        }
     }
 
     @Test
