@@ -1,5 +1,7 @@
 package models.dto
 
+import com.example.demo.config.GeoJsonDeserializer
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import java.math.BigDecimal
 import javax.validation.constraints.NotBlank
@@ -30,6 +32,7 @@ data class BookItemDto(
     val price: BigDecimal,
     val category: String,
     val type: String?,
+    @JsonDeserialize(using = GeoJsonDeserializer::class)
     val location: GeoJsonPoint?
 )
 
