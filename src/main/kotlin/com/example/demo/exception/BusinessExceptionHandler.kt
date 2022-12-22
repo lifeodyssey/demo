@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
 
 @ControllerAdvice
-class ApiExceptionHandler {
+class BusinessExceptionHandler {
     @ResponseBody
-    @ExceptionHandler(ApiError::class)
+    @ExceptionHandler(BusinessError::class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    fun handleApiException(e: ApiError): String {
+    fun handleBusinessException(e: BusinessError): String {
         return "Error: ${e.message}"
     }
 }

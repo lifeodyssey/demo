@@ -1,6 +1,6 @@
 package com.example.demo.service
 
-import com.example.demo.exception.ApiError
+import com.example.demo.exception.BusinessError
 import com.example.demo.mapper.toAuthor
 import com.example.demo.mapper.toBook
 import com.example.demo.mapper.toDetail
@@ -23,9 +23,9 @@ class BookService {
     fun findBookById(bookId: String): Book {
         try {
             return bookRepository.findById(bookId).orElseThrow {
-                ApiError("Book with id $bookId not found", 404)
+                BusinessError("Book with id $bookId not found", 404)
             }
-        } catch (e: ApiError) {
+        } catch (e: BusinessError) {
             throw e
         }
     }
@@ -37,7 +37,7 @@ class BookService {
     fun updateBookById(bookId: String, book: BookDto): Book {
         try {
             val bookToBeUpdated = bookRepository.findById(bookId).orElseThrow {
-                ApiError("Book with id $bookId not found", 404)
+                BusinessError("Book with id $bookId not found", 404)
             }
             val updatedBook = bookToBeUpdated.copy(
                 bookId = bookId,
@@ -48,7 +48,7 @@ class BookService {
                 details = book.details.toDetail()
             )
             return bookRepository.save(updatedBook)
-        } catch (e: ApiError) {
+        } catch (e: BusinessError) {
             throw e
         }
     }
@@ -56,10 +56,10 @@ class BookService {
     fun deleteBookById(bookId: String) {
         try {
             bookRepository.findById(bookId).orElseThrow {
-                ApiError("Book with id $bookId not found", 404)
+                BusinessError("Book with id $bookId not found", 404)
             }
             bookRepository.deleteById(bookId)
-        } catch (e: ApiError) {
+        } catch (e: BusinessError) {
             throw e
         }
     }

@@ -1,6 +1,6 @@
 package com.example.demo.unit.service.bookService
 
-import com.example.demo.exception.ApiError
+import com.example.demo.exception.BusinessError
 import com.example.demo.mapper.toBook
 import com.example.demo.repository.BookRepository
 import com.example.demo.service.BookService
@@ -82,7 +82,7 @@ internal class BookServiceTest {
         // Given
         every { bookRepository.findById(any()) } returns Optional.empty()
         // When Then
-        assertThrows<ApiError> {
+        assertThrows<BusinessError> {
             bookService.findBookById("123")
         }
     }
@@ -117,7 +117,7 @@ internal class BookServiceTest {
         // Given
         every { bookRepository.findById(any()) } returns Optional.empty()
         // When Then
-        assertThrows<ApiError> {
+        assertThrows<BusinessError> {
             bookService.updateBookById("123", bookDto)
         }
     }
@@ -136,7 +136,7 @@ internal class BookServiceTest {
         // Given
         every { bookRepository.findById(any()) } returns Optional.empty()
         // When Then
-        assertThrows<ApiError> {
+        assertThrows<BusinessError> {
             bookService.deleteBookById("123")
         }
     }
