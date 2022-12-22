@@ -1,5 +1,6 @@
 package com.example.demo.controller
 
+import com.example.demo.exception.BusinessError
 import com.example.demo.service.BookService
 import models.dto.BookDto
 import models.entity.Book
@@ -27,10 +28,15 @@ class BookController {
     }
 
     @GetMapping("/{bookId}")
-    fun findBookById(@PathVariable bookId: String): ResponseEntity<Book> {
-        val book = bookService.findBookById(bookId)
-        return ResponseEntity.ok(book)
+    fun findBookById(@PathVariable bookId: String): ResponseEntity<Any> {
+        return try {
+            val book = bookService.findBookById(bookId)
+            ResponseEntity.ok(book)
+        } catch (e: BusinessError) {
+            ResponseEntity.status(e.errorCode).body(e.message)
+        }
     }
+
 
     @GetMapping
     fun findAllBooks(): ResponseEntity<List<Book>> {
@@ -39,15 +45,23 @@ class BookController {
     }
 
     @PutMapping("/{bookId}")
-    fun updateBookById(@PathVariable bookId: String, @RequestBody book: BookDto): ResponseEntity<Book> {
-        val updatedBook = bookService.updateBookById(bookId, book)
-        return ResponseEntity.ok(updatedBook)
+    fun updateBookById(@PathVariable bookId: String, @RequestBody book: BookDto): ResponseEntity<Any> {
+        return try {
+            val updatedBook = bookService.updateBookById(bookId, book)
+            ResponseEntity.ok(updatedBook)
+        } catch (e: BusinessError) {
+            ResponseEntity.status(e.errorCode).body(e.message)
+        }
     }
 
     @DeleteMapping("/{bookId}")
-    fun deleteBookById(@PathVariable bookId: String): ResponseEntity<Unit> {
-        bookService.deleteBookById(bookId)
-        return ResponseEntity.noContent().build()
+    fun deleteBookById(@PathVariable bookId: String): ResponseEntity<Any> {
+        return try {
+            bookService.deleteBookById(bookId)
+            ResponseEntity.noContent().build()
+        } catch (e: BusinessError) {
+            ResponseEntity.status(e.errorCode).body(e.message)
+        }
     }
 
     @DeleteMapping
