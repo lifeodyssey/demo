@@ -31,7 +31,7 @@ class AddBookItemsChangeUnit(
     fun rollback() {
         val bookCollection = mongoTemplate.getCollection("book")
         bookCollection.updateMany(
-            Filters.exists("BookItems", false),
+            Filters.exists("BookItems", true),
             Updates.unset("BookItems")
         )
     }
