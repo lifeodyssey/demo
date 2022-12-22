@@ -37,7 +37,6 @@ class BookController {
         }
     }
 
-
     @GetMapping
     fun findAllBooks(): ResponseEntity<List<Book>> {
         val books = bookService.findAllBooks()
