@@ -23,7 +23,7 @@ if [ "$(docker container ls --filter name=nginx -q)" ]; then
 
   else
     # Start nginx and stop the local_demo_blue app
-    docker-compose -f docker-compose.yml up -d
+    docker-compose -f docker-compose.yml up -d --no-recreate
     docker container rm -f demo_app_green
     echo "New version is demo app blue"
   fi
