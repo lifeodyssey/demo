@@ -61,8 +61,6 @@ dependencies {
     implementation("org.slf4j:slf4j-api:2.0.6")
     testImplementation("org.apache.logging.log4j:log4j-slf4j-impl:2.19.0")
     implementation("org.apache.logging.log4j:log4j-api:2.19.0")
-//    implementation("ch.qos.logback:logback-core:1.4.5")
-//    testImplementation("ch.qos.logback:logback-classic:1.4.5")
     testImplementation("org.slf4j:slf4j-simple:2.0.6")
 }
 
