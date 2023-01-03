@@ -23,7 +23,13 @@ configurations {
 repositories {
     mavenCentral()
 }
-
+configurations {
+    all {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+        exclude(group = "ch.qos.logback", module = "logback-classic")
+        exclude(group = "org.apache.logging.log4j", module = "log4j-to-slf4j")
+    }
+}
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -52,6 +58,12 @@ dependencies {
     implementation("io.mongock:mongock-springboot:5.2.1")
     implementation("io.mongock:mongodb-springdata-v3-driver:5.2.1")
     implementation("org.apache.logging.log4j:log4j-core:2.19.0")
+    implementation("org.slf4j:slf4j-api:2.0.6")
+    testImplementation("org.apache.logging.log4j:log4j-slf4j-impl:2.19.0")
+    implementation("org.apache.logging.log4j:log4j-api:2.19.0")
+//    implementation("ch.qos.logback:logback-core:1.4.5")
+//    testImplementation("ch.qos.logback:logback-classic:1.4.5")
+    testImplementation("org.slf4j:slf4j-simple:2.0.6")
 }
 
 tasks.withType<KotlinCompile> {
