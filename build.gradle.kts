@@ -51,6 +51,7 @@ dependencies {
     implementation("io.mongock:mongock:5.2.1")
     implementation("io.mongock:mongock-springboot:5.2.1")
     implementation("io.mongock:mongodb-springdata-v3-driver:5.2.1")
+    implementation("org.apache.logging.log4j:log4j-core:2.19.0")
 }
 
 tasks.withType<KotlinCompile> {
