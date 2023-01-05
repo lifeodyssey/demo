@@ -8,14 +8,14 @@ x-application_standard: &application_standard
     - host.docker.internal:172.18.0.1
 
 services:
-  demo-dev-app-blue:
+  demo-qa-app-blue:
     <<: *application_standard
-    container_name: demo_dev_app_blue
+    container_name: demo_qa_app_blue
     environment:
       APPLICATION: blue
-  demo-dev-app-green:
+  demo-qa-app-green:
     <<: *application_standard
-    container_name: demo_dev_app_green
+    container_name: demo_qa_app_green
     environment:
       APPLICATION: green
 
@@ -28,8 +28,8 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - demo-dev-app-blue
-      - demo-dev-app-green
+      - demo-qa-app-blue
+      - demo--qa-app-green
     networks:
       - application
 

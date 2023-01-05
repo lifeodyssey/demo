@@ -1,4 +1,4 @@
-db.auth('local_mongo_username', 'local_mongo_pwd')
+db.auth('qa_mongo_username', 'qa_mongo_pwd')
 
 db = db.getSiblingDB('book')
 

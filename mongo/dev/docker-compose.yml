@@ -3,12 +3,12 @@ version: '3.8'
 services:
   mongodb:
     image: mongo:latest
-    container_name: deploy_mongo
+    container_name: dev_mongo
     restart: always
     environment:
       - MONGO_INITDB_DATABASE=admin
-      - MONGO_INITDB_ROOT_USERNAME=deploy_mongo_username
-      - MONGO_INITDB_ROOT_PASSWORD=deploy_mongo_pwd
+      - MONGO_INITDB_ROOT_USERNAME=dev_mongo_username
+      - MONGO_INITDB_ROOT_PASSWORD=dev_mongo_pwd
     ports:
       - "27018:27017"
     volumes:
