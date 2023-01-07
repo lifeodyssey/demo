@@ -2,7 +2,6 @@ pipeline
 {
   agent any
   def SPRING_CONFIG_NAME
-  }
   stages
   {
     stage('Build')
