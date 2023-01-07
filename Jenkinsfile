@@ -1,8 +1,7 @@
 pipeline
 {
   agent any
-  parameters{
-  string(name:'SPRING_CONFIG_NAME', defaultValue:'dev',description:'Spring config name')
+  def SPRING_CONFIG_NAME
   }
   stages
   {
@@ -17,8 +16,9 @@ pipeline
     {
       steps
       {
+         SPRING_CONFIG_NAME = 'dev'
          sh" chmod +x deploy.sh"
-         sh" ./deploy.sh ${params.SPRING_CONFIG_NAME}"
+         sh" ./deploy.sh ${SPRING_CONFIG_NAME}"
       }
     }
       stage('Deploy to QA approval')
@@ -26,18 +26,15 @@ pipeline
       steps
       {
         input "Deploy to QA?"
-        script
-        {
-                  env.SPRING_CONFIG_NAME = 'qa'
-        }
       }
     }
       stage('QA')
     {
       steps
       {
+         SPRING_CONFIG_NAME = 'qa'
          sh" chmod +x deploy.sh"
-         sh" ./deploy.sh ${params.SPRING_CONFIG_NAME}"
+         sh" ./deploy.sh ${SPRING_CONFIG_NAME}"
       }
     }
   }
