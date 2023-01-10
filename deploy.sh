@@ -1,6 +1,6 @@
 #!/bin/sh
 SPRING_CONFIG_NAME=$1
-NGINX_PORT=$2
+NGINX_PORT=${2:-'80'}
 
 if [ "$(docker container ls --filter name="${SPRING_CONFIG_NAME}"_mongo -q)" ]; then
   echo "Container ${SPRING_CONFIG_NAME}_mongo is running"
