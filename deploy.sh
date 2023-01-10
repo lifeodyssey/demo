@@ -13,18 +13,18 @@ if [ "$(docker container ls --filter name=nginx -q)" ]; then
   # Check which app (blue or green) is currently running
   if [ "$(docker container ls -a --filter name=demo_"${SPRING_CONFIG_NAME}"_app_blue -q)" ]; then
     # Run the green app and stop the blue app
-    docker-compose -f docker-compose.yml up -d -e APP_ENV="${SPRING_CONFIG_NAME}" --no-recreate
+    APP_ENV="${SPRING_CONFIG_NAME}" docker-compose -f docker-compose.yml up -d --no-recreate
     docker container rm -f demo_"${SPRING_CONFIG_NAME}"_app_blue
     echo "New version in ${SPRING_CONFIG_NAME} env is demo app green"
   elif [ "$(docker container ls -a --filter name=demo_"${SPRING_CONFIG_NAME}"_app_green -q)" ]; then
     # Run the blue app and stop the green app
-    docker-compose -f docker-compose.yml up -d -e APP_ENV="${SPRING_CONFIG_NAME}" --no-recreate
+    APP_ENV="${SPRING_CONFIG_NAME}" docker-compose -f docker-compose.yml up -d --no-recreate
     docker container rm -f demo_"${SPRING_CONFIG_NAME}"_app_green
     echo "New version in ${SPRING_CONFIG_NAME} env is demo app blue"
   fi
 else
   # Start nginx and stop the local_demo_blue app
-  docker-compose -f docker-compose.yml up -d -e APP_ENV="${SPRING_CONFIG_NAME}" --no-recreate
+  APP_ENV="${SPRING_CONFIG_NAME}" docker-compose -f docker-compose.yml up -d --no-recreate
   docker container rm -f demo_"${SPRING_CONFIG_NAME}"_app_green
   echo "New version in ${SPRING_CONFIG_NAME} env is demo app blue"
 fi
