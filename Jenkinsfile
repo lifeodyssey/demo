@@ -19,6 +19,7 @@ pipeline
                                                         {
                                                             SPRING_CONFIG_NAME = 'dev'
                                                         }
+                                                sh "docker build -t demo . --build-arg SPRING_CONFIG_NAME="${SPRING_CONFIG_NAME}""
                                                 sh " chmod +x deploy.sh"
                                                 sh " ./deploy.sh ${SPRING_CONFIG_NAME}"
                                             }
@@ -38,6 +39,7 @@ pipeline
                                                         {
                                                             SPRING_CONFIG_NAME = 'qa'
                                                         }
+                                                sh "docker build -t demo . --build-arg SPRING_CONFIG_NAME="${SPRING_CONFIG_NAME}""
                                                 sh " chmod +x deploy.sh"
                                                 sh " ./deploy.sh ${SPRING_CONFIG_NAME}"
                                             }

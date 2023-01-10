@@ -10,6 +10,7 @@ This code repository is a demonstration of basic work and best practices for bac
 - Jenkins
 - Nginx
 - Spring Cloud
+
 The project follows the practices of Test-Driven Development (TDD) and Trunk-Based Development. The architecture of the project is based on microservices and backend-for-frontend.
 
 The project includes the following features:
