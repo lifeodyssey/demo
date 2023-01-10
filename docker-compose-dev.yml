@@ -22,11 +22,11 @@ services:
 
   nginx:
     image: nginx
-    container_name: local_nginx
+    container_name: dev_nginx
     ports:
       - "81:80"
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/dev.conf:/etc/nginx/conf.d/dev.conf
     depends_on:
       - demo-dev-app-blue
       - demo-dev-app-green

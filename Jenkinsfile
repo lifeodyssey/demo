@@ -25,7 +25,7 @@ pipeline {
         stage('QA') {
             steps {
                 script {
-                    SPRING_CONFIG_NAME = 'qa'
+                    SPRING_CONFIG_NAME ='qa'
                     sh "docker build -t demo . --build-arg SPRING_CONFIG_NAME=$SPRING_CONFIG_NAME"
                     sh " chmod +x deploy.sh"
                     sh " ./deploy.sh $SPRING_CONFIG_NAME"
