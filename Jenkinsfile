@@ -1,4 +1,5 @@
 def SPRING_CONFIG_NAME = 'dev'
+def NGINX_PORT = 81
 pipeline {
     agent any
     stages {
@@ -10,10 +11,9 @@ pipeline {
         stage('Dev') {
             steps {
                 script {
-                    SPRING_CONFIG_NAME = 'dev'
                     sh " docker build -t demo . --build-arg SPRING_CONFIG_NAME=$SPRING_CONFIG_NAME"
                     sh " chmod +x deploy.sh"
-                    sh " ./deploy.sh $SPRING_CONFIG_NAME"
+                    sh " ./deploy.sh $SPRING_CONFIG_NAME $NGINX_PORT"
                 }
             }
         }
@@ -26,9 +26,10 @@ pipeline {
             steps {
                 script {
                     SPRING_CONFIG_NAME ='qa'
+                    NGINX_PORT='82'
                     sh "docker build -t demo . --build-arg SPRING_CONFIG_NAME=$SPRING_CONFIG_NAME"
                     sh " chmod +x deploy.sh"
-                    sh " ./deploy.sh $SPRING_CONFIG_NAME"
+                    sh " ./deploy.sh $SPRING_CONFIG_NAME $NGINX_PORT"
                 }
             }
         }
