@@ -2,9 +2,9 @@ package models.dto
 
 import com.example.demo.config.GeoJsonDeserializer
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import jakarta.validation.constraints.NotBlank
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import java.math.BigDecimal
-import javax.validation.constraints.NotBlank
 
 data class BookDto(
     @NotBlank(message = "Title is required")
