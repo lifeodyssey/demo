@@ -9,6 +9,7 @@ x-application_standard: &application_standard
   environment:
     - APP_ENV=${APP_ENV}
     - NGINX_PORT=${NGINX_PORT}
+    - MONGODB=URI=${MONGODB_URI}
 
 services:
   demo-dev-app-blue:
