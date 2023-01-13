@@ -11,7 +11,8 @@ else
 fi
 
 # Check if nginx is running
-if [ "$(docker container ls --filter name=-"${SPRING_CONFIG_NAME}"_nginx -q)" ]; then
+if [ "$(docker container ls --filter name="${SPRING_CONFIG_NAME}"_nginx -q)" ]; then
+  echo "${SPRING_CONFIG_NAME}_nginx is running"
   # Check which app (blue or green) is currently running
   if [ "$(docker container ls -a --filter name=demo_"${SPRING_CONFIG_NAME}"_app_blue -q)" ]; then
     # Run the green app and stop the blue app
