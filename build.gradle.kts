@@ -41,6 +41,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-mustache")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
     testImplementation(kotlin("test"))
