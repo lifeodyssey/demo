@@ -32,4 +32,9 @@ if [ "$(docker container ls --filter name="${SPRING_CONFIG_NAME}"_nginx -q)" ]; 
     docker container rm -f demo_"${SPRING_CONFIG_NAME}"_app_green
     echo "New version in ${SPRING_CONFIG_NAME} env is demo app blue"
   fi
+else
+  # Start nginx and stop the local_demo_blue app
+  APP_ENV="${SPRING_CONFIG_NAME}" NGINX_PORT="${NGINX_PORT}" MONGODB_URI="$MONGODB_URI" docker-compose -f docker-compose.yml up -d --no-recreate
+  docker container rm -f demo_"${SPRING_CONFIG_NAME}"_app_green
+  echo "New version in ${SPRING_CONFIG_NAME} env is demo app blue"
 fi
