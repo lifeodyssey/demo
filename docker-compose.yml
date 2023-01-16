@@ -12,12 +12,12 @@ x-application_standard: &application_standard
     - MONGODB=URI=${MONGODB_URI}
 
 services:
-  demo-dev-app-blue:
+  demo-app-blue:
     <<: *application_standard
     container_name: demo_${APP_ENV}_app_blue
     environment:
       APPLICATION: blue
-  demo-dev-app-green:
+  demo-app-green:
     <<: *application_standard
     container_name: demo_${APP_ENV}_app_green
     environment:
@@ -32,8 +32,8 @@ services:
     volumes:
       - ./nginx/${APP_ENV}/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - demo-${APP_ENV}-app-blue
-      - demo-${APP_ENV}-app-green
+      - demo-app-blue
+      - demo-app-green
     networks:
       - application
 
