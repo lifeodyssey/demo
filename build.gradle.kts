@@ -32,36 +32,33 @@ configurations {
 }
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "mockito-core")
+    }
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.testng:testng:7.7.0")
     compileOnly("org.projectlombok:lombok")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-mustache")
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
     testImplementation(kotlin("test"))
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring30x:4.3.2")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
     testImplementation("io.mockk:mockk:1.13.3")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
     testImplementation("com.ninja-squad:springmockk:4.0.0")
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(module = "mockito-core")
-    }
-    implementation("io.mongock:mongock:5.2.1")
     implementation("io.mongock:mongock-springboot:5.2.1")
-    implementation("io.mongock:mongodb-springdata-v3-driver:5.2.1")
+    implementation("io.mongock:mongodb-springdata-v4-driver:5.2.1")
+    implementation("io.mongock:mongock-springboot-v3:5.2.1")
     implementation("org.apache.logging.log4j:log4j-core:2.19.0")
     implementation("org.slf4j:slf4j-api:2.0.6")
     testImplementation("org.apache.logging.log4j:log4j-slf4j-impl:2.19.0")
     implementation("org.apache.logging.log4j:log4j-api:2.19.0")
     testImplementation("org.slf4j:slf4j-simple:2.0.6")
-    runtimeOnly("org.springframework.boot:spring-boot-properties-migrator")
     compileOnly("jakarta.servlet:jakarta.servlet-api:6.0.0")
 }
 tasks.withType<KotlinCompile> {
