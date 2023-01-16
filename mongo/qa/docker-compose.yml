@@ -10,7 +10,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=qa_mongo_username
       - MONGO_INITDB_ROOT_PASSWORD=qa_mongo_pwd
     ports:
-      - "27018:27017"
+      - "27019:27017"
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - type: volume
