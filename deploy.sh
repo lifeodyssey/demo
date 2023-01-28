@@ -104,8 +104,6 @@ new_app=$(get_new_app "$current_app")
 start_new_app
 echo "$new_app is running"
 
-redirect_traffic
-
 ## Check the status of the nginx container
 nginx_status=$(check_nginx)
 # If the nginx container is not running, start it
