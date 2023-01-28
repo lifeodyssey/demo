@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Test and Build Jar') {
             steps {
-                sh "./gradlew clean build --info"
+                sh "./gradlew clean build"
             }
         }
         stage('Build Image') {

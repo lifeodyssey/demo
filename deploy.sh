@@ -34,7 +34,7 @@ replace_version() {
 redirect_traffic() {
   echo "Redirect traffic"
   replace_version
-  docker exec -ti "${APP_ENV}_nginx" service nginx reload
+  docker exec -i "${APP_ENV}_nginx" service nginx reload
   exitcode=$?
   return $exitcode
 }
