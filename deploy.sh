@@ -1,40 +1,117 @@
 #!/bin/sh
-SPRING_CONFIG_NAME=$1
-NGINX_PORT=$2
-MONGODB_URI=$3
+APP_ENV=$1
+MONGODB_URI=$2
 
-if [ "$(docker container ls --filter name="${SPRING_CONFIG_NAME}"_mongo -q)" ]; then
-  echo "Container ${SPRING_CONFIG_NAME}_mongo is running"
-else
-  # Run the container using docker-compose
-  docker-compose -f "$(pwd)/mongo/${SPRING_CONFIG_NAME}/docker-compose.yml" up -d
-fi
-
-# Check if nginx is running
-if [ "$(docker container ls --filter name="${SPRING_CONFIG_NAME}"_nginx -q)" ]; then
-  echo "${SPRING_CONFIG_NAME}_nginx is running"
-  # Check which app (blue or green) is currently running
-  if [ "$(docker container ls -a --filter name=demo_"${SPRING_CONFIG_NAME}"_app_blue -q)" ]; then
-    echo "demo_${SPRING_CONFIG_NAME}_app_blue_nginx is running"
-    # Run the green app and stop the blue app
-    APP_ENV="${SPRING_CONFIG_NAME}" NGINX_PORT="${NGINX_PORT}" MONGODB_URI="$MONGODB_URI" docker-compose -f docker-compose.yml up -d --no-recreate
-    docker container rm -f demo_"${SPRING_CONFIG_NAME}"_app_blue
-    echo "New version in ${SPRING_CONFIG_NAME} env is demo app green"
-  elif [ "$(docker container ls -a --filter name=demo_"${SPRING_CONFIG_NAME}"_app_green -q)" ]; then
-    # Run the blue app and stop the green app
-    echo "demo_${SPRING_CONFIG_NAME}_app_green_nginx is running"
-    APP_ENV="${SPRING_CONFIG_NAME}" NGINX_PORT="${NGINX_PORT}" MONGODB_URI="$MONGODB_URI" docker-compose -f docker-compose.yml up -d --no-recreate
-    docker container rm -f demo_"${SPRING_CONFIG_NAME}"_app_green
-    echo "New version in ${SPRING_CONFIG_NAME} env is demo app blue"
+# Function to check the status of the MongoDB container
+check_mongo() {
+  container_name="${APP_ENV}_mongo"
+  if docker ps | grep -q "$container_name" -q; then
+    echo "running"
   else
-    # Start nginx and stop the local_demo_blue app
-    APP_ENV="${SPRING_CONFIG_NAME}" NGINX_PORT="${NGINX_PORT}" MONGODB_URI="$MONGODB_URI" docker-compose -f docker-compose.yml up -d --no-recreate
-    docker container rm -f demo_"${SPRING_CONFIG_NAME}"_app_green
-    echo "New version in ${SPRING_CONFIG_NAME} env is demo app blue"
+    echo "not running"
   fi
+}
+
+# Function to start the MongoDB container
+start_mongo() {
+  compose_file="$(pwd)/mongo/${APP_ENV}/docker-compose.yml"
+  docker-compose -f "$compose_file" up -d
+}
+
+# Function to check the status of the nginx container
+check_nginx() {
+  container_name="${APP_ENV}_nginx"
+  if docker ps | grep -q "$container_name" ; then
+    echo "running"
+  else
+    echo "not running"
+  fi
+}
+replace_version() {
+  sed "s/CURRENT_VERSION/$new_app/g" nginx/"${APP_ENV}"/original.conf >nginx/"${APP_ENV}"/default.conf
+}
+
+redirect_traffic() {
+  echo "Redirect traffic"
+  replace_version
+  docker exec -ti "${APP_ENV}_nginx" service nginx reload
+  exitcode=$?
+  return $exitcode
+}
+# Function to start the nginx container
+start_nginx() {
+  compose_file="$(pwd)/nginx/${APP_ENV}/docker-compose.yml"
+  docker-compose -f "$compose_file" up -d
+}
+
+# Function to check which demo app container is running
+get_current_app() {
+  container_name_blue="demo_${APP_ENV}_app_blue"
+  container_name_green="demo_${APP_ENV}_app_green"
+  if docker ps -a --format '{{.Names}}' | grep -q "$container_name_blue"; then
+    echo "blue"
+  elif docker ps -a --format '{{.Names}}' | grep -q "^$container_name_green"; then
+    echo "green"
+  else
+    echo "no"
+  fi
+}
+
+get_new_app() {
+  if [[ $1 == "green" ]]; then
+    echo "blue"
+  elif [[ $1 == "blue" ]]; then
+    echo "green"
+  else
+    echo "blue"
+  fi
+}
+
+# Function to start the new demo app container and stop the old one
+start_new_app() {
+  current_app=$(get_current_app)
+  echo "Current app: $current_app"
+  new_app=$(get_new_app "$current_app")
+  echo "Starting new $new_app app"
+  # Start the green container and stop the blue one
+  docker run \
+    --env MONGODB_URI="$MONGODB_URI" \
+    --name="demo_${APP_ENV}_app_$new_app" \
+    --network="${APP_ENV}_application" \
+    -d demo:latest
+  if [[ "$current_app" != "no" ]]; then
+    echo "Stopping"
+    docker stop "demo_${APP_ENV}_app_$current_app"
+    echo "Removing"
+    docker rm "demo_${APP_ENV}_app_$current_app"
+  fi
+}
+
+
+# Check the status of the MongoDB container
+mongo_status=$(check_mongo)
+# If the MongoDB container is not running, start it
+if [[ "$mongo_status" == "running" ]] ; then
+  echo "MongoDB is running"
 else
-  # Start nginx and stop the local_demo_blue app
-  APP_ENV="${SPRING_CONFIG_NAME}" NGINX_PORT="${NGINX_PORT}" MONGODB_URI="$MONGODB_URI" docker-compose -f docker-compose.yml up -d --no-recreate
-  docker container rm -f demo_"${SPRING_CONFIG_NAME}"_app_green
-  echo "New version in ${SPRING_CONFIG_NAME} env is demo app blue"
+  start_mongo
 fi
+
+
+# Check the status of the demo app container and start the new one
+app_status=$(get_current_app)
+new_app=$(get_new_app "$current_app")
+start_new_app
+echo "$new_app is running"
+
+redirect_traffic
+
+## Check the status of the nginx container
+nginx_status=$(check_nginx)
+# If the nginx container is not running, start it
+if [[ "$nginx_status" == "running" ]]; then
+  echo "nginx is running"
+else
+  start_nginx
+fi
+redirect_traffic

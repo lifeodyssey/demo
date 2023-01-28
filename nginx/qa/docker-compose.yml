@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  qa_nginx:
+    image: nginx
+    container_name: qa_nginx
+    ports:
+      - "82:80"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - application
+networks:
+  application:
+    driver: bridge

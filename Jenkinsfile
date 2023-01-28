@@ -1,5 +1,4 @@
-def SPRING_CONFIG_NAME
-def NGINX_PORT
+def APP_ENV
 def MONGODB_URI
 pipeline {
     agent any
@@ -17,11 +16,10 @@ pipeline {
         stage('Dev') {
             steps {
                 script {
-                    SPRING_CONFIG_NAME =env.DEV_CONFIG
-                    NGINX_PORT=env.DEV_NGINX_PORT
+                    APP_ENV =env.DEV_CONFIG
                     MONGODB_URI=env.DEV_MONGO_URI
                     sh " chmod +x deploy.sh"
-                    sh " ./deploy.sh $SPRING_CONFIG_NAME $NGINX_PORT $MONGODB_URI"
+                    sh " ./deploy.sh $APP_ENV $MONGODB_URI"
                 }
             }
         }
@@ -33,11 +31,10 @@ pipeline {
         stage('QA') {
             steps {
                 script {
-                    SPRING_CONFIG_NAME =env.QA_CONFIG
-                    NGINX_PORT=env.QA_NGINX_PORT
+                    APP_ENV =env.QA_CONFIG
                     MONGODB_URI=env.QA_MONGO_URI
                     sh " chmod +x deploy.sh"
-                    sh " ./deploy.sh $SPRING_CONFIG_NAME $NGINX_PORT $MONGODB_URI"
+                    sh " ./deploy.sh $APP_ENV $MONGODB_URI"
                 }
             }
         }
