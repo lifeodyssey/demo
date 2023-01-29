@@ -1,0 +1,53 @@
+{
+  "title": "System Design Interview – An Insider's Guide: Volume 2",
+  "authors": {
+    "author": "Alex Xu",
+    "author": "Sahn Lam"
+  },
+  "rate": 4.7,
+  "rateAmount": 770,
+  "abstract": "System Design Interview - An Insider's Guide (Volume 2)\n\nThis book can be seen as a sequel to the book: System Design Interview - An Insider’s Guide. It covers a different set of system design interview questions and solutions. Although reading Volume 1 is helpful, it is not required. This book should be accessible to readers who have a basic understanding of distributed systems.\n\nThis volume provides a reliable strategy and knowledge base for approaching a broad range of system design questions that you may encounter. It will help you feel confident during this important interview. This book provides a step-by-step framework for how to tackle a system design question. It also includes many real-world examples to illustrate a systematic approach, with detailed and well-explained steps you can follow.\n\nWhat’s inside?\n- An insider’s take on what interviewers really look for and why.\n- A 4-step framework for solving any system design interview question.\n- 13 real system design interview questions with detailed solutions.\n- 300+ diagrams to visually explain how different systems work.\n\nTable of Contents\nChapter 1: Proximity Service\nChapter 2: Nearby Friends\nChapter 3: Google Maps\nChapter 4: Distributed Message Queue\nChapter 5: Metrics Monitoring\nChapter 6: Ad Click Event Aggregation\nChapter 7: Hotel Reservation\nChapter 8: Distributed Email Service\nChapter 9: S3-like Object Storage\nChapter 10: Real-time Gaming Leaderboard\nChapter 11: Payment System\nChapter 12: Digital Wallet\nChapter 13: Stock Exchange",
+  "prices": {
+    "itemPrice": {
+      "currency": "$",
+      "price": "27.90",
+      "category": "paperback",
+      "type": "used"
+    },
+    "itemPrice": {
+      "currency": "$",
+      "price": "28.49",
+      "category": "paperback",
+      "type": "used"
+    },
+    "itemPrice": {
+      "currency": "$",
+      "price": "31.69",
+      "category": "paperback",
+      "type": "used"
+    },
+    "itemPrice": {
+      "currency": "$",
+      "price": "35.74",
+      "category": "paperback",
+      "type": "new"
+    }
+  },
+  "details": {
+    "ISBN": "978-1736049112"
+  },
+  "reviews": {
+    "review": {
+      "reviewerName": "kindjal",
+      "reviewContent": "Alex Xu is my godfather and please read this before you go to interview.\nPromise me please.",
+      "helpful": 0,
+      "rate": 5
+    },
+    "review": {
+      "reviewerName": "Aneel",
+      "reviewContent": "The print and paper quality is pretty bad. It feels like a photocopy and not a book.\n\nmost of the tables in the book are not legible at all.\n",
+      "helpful": 20,
+      "rate": 1
+    }
+  }
+}
