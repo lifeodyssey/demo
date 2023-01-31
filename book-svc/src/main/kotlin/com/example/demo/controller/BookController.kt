@@ -1,6 +1,5 @@
 package com.example.demo.controller
 
-import com.example.demo.exception.BusinessError
 import com.example.demo.service.BookService
 import models.dto.BookDto
 import models.entity.Book
@@ -35,14 +34,9 @@ class BookController {
     @GetMapping("/{bookId}")
     fun findBookById(@PathVariable bookId: String): ResponseEntity<Any> {
         logger.debug("Received request to find book by id:{}", bookId)
-        return try {
-            val book = bookService.findBookById(bookId)
-            logger.info("Successfully found book by id:{}", bookId)
-            ResponseEntity.ok(book)
-        } catch (e: BusinessError) {
-            logger.error("Error occurred while finding book by id:{}", bookId, e)
-            ResponseEntity.status(e.errorCode).body(e.message)
-        }
+        val book = bookService.findBookById(bookId)
+        logger.info("Successfully found book by id:{}", bookId)
+        return ResponseEntity.ok(book)
     }
 
     @GetMapping
@@ -56,27 +50,17 @@ class BookController {
     @PutMapping("/{bookId}")
     fun updateBookById(@PathVariable bookId: String, @RequestBody book: BookDto): ResponseEntity<Any> {
         logger.debug("Received request to update book by id:{}", bookId)
-        return try {
-            val updatedBook = bookService.updateBookById(bookId, book)
-            logger.info("Successfully update book by id:{}", bookId)
-            ResponseEntity.ok(updatedBook)
-        } catch (e: BusinessError) {
-            logger.error("Error occurred while updating book by id:{}", bookId, e)
-            ResponseEntity.status(e.errorCode).body(e.message)
-        }
+        val updatedBook = bookService.updateBookById(bookId, book)
+        logger.info("Successfully update book by id:{}", bookId)
+        return ResponseEntity.ok(updatedBook)
     }
 
     @DeleteMapping("/{bookId}")
     fun deleteBookById(@PathVariable bookId: String): ResponseEntity<Any> {
         logger.debug("Received request to delete book by id:{}", bookId)
-        return try {
-            bookService.deleteBookById(bookId)
-            logger.info("Successfully delete book by id:{}", bookId)
-            ResponseEntity.noContent().build()
-        } catch (e: BusinessError) {
-            logger.error("Error occurred while delete book by id:{}", bookId, e)
-            ResponseEntity.status(e.errorCode).body(e.message)
-        }
+        bookService.deleteBookById(bookId)
+        logger.info("Successfully delete book by id:{}", bookId)
+        return ResponseEntity.noContent().build()
     }
 
     @DeleteMapping

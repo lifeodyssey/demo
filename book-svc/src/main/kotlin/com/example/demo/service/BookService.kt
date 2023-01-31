@@ -27,14 +27,8 @@ class BookService {
 
     fun findBookById(bookId: String): Book {
         logger.debug("Received request to find book by id:{}", bookId)
-        try {
-
-            return bookRepository.findById(bookId).orElseThrow {
-                BusinessError("Book with id $bookId not found", 404)
-            }
-        } catch (e: BusinessError) {
-            logger.error("Error occurred while finding book by id:{}", bookId, e)
-            throw e
+        return bookRepository.findById(bookId).orElseThrow {
+            BusinessError("Book with id $bookId not found", 404)
         }
     }
 
@@ -45,36 +39,26 @@ class BookService {
 
     fun updateBookById(bookId: String, book: BookDto): Book {
         logger.debug("Received request to update book by id:{}", bookId)
-        try {
-            val bookToBeUpdated = bookRepository.findById(bookId).orElseThrow {
-                BusinessError("Book with id $bookId not found", 404)
-            }
-            val updatedBook = bookToBeUpdated.copy(
-                bookId = bookId,
-                title = book.title,
-                authors = book.authors.map { it.toAuthor() },
-                rates = book.rates.toRate(),
-                abstract = book.abstract,
-                details = book.details.toDetail()
-            )
-            return bookRepository.save(updatedBook)
-        } catch (e: BusinessError) {
-            logger.error("Error occurred while updating book by id:{}", bookId, e)
-            throw e
+        val bookToBeUpdated = bookRepository.findById(bookId).orElseThrow {
+            BusinessError("Book with id $bookId not found", 404)
         }
+        val updatedBook = bookToBeUpdated.copy(
+            bookId = bookId,
+            title = book.title,
+            authors = book.authors.map { it.toAuthor() },
+            rates = book.rates.toRate(),
+            abstract = book.abstract,
+            details = book.details.toDetail()
+        )
+        return bookRepository.save(updatedBook)
     }
 
     fun deleteBookById(bookId: String) {
         logger.debug("Received request to delete book by id:{}", bookId)
-        try {
-            bookRepository.findById(bookId).orElseThrow {
-                BusinessError("Book with id $bookId not found", 404)
-            }
-            bookRepository.deleteById(bookId)
-        } catch (e: BusinessError) {
-            logger.error("Error occurred while delete book by id:{}", bookId, e)
-            throw e
+        bookRepository.findById(bookId).orElseThrow {
+            BusinessError("Book with id $bookId not found", 404)
         }
+        bookRepository.deleteById(bookId)
     }
 
     fun deleteAllBooks() {
