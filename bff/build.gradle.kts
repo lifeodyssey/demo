@@ -15,11 +15,23 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.1")
+    }
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compileOnly("jakarta.servlet:jakarta.servlet-api:6.0.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 }
 
 tasks.withType<KotlinCompile> {

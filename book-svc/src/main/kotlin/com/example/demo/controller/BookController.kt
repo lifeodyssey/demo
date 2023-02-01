@@ -27,15 +27,15 @@ class BookController {
     fun createBook(@RequestBody book: BookDto): ResponseEntity<String> {
         logger.debug("Received request to create book:{}", book)
         val bookId = bookService.createBook(book).bookId
-        logger.info("Successfully created book:{}", bookId)
+        logger.debug("Successfully created book:{}", bookId)
         return ResponseEntity.status(HttpStatus.CREATED).body(bookId)
     }
 
     @GetMapping("/{bookId}")
-    fun findBookById(@PathVariable bookId: String): ResponseEntity<Any> {
+    fun findBookById(@PathVariable bookId: String): ResponseEntity<Book> {
         logger.debug("Received request to find book by id:{}", bookId)
         val book = bookService.findBookById(bookId)
-        logger.info("Successfully found book by id:{}", bookId)
+        logger.debug("Successfully found book by id:{}", bookId)
         return ResponseEntity.ok(book)
     }
 
@@ -43,15 +43,15 @@ class BookController {
     fun findAllBooks(): ResponseEntity<List<Book>> {
         logger.debug("Received request to find all books ")
         val books = bookService.findAllBooks()
-        logger.info("Successfully find all  books")
+        logger.debug("Successfully find all  books")
         return ResponseEntity.ok(books)
     }
 
     @PutMapping("/{bookId}")
-    fun updateBookById(@PathVariable bookId: String, @RequestBody book: BookDto): ResponseEntity<Any> {
+    fun updateBookById(@PathVariable bookId: String, @RequestBody book: BookDto): ResponseEntity<Book> {
         logger.debug("Received request to update book by id:{}", bookId)
         val updatedBook = bookService.updateBookById(bookId, book)
-        logger.info("Successfully update book by id:{}", bookId)
+        logger.debug("Successfully update book by id:{}", bookId)
         return ResponseEntity.ok(updatedBook)
     }
 
@@ -59,7 +59,7 @@ class BookController {
     fun deleteBookById(@PathVariable bookId: String): ResponseEntity<Any> {
         logger.debug("Received request to delete book by id:{}", bookId)
         bookService.deleteBookById(bookId)
-        logger.info("Successfully delete book by id:{}", bookId)
+        logger.debug("Successfully delete book by id:{}", bookId)
         return ResponseEntity.noContent().build()
     }
 

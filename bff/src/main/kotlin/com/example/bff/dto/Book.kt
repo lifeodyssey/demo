@@ -1,4 +1,4 @@
-package models.entity
+package com.example.bff.dto
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
