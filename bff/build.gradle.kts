@@ -5,6 +5,8 @@ plugins {
     id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
+    jacoco
+    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
 }
 
 group = "com.example"
@@ -32,6 +34,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+    testImplementation("io.mockk:mockk:1.13.3")
+    testImplementation("com.ninja-squad:springmockk:4.0.0")
 }
 
 tasks.withType<KotlinCompile> {
@@ -43,4 +47,28 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(false)
+        csv.required.set(false)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
+}
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.8".toBigDecimal()
+            }
+        }
+    }
+}
+tasks.build {
+    dependsOn(tasks.jacocoTestCoverageVerification)
 }

@@ -30,5 +30,4 @@ interface BookSvcApiClient {
 
     @DeleteMapping
     fun deleteAllBooks(): ResponseEntity<Unit>
-
 }
