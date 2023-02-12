@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/books")
 class BookBffController(private val bookBffService: BookBffService) {
-    //        @Autowired
-//        private lateinit var bookBffService: BookBffService
+
     private val logger = LogManager.getLogger(BookBffController::class.java)
 
     @PostMapping
