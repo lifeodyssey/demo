@@ -29,5 +29,5 @@ interface BookSvcApiClient {
     fun deleteBookById(@PathVariable bookId: String): ResponseEntity<Any>
 
     @DeleteMapping
-    fun deleteAllBooks(): ResponseEntity<Unit>
+    fun deleteAllBooks(): ResponseEntity<Any>
 }

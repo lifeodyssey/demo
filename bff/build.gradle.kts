@@ -39,10 +39,10 @@ dependencies {
 
     // security
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.security:spring-security-oauth2-jose")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-//    implementation("org.keycloak:keycloak-spring-security-adapter:20.0.3")
+    testImplementation("org.springframework.security:spring-security-test:6.0.1")
+    implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.6.8")
 }
 
 tasks.withType<KotlinCompile> {

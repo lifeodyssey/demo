@@ -29,7 +29,7 @@ class BookBffService(private val bookSvcApiClient: BookSvcApiClient) {
         return bookSvcApiClient.deleteBookById(bookId)
     }
 
-    fun deleteAllBooks(): ResponseEntity<Unit> {
+    fun deleteAllBooks(): ResponseEntity<Any> {
         return bookSvcApiClient.deleteAllBooks()
     }
 }

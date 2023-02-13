@@ -5,6 +5,7 @@ import com.example.bff.dto.BookDto
 import com.example.bff.service.BookBffService
 import org.apache.logging.log4j.LogManager
 import org.springframework.http.ResponseEntity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/books")
+@EnableWebSecurity
 class BookBffController(private val bookBffService: BookBffService) {
 
     private val logger = LogManager.getLogger(BookBffController::class.java)
@@ -61,7 +63,7 @@ class BookBffController(private val bookBffService: BookBffService) {
     }
 
     @DeleteMapping
-    fun deleteAllBooks(): ResponseEntity<Unit> {
+    fun deleteAllBooks(): ResponseEntity<Any> {
         logger.debug("Received request to delete all books")
         bookBffService.deleteAllBooks()
         logger.debug("Successfully delete all books")
