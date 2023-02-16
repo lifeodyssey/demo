@@ -8,6 +8,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
+@EnableWebSecurity
 class KeycloakConfiguration {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {

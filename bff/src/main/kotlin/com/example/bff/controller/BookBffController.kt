@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/books")
-@EnableWebSecurity
 class BookBffController(private val bookBffService: BookBffService) {
 
     private val logger = LogManager.getLogger(BookBffController::class.java)
