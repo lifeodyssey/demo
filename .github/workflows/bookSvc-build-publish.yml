@@ -33,7 +33,7 @@ jobs:
         with:
           context: ./book-svc
           push: true
-          tags: ghcr.io/${{ github.repository }}/bookSvc:${{ github.sha }}
+          tags: ghcr.io/${{ github.repository }}/book-svc:${{ github.sha }}
           labels: |
             org.opencontainers.image.source=https://github.com/lifeodyssey/demo
             org.opencontainers.image.revision=${{ github.sha }}
