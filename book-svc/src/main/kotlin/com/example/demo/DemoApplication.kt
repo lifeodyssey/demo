@@ -1,16 +1,15 @@
 package com.example.demo
 
 import io.mongock.runner.springboot.EnableMongock
-// import org.apache.logging.log4j.LogManager
+import lombok.extern.slf4j.Slf4j
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @EnableMongock
 @SpringBootApplication
+@Slf4j
 class DemoApplication
 
-// private val logger = LogManager.getLogger(DemoApplication::class.java)
 fun main(args: Array<String>) {
     runApplication<DemoApplication>(*args)
-//    logger.info("Application started")
 }

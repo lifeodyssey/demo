@@ -6,28 +6,29 @@ import jakarta.validation.constraints.NotBlank
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import java.math.BigDecimal
 
-data class BookDto(
+
+data class BookRequest(
     @NotBlank(message = "Title is required")
     val title: String,
     @NotBlank(message = "Author is required")
-    val authors: List<AuthorDto>,
-    val rates: RatesDto,
+    val authors: List<AuthorRequest>,
+    val rates: RatesRequest,
     val abstract: String = "",
-    val bookItems: List<BookItemDto>? = null,
+    val bookItems: List<BookItemRequest>? = null,
     @NotBlank(message = "Details is required")
-    val details: DetailDto,
+    val details: DetailRequest,
 )
 
-data class AuthorDto(
+data class AuthorRequest(
     val authorName: String
 )
 
-data class RatesDto(
+data class RatesRequest(
     val rate: BigDecimal = BigDecimal.ZERO,
     val rateAmount: Int = 0
 )
 
-data class BookItemDto(
+data class BookItemRequest(
     val currency: String,
     val price: BigDecimal,
     val category: String,
@@ -36,7 +37,7 @@ data class BookItemDto(
     val location: GeoJsonPoint?
 )
 
-data class DetailDto(
+data class DetailRequest(
     val asin: String? = null,
     @NotBlank(message = "ISBN is required")
     val isbn: String,

@@ -1,11 +1,11 @@
 package com.example.demo.unit.mapper
 
-import com.example.demo.mapper.toBook
-import models.dto.AuthorDto
-import models.dto.BookDto
-import models.dto.BookItemDto
-import models.dto.DetailDto
-import models.dto.RatesDto
+import com.example.demo.mapper.toBookEntity
+import models.dto.AuthorRequest
+import models.dto.BookItemRequest
+import models.dto.BookRequest
+import models.dto.DetailRequest
+import models.dto.RatesRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
@@ -15,13 +15,13 @@ class BookDtoToBookMapperTest {
     @Test
     fun `BookDto to Book mapper test`() {
         // Given
-        val bookDto = BookDto(
+        val bookRequest = BookRequest(
             title = "The Great Gatsby",
-            authors = listOf(AuthorDto(authorName = "F. Scott")),
-            rates = RatesDto(rate = BigDecimal.valueOf(4.0), rateAmount = 10),
+            authors = listOf(AuthorRequest(authorName = "F. Scott")),
+            rates = RatesRequest(rate = BigDecimal.valueOf(4.0), rateAmount = 10),
             abstract = "A novel about the corruption of the American Dream.",
             bookItems = listOf(
-                BookItemDto(
+                BookItemRequest(
                     currency = "USD",
                     category = "Novel",
                     price = BigDecimal.valueOf(10),
@@ -29,11 +29,11 @@ class BookDtoToBookMapperTest {
                     location = GeoJsonPoint(50.0, 50.0)
                 )
             ),
-            details = DetailDto(isbn = "979-10-59-0591-02")
+            details = DetailRequest(isbn = "979-10-59-0591-02")
         )
 
         // When
-        val book = bookDto.toBook()
+        val book = bookRequest.toBookEntity()
 
         // Then
         assertThat(book.bookId).isNull()

@@ -1,6 +1,5 @@
 package models.entity
 
-import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.MongoId
@@ -8,7 +7,8 @@ import java.math.BigDecimal
 
 @Document(collection = "book")
 data class Book(
-    @MongoId @Id var bookId: String?,
+    @MongoId
+    var bookId: String?,
     val title: String,
     val authors: List<Author>,
     val rates: Rates,

@@ -1,8 +1,9 @@
 package com.example.demo.controller
 
 import com.example.demo.service.BookService
-import models.dto.BookDto
-import models.entity.Book
+import lombok.extern.slf4j.Slf4j
+import models.dto.BookRequest
+import models.dto.BookResponse
 import org.apache.logging.log4j.LogManager
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -18,41 +19,45 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/books")
+@Slf4j
 class BookController {
     @Autowired
     private lateinit var bookService: BookService
     private val logger = LogManager.getLogger(BookController::class.java)
 
     @PostMapping
-    fun createBook(@RequestBody book: BookDto): ResponseEntity<String> {
-        logger.debug("Received request to create book:{}", book)
-        val bookId = bookService.createBook(book).bookId
+    fun createBook(@RequestBody bookRequest: BookRequest): ResponseEntity<String> {
+        logger.debug("Received request to create book:{}", bookRequest)
+        val bookId = bookService.createBook(bookRequest).bookId
         logger.debug("Successfully created book:{}", bookId)
         return ResponseEntity.status(HttpStatus.CREATED).body(bookId)
     }
 
     @GetMapping("/{bookId}")
-    fun findBookById(@PathVariable bookId: String): ResponseEntity<Book> {
+    fun findBookById(@PathVariable bookId: String): ResponseEntity<BookResponse> {
         logger.debug("Received request to find book by id:{}", bookId)
-        val book = bookService.findBookById(bookId)
+        val bookResponse = bookService.findBookById(bookId)
         logger.debug("Successfully found book by id:{}", bookId)
-        return ResponseEntity.ok(book)
+        return ResponseEntity.ok(bookResponse)
     }
 
     @GetMapping
-    fun findAllBooks(): ResponseEntity<List<Book>> {
+    fun findAllBooks(): ResponseEntity<List<BookResponse>> {
         logger.debug("Received request to find all books ")
-        val books = bookService.findAllBooks()
+        val bookResponses = bookService.findAllBooks()
         logger.debug("Successfully find all  books")
-        return ResponseEntity.ok(books)
+        return ResponseEntity.ok(bookResponses)
     }
 
     @PutMapping("/{bookId}")
-    fun updateBookById(@PathVariable bookId: String, @RequestBody book: BookDto): ResponseEntity<Book> {
+    fun updateBookById(
+        @PathVariable bookId: String,
+        @RequestBody bookRequest: BookRequest
+    ): ResponseEntity<BookResponse> {
         logger.debug("Received request to update book by id:{}", bookId)
-        val updatedBook = bookService.updateBookById(bookId, book)
+        val updatedBookResponse = bookService.updateBookById(bookId, bookRequest)
         logger.debug("Successfully update book by id:{}", bookId)
-        return ResponseEntity.ok(updatedBook)
+        return ResponseEntity.ok(updatedBookResponse)
     }
 
     @DeleteMapping("/{bookId}")
