@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import java.math.BigDecimal
 
-
 data class BookRequest(
     @NotBlank(message = "Title is required")
     val title: String,

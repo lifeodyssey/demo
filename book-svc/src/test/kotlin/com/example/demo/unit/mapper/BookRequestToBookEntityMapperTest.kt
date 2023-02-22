@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import java.math.BigDecimal
 
-class BookDtoToBookMapperTest {
+class BookRequestToBookEntityMapperTest {
     @Test
-    fun `BookDto to Book mapper test`() {
+    fun `BookRequest to BookEntity mapper test`() {
         // Given
         val bookRequest = BookRequest(
             title = "The Great Gatsby",
