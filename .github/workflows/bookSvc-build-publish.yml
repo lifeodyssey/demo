@@ -27,11 +27,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Tag and Push Docker image
+        working-directory: book-svc
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: docker/build-push-action@v4
         with:
-          context: ./book-svc
+          context: .
           push: true
           tags: ghcr.io/${{ github.repository }}/book-svc:${{ github.sha }}
           labels: |
