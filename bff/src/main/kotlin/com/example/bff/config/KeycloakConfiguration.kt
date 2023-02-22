@@ -13,7 +13,7 @@ class KeycloakConfiguration {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests().anyRequest().authenticated()
-            // any request should be autehnticated
+            // any request should be authenticated
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             // the session should be stateless
             .and().cors().disable()
