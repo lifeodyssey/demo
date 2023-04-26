@@ -10,6 +10,7 @@ pipeline {
         }
         stage('Build Image') {
             steps {
+                sh"cd /book-svc"
                 sh " docker build -t demo:latest . "
             }
         }
@@ -18,6 +19,7 @@ pipeline {
                 script {
                     APP_ENV =env.DEV_CONFIG
                     MONGODB_URI=env.DEV_MONGO_URI
+                    sh"cd /book-svc"
                     sh " chmod +x deploy.sh"
                     sh " ./deploy.sh $APP_ENV $MONGODB_URI"
                 }
@@ -33,6 +35,7 @@ pipeline {
                 script {
                     APP_ENV =env.QA_CONFIG
                     MONGODB_URI=env.QA_MONGO_URI
+                    sh"cd /book-svc"
                     sh " chmod +x deploy.sh"
                     sh " ./deploy.sh $APP_ENV $MONGODB_URI"
                 }
