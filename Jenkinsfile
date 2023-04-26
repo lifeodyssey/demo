@@ -10,8 +10,7 @@ pipeline {
         }
         stage('Build Image') {
             steps {
-                sh"cd book-svc"
-                sh " docker build -t demo:latest . "
+                sh " docker build -t demo:latest ./book-svc "
             }
         }
         stage('Dev') {
