@@ -1,5 +1,8 @@
-def APP_ENV
-def MONGODB_URI
+//def APP_ENV
+//def MONGODB_URI
+def dockerImageName = "demo:latest"
+
+@Library('jenkins-shared-library') _
 pipeline {
     agent any
     stages {
@@ -9,18 +12,16 @@ pipeline {
             }
         }
         stage('Build Image') {
-            steps {
-                sh " docker build -t demo:latest ./book-svc "
+            script{
+
+                buildDockerImage(dockerImageName,'book-svc')
             }
         }
         stage('Dev') {
             steps {
                 script {
-                    APP_ENV =env.DEV_CONFIG
-                    MONGODB_URI=env.DEV_MONGO_URI
-                    sh"cd book-svc"
-                    sh " chmod +x deploy.sh"
-                    sh " ./deploy.sh $APP_ENV $MONGODB_URI"
+                    def config = loadConfiguration('DEV')
+                    deployApp(config.APP_ENV, config.MONGODB_URI, dockerImageName)
                 }
             }
         }
@@ -32,11 +33,8 @@ pipeline {
         stage('QA') {
             steps {
                 script {
-                    APP_ENV =env.QA_CONFIG
-                    MONGODB_URI=env.QA_MONGO_URI
-                    sh"cd book-svc"
-                    sh " chmod +x deploy.sh"
-                    sh " ./deploy.sh $APP_ENV $MONGODB_URI"
+                    def config = loadConfiguration('QA')
+                    deployApp(config.APP_ENV, config.MONGODB_URI, dockerImageName)
                 }
             }
         }
