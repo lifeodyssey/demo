@@ -12,8 +12,7 @@ pipeline {
             }
         }
         stage('Build Image') {
-            script{
-
+            steps{
                 buildDockerImage(dockerImageName,'book-svc')
             }
         }
