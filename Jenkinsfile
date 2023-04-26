@@ -1,6 +1,7 @@
 //def APP_ENV
 //def MONGODB_URI
 def dockerImageName = "demo:latest"
+def svcName= "book-svc"
 
 @Library('jenkins-shared-library') _
 pipeline {
@@ -13,7 +14,7 @@ pipeline {
         }
         stage('Build Image') {
             steps{
-                buildDockerImage(dockerImageName,'book-svc')
+                buildDockerImage(dockerImageName,svcName)
             }
         }
         stage('Dev') {
@@ -25,7 +26,7 @@ pipeline {
             }
         }
         stage('Deploy to QA approval') {
-            steps {
+             steps {
                 input "Deploy to QA?"
             }
         }
