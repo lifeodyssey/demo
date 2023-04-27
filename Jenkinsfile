@@ -1,9 +1,10 @@
-//def APP_ENV
-//def MONGODB_URI
+def APP_ENV='dev'
+def  MONGODB_URI= 'mongodb://dev_mongo_username:dev_mongo_pwd@host.docker.internal:27018/?authSource=admin\\&tls=false'
+
 def dockerImageName = "demo:latest"
-def svcName= "book-svc"
 
 @Library('jenkins-shared-library') _
+
 pipeline {
     agent any
     stages {
@@ -14,14 +15,13 @@ pipeline {
         }
         stage('Build Image') {
             steps{
-                buildDockerImage(dockerImageName,svcName)
+                buildDockerImage.build(imageName:"demo:latest",svcName:"book-svc")
             }
         }
         stage('Dev') {
             steps {
                 script {
-                    def config = loadConfiguration('DEV')
-                    deployApp(config.APP_ENV, config.MONGODB_URI, dockerImageName)
+                    deployApp(APP_ENV:APP_ENV,MONGODB_URI:MONGODB_URI)
                 }
             }
         }
