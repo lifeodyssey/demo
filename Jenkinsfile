@@ -1,8 +1,6 @@
 def APP_ENV='dev'
 def  MONGODB_URI= 'mongodb://dev_mongo_username:dev_mongo_pwd@host.docker.internal:27018/?authSource=admin\\&tls=false'
 
-def dockerImageName = "demo:latest"
-
 @Library('jenkins-shared-library') _
 
 pipeline {
@@ -16,7 +14,7 @@ pipeline {
         stage('Build Image') {
             steps{
                 script{
-                    buildDockerImage.build(imageName:"demo:latest",svcName:"book-svc")
+                    buildDockerImage(imageName:"demo:latest",svcName:"book-svc")
 
                 }
             }
