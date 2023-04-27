@@ -8,7 +8,9 @@ pipeline {
     stages {
         stage('Test and Build Jar') {
             steps {
-                sh "./gradlew clean build"
+                script{
+                    buildGradle()
+                }
             }
         }
         stage('Build Image') {
