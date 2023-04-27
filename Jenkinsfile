@@ -15,7 +15,10 @@ pipeline {
         }
         stage('Build Image') {
             steps{
-                buildDockerImage.build(imageName:"demo:latest",svcName:"book-svc")
+                script{
+                    buildDockerImage.build(imageName:"demo:latest",svcName:"book-svc")
+
+                }
             }
         }
         stage('Dev') {
