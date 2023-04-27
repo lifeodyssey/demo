@@ -33,9 +33,7 @@ pipeline {
         stage('QA') {
             steps {
                 script {
-                    def config = loadConfiguration('QA')
-                    deployApp(config.APP_ENV, config.MONGODB_URI, dockerImageName)
-                }
+                    deployApp(APP_ENV:APP_ENV,MONGODB_URI:MONGODB_URI)                }
             }
         }
     }
