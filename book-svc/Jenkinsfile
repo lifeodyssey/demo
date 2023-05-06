@@ -5,5 +5,4 @@ buildAndDeployMicroservice(
         buildTool: 'gradle',
         imageName: 'demo-latest',
         svcName: 'book-svc',
-        rootProjectDir: "${WORKSPACE}/..",
 )
