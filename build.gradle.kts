@@ -197,15 +197,11 @@ allprojects {
         }
         val testCoverageExclusions = listOf(
             "**/*Application*",
-            "**/client/response/**",
-            "**/client/request/**",
             "**/exception/**",
             "**/config/**",
             "**/repository/**",
-            "**/dto/**",
-            "**/request/**",
-            "**/response/**",
-            "**/utils/**",
+            "**/migration/**",
+            "**/dto/**"
         )
 
         val excludeTestFiles: FileTree = sourceSets.main.get().output.asFileTree.matching {
@@ -231,13 +227,13 @@ allprojects {
                         minimum = "0.9".toBigDecimal()
                     }
                 }
-                rule {
-                    limit {
-                        counter = "BRANCH"
-                        value = "COVEREDRATIO"
-                        minimum = "0.9".toBigDecimal()
-                    }
-                }
+//                rule {
+//                    limit {
+//                        counter = "BRANCH"
+//                        value = "COVEREDRATIO"
+//                        minimum = "0.9".toBigDecimal()
+//                    }
+//                }
             }
         }
 

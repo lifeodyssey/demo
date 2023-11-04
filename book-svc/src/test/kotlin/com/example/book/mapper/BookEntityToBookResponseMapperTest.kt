@@ -1,6 +1,5 @@
-package com.example.book.unit.mapper
+package com.example.book.mapper
 
-import com.example.book.mapper.toBookResponse
 import com.example.book.repository.entity.Author
 import com.example.book.repository.entity.Book
 import com.example.book.repository.entity.BookItem

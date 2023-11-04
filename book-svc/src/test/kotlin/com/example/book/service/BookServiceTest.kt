@@ -1,4 +1,4 @@
-package com.example.book.unit.service.bookService
+package com.example.book.service
 
 import com.example.book.controller.dto.AuthorRequest
 import com.example.book.controller.dto.BookRequest
@@ -8,7 +8,6 @@ import com.example.book.exception.BusinessError
 import com.example.book.mapper.toBookEntity
 import com.example.book.repository.BookRepository
 import com.example.book.repository.entity.Book
-import com.example.book.service.BookService
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK

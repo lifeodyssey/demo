@@ -1,5 +1,6 @@
 package com.example.book.system
 
+import com.example.book.BookApplicationTestBase
 import com.example.book.controller.dto.AuthorRequest
 import com.example.book.controller.dto.BookRequest
 import com.example.book.controller.dto.BookResponse

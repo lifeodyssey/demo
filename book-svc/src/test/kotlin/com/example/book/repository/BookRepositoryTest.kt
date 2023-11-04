@@ -1,6 +1,5 @@
-package com.example.book.integration.repository.bookRepository
+package com.example.book.repository
 
-import com.example.book.repository.BookRepository
 import com.example.book.repository.entity.Author
 import com.example.book.repository.entity.Book
 import com.example.book.repository.entity.Detail

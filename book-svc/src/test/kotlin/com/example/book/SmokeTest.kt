@@ -1,4 +1,4 @@
-package com.example.book.system
+package com.example.book
 
 import com.example.book.controller.BookController
 import org.assertj.core.api.Assertions.assertThat

@@ -1,6 +1,5 @@
-package com.example.book.integration.controller.bookController
+package com.example.book.controller
 
-import com.example.book.controller.BookController
 import com.example.book.controller.dto.AuthorRequest
 import com.example.book.controller.dto.BookRequest
 import com.example.book.controller.dto.DetailRequest
@@ -93,7 +92,8 @@ class BookControllerTest {
             .andExpect(jsonPath("$.authors[0].authorName").value(author.authorName))
             .andExpect(jsonPath("$.rates.rate").value(rates.rate))
             .andExpect(jsonPath("$.rates.rateAmount").value(rates.rateAmount))
-            .andExpect(jsonPath("$.abstract").value(abstract)).andExpect(jsonPath("$.details.isbn").value(detail.isbn))
+            .andExpect(jsonPath("$.abstract").value(abstract))
+            .andExpect(jsonPath("$.details.isbn").value(detail.isbn))
 
         verify { bookService.findBookById(bookId) }
     }
@@ -106,7 +106,8 @@ class BookControllerTest {
         mockMvc.perform(get("/books"))
             // Then
             .andExpect(status().isOk).andExpect(jsonPath("$", hasSize<Int>(1)))
-            .andExpect(jsonPath("$[0].bookId").value(bookId)).andExpect(jsonPath("$[0].title").value(title))
+            .andExpect(jsonPath("$[0].bookId").value(bookId))
+            .andExpect(jsonPath("$[0].title").value(title))
             .andExpect(jsonPath("$[0].authors", hasSize<Int>(1)))
             .andExpect(jsonPath("$[0].authors[0].authorName").value(author.authorName))
             .andExpect(jsonPath("$[0].rates.rate").value(rates.rate))
@@ -130,12 +131,15 @@ class BookControllerTest {
         // When
         mockMvc.perform(updateBookRequest)
             // Then
-            .andExpect(status().isOk).andExpect(jsonPath("$.bookId").value(bookId))
-            .andExpect(jsonPath("$.title").value(updatedBook.title)).andExpect(jsonPath("$.authors", hasSize<Int>(1)))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.bookId").value(bookId))
+            .andExpect(jsonPath("$.title").value(updatedBook.title))
+            .andExpect(jsonPath("$.authors", hasSize<Int>(1)))
             .andExpect(jsonPath("$.authors[0].authorName").value(author.authorName))
             .andExpect(jsonPath("$.rates.rate").value(rates.rate))
             .andExpect(jsonPath("$.rates.rateAmount").value(rates.rateAmount))
-            .andExpect(jsonPath("$.abstract").value(abstract)).andExpect(jsonPath("$.details.isbn").value(detail.isbn))
+            .andExpect(jsonPath("$.abstract").value(abstract))
+            .andExpect(jsonPath("$.details.isbn").value(detail.isbn))
 
         verify { bookService.updateBookById(bookId, updatedBookRequest) }
     }
