@@ -1,5 +1,6 @@
 package com.example.demo.config
 
+import com.example.book.config.GeoJsonDeserializer
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule

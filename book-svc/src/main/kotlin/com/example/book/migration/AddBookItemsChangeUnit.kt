@@ -1,4 +1,4 @@
-package com.example.demo.migration
+package com.example.book.migration
 
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates

@@ -1,14 +1,14 @@
 package com.example.demo.system
 
-import com.example.demo.mapper.toBookEntity
-import com.example.demo.mapper.toBookResponse
+import com.example.book.controller.dto.AuthorRequest
+import com.example.book.controller.dto.BookRequest
+import com.example.book.controller.dto.BookResponse
+import com.example.book.controller.dto.DetailRequest
+import com.example.book.controller.dto.RatesRequest
+import com.example.book.mapper.toBookEntity
+import com.example.book.mapper.toBookResponse
+import com.example.book.repository.entity.Book
 import io.mockk.junit5.MockKExtension
-import models.dto.AuthorRequest
-import models.dto.BookRequest
-import models.dto.BookResponse
-import models.dto.DetailRequest
-import models.dto.RatesRequest
-import models.entity.Book
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach

@@ -1,15 +1,15 @@
-package com.example.demo.mapper
+package com.example.book.mapper
 
-import models.dto.AuthorResponse
-import models.dto.BookItemResponse
-import models.dto.BookResponse
-import models.dto.DetailResponse
-import models.dto.RatesResponse
-import models.entity.Author
-import models.entity.Book
-import models.entity.BookItem
-import models.entity.Detail
-import models.entity.Rates
+import com.example.book.controller.dto.AuthorResponse
+import com.example.book.controller.dto.BookItemResponse
+import com.example.book.controller.dto.BookResponse
+import com.example.book.controller.dto.DetailResponse
+import com.example.book.controller.dto.RatesResponse
+import com.example.book.repository.entity.Author
+import com.example.book.repository.entity.Book
+import com.example.book.repository.entity.BookItem
+import com.example.book.repository.entity.Detail
+import com.example.book.repository.entity.Rates
 
 fun Book.toBookResponse(): BookResponse = BookResponse(
     bookId = this.bookId!!,

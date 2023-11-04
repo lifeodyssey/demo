@@ -1,6 +1,6 @@
-package models.dto
+package com.example.book.controller.dto
 
-import com.example.demo.config.GeoJsonDeserializer
+import com.example.book.config.GeoJsonDeserializer
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import jakarta.validation.constraints.NotBlank
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint

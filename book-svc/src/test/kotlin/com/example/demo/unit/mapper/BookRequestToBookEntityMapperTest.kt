@@ -1,11 +1,11 @@
 package com.example.demo.unit.mapper
 
-import com.example.demo.mapper.toBookEntity
-import models.dto.AuthorRequest
-import models.dto.BookItemRequest
-import models.dto.BookRequest
-import models.dto.DetailRequest
-import models.dto.RatesRequest
+import com.example.book.controller.dto.AuthorRequest
+import com.example.book.controller.dto.BookItemRequest
+import com.example.book.controller.dto.BookRequest
+import com.example.book.controller.dto.DetailRequest
+import com.example.book.controller.dto.RatesRequest
+import com.example.book.mapper.toBookEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint

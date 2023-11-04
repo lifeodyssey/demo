@@ -1,6 +1,6 @@
-package com.example.demo.repository
+package com.example.book.repository
 
-import models.entity.Book
+import com.example.book.repository.entity.Book
 import org.springframework.data.mongodb.repository.MongoRepository
 
 interface BookRepository : MongoRepository<Book, String>

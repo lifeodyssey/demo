@@ -1,4 +1,4 @@
-package com.example.demo.config
+package com.example.book.config
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext

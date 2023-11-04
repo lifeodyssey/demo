@@ -1,20 +1,20 @@
 package com.example.demo.integration.controller.bookController
 
-import com.example.demo.controller.BookController
-import com.example.demo.mapper.toAuthorEntity
-import com.example.demo.mapper.toBookResponse
-import com.example.demo.mapper.toDetailEntity
-import com.example.demo.mapper.toRateEntity
-import com.example.demo.service.BookService
+import com.example.book.controller.BookController
+import com.example.book.controller.dto.AuthorRequest
+import com.example.book.controller.dto.BookRequest
+import com.example.book.controller.dto.DetailRequest
+import com.example.book.controller.dto.RatesRequest
+import com.example.book.mapper.toAuthorEntity
+import com.example.book.mapper.toBookResponse
+import com.example.book.mapper.toDetailEntity
+import com.example.book.mapper.toRateEntity
+import com.example.book.repository.entity.Book
+import com.example.book.service.BookService
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.verify
-import models.dto.AuthorRequest
-import models.dto.BookRequest
-import models.dto.DetailRequest
-import models.dto.RatesRequest
-import models.entity.Book
 import org.bson.types.ObjectId
 import org.hamcrest.Matchers.hasSize
 import org.junit.jupiter.api.Test
@@ -77,8 +77,7 @@ class BookControllerTest {
         // When
         mockMvc.perform(createBookRequest)
             // Then
-            .andExpect(status().isCreated)
-            .andExpect(jsonPath("$").value(bookId))
+            .andExpect(status().isCreated).andExpect(jsonPath("$").value(bookId))
         verify { bookService.createBook(bookRequest) }
     }
 
@@ -124,7 +123,8 @@ class BookControllerTest {
         val updatedBookRequest = bookRequest.copy(title = "system design volume 2")
         val updatedBook = savedBook.copy(title = "system design volume 2")
         val updateBookRequest: MockHttpServletRequestBuilder =
-            put("/books/$bookId").contentType(MediaType.APPLICATION_JSON).content(bookRequestJson.write(updatedBookRequest).json)
+            put("/books/$bookId").contentType(MediaType.APPLICATION_JSON)
+                .content(bookRequestJson.write(updatedBookRequest).json)
         every { bookService.updateBookById(bookId, updatedBookRequest) }.returns(updatedBook.toBookResponse())
 
         // When

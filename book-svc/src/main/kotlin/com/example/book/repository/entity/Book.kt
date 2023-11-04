@@ -1,4 +1,4 @@
-package models.entity
+package com.example.book.repository.entity
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import org.springframework.data.mongodb.core.mapping.Document

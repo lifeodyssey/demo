@@ -1,15 +1,15 @@
-package com.example.demo.mapper
+package com.example.book.mapper
 
-import models.dto.AuthorRequest
-import models.dto.BookItemRequest
-import models.dto.BookRequest
-import models.dto.DetailRequest
-import models.dto.RatesRequest
-import models.entity.Author
-import models.entity.Book
-import models.entity.BookItem
-import models.entity.Detail
-import models.entity.Rates
+import com.example.book.controller.dto.AuthorRequest
+import com.example.book.controller.dto.BookItemRequest
+import com.example.book.controller.dto.BookRequest
+import com.example.book.controller.dto.DetailRequest
+import com.example.book.controller.dto.RatesRequest
+import com.example.book.repository.entity.Author
+import com.example.book.repository.entity.Book
+import com.example.book.repository.entity.BookItem
+import com.example.book.repository.entity.Detail
+import com.example.book.repository.entity.Rates
 
 fun BookRequest.toBookEntity(): Book = Book(
     bookId = null,

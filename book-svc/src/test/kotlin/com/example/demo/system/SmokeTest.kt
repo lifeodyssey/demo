@@ -1,6 +1,6 @@
 package com.example.demo.system
 
-import com.example.demo.controller.BookController
+import com.example.book.controller.BookController
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

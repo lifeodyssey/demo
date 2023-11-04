@@ -1,11 +1,11 @@
 package com.example.demo.unit.mapper
 
-import com.example.demo.mapper.toBookResponse
-import models.entity.Author
-import models.entity.Book
-import models.entity.BookItem
-import models.entity.Detail
-import models.entity.Rates
+import com.example.book.mapper.toBookResponse
+import com.example.book.repository.entity.Author
+import com.example.book.repository.entity.Book
+import com.example.book.repository.entity.BookItem
+import com.example.book.repository.entity.Detail
+import com.example.book.repository.entity.Rates
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint

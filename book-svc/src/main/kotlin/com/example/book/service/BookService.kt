@@ -1,18 +1,16 @@
-package com.example.demo.service
+package com.example.book.service
 
-import com.example.demo.exception.BusinessError
-import com.example.demo.mapper.toBookEntity
-import com.example.demo.mapper.toBookResponse
-import com.example.demo.repository.BookRepository
-import lombok.extern.slf4j.Slf4j
-import models.dto.BookRequest
-import models.dto.BookResponse
+import com.example.book.controller.dto.BookRequest
+import com.example.book.controller.dto.BookResponse
+import com.example.book.exception.BusinessError
+import com.example.book.mapper.toBookEntity
+import com.example.book.mapper.toBookResponse
+import com.example.book.repository.BookRepository
 import org.apache.logging.log4j.LogManager
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-@Slf4j
 class BookService {
     @Autowired
     private lateinit var bookRepository: BookRepository

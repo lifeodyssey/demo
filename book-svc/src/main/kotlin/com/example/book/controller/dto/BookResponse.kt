@@ -1,4 +1,4 @@
-package models.dto
+package com.example.book.controller.dto
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import java.math.BigDecimal

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# <https://github.com/pinterest/ktlint> pre-commit hook
+
+# git diff --name-only -z --cached --relative -- '*.kt' '*.kts' | ktlint --code-style=intellij_idea --relative --patterns-from-stdin=''
+
+YELLOW='\033[0;33m'
+RESET='\033[0m'
+
+./gradlew ktlintCheck
+
+if [ $? -ne 0 ]; then
+    echo "|-------------------------------------------------------------|"
+    echo "| Pre-commit hook: Kotlin Lint Check failed. Aborting commit  |"
+    echo "| Errors can be fixed using command ${YELLOW}./gradlew ktlintFormat ${RESET}   |"
+    echo "|-------------------------------------------------------------|"
+    exit 1
+else
+    echo "|----------------------------------------------------------------------|"
+    echo "| The ktlint Check was successfull, now trying to commit your changes. |"
+    echo "|----------------------------------------------------------------------|"
+    exit 0
+fi

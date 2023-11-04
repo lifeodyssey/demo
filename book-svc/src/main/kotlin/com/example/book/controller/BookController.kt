@@ -1,9 +1,8 @@
-package com.example.demo.controller
+package com.example.book.controller
 
-import com.example.demo.service.BookService
-import lombok.extern.slf4j.Slf4j
-import models.dto.BookRequest
-import models.dto.BookResponse
+import com.example.book.controller.dto.BookRequest
+import com.example.book.controller.dto.BookResponse
+import com.example.book.service.BookService
 import org.apache.logging.log4j.LogManager
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/books")
-@Slf4j
 class BookController {
     @Autowired
     private lateinit var bookService: BookService
