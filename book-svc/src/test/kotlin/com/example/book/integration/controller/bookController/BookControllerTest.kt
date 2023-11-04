@@ -1,4 +1,4 @@
-package com.example.demo.integration.controller.bookController
+package com.example.book.integration.controller.bookController
 
 import com.example.book.controller.BookController
 import com.example.book.controller.dto.AuthorRequest

@@ -1,11 +1,11 @@
-package com.example.demo.system
+package com.example.book.system
 
 import com.example.book.controller.BookController
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
-class SmokeTest : DemoApplicationTestBase() {
+class SmokeTest : BookApplicationTestBase() {
     @Autowired
     lateinit var bookController: BookController
 

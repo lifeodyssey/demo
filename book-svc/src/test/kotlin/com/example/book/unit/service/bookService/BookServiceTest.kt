@@ -1,4 +1,4 @@
-package com.example.demo.unit.service.bookService
+package com.example.book.unit.service.bookService
 
 import com.example.book.controller.dto.AuthorRequest
 import com.example.book.controller.dto.BookRequest

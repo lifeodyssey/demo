@@ -92,6 +92,7 @@ allprojects {
             annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
             implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
 //    Spring Boot
+            implementation("org.springframework.boot:spring-boot-starter-actuator")
             implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
             implementation("org.springframework.boot:spring-boot-starter-web")
             implementation("org.springframework.boot:spring-boot-starter:3.1.0")
@@ -110,8 +111,8 @@ allprojects {
             testImplementation("jakarta.validation:jakarta.validation-api")
 
             compileOnly("jakarta.servlet:jakarta.servlet-api:6.0.0")
-            implementation("org.springframework.security:spring-security-config")
-            implementation("org.springframework.security:spring-security-web")
+//            implementation("org.springframework.security:spring-security-config")
+//            implementation("org.springframework.security:spring-security-web")
 
 
             // kotlin

@@ -1,9 +1,10 @@
-package com.example.demo.system
+package com.example.book.system
 
+import com.example.book.BookApplication
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class DemoApplicationTestBase {
+class BookApplicationTestBase {
     @Test
     fun contextLoads() {
     }

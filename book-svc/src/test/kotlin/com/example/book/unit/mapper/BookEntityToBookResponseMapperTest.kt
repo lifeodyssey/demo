@@ -1,4 +1,4 @@
-package com.example.demo.unit.mapper
+package com.example.book.unit.mapper
 
 import com.example.book.mapper.toBookResponse
 import com.example.book.repository.entity.Author
