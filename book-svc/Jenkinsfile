@@ -3,6 +3,6 @@
 buildAndDeployMicroservice(
         language: 'java',
         buildTool: 'gradle',
-        imageName: 'demo-latest',
+        imageName: 'book-latest',
         svcName: 'book-svc',
 )
