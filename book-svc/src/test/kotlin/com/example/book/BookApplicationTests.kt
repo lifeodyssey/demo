@@ -1,6 +1,5 @@
-package com.example.book.system
+package com.example.book
 
-import com.example.book.BookApplicationTestBase
 import com.example.book.controller.dto.AuthorRequest
 import com.example.book.controller.dto.BookRequest
 import com.example.book.controller.dto.BookResponse
@@ -23,7 +22,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 
 @ExtendWith(MockKExtension::class)
-class BookE2ETests : BookApplicationTestBase() {
+class BookApplicationTests : BookApplicationTestBase() {
     @Autowired
     private lateinit var restTemplate: TestRestTemplate
 
