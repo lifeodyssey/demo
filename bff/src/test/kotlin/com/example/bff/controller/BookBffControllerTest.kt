@@ -1,15 +1,15 @@
 package com.example.bff.controller
 
-import com.example.bff.dto.Author
-import com.example.bff.dto.AuthorDto
-import com.example.bff.dto.Book
-import com.example.bff.dto.BookDto
-import com.example.bff.dto.BookItem
-import com.example.bff.dto.BookItemDto
-import com.example.bff.dto.Detail
-import com.example.bff.dto.DetailDto
-import com.example.bff.dto.Rates
-import com.example.bff.dto.RatesDto
+import com.example.bff.controller.request.Author
+import com.example.bff.controller.request.Book
+import com.example.bff.controller.request.BookItem
+import com.example.bff.controller.request.Detail
+import com.example.bff.controller.request.Rates
+import com.example.bff.controller.response.AuthorDto
+import com.example.bff.controller.response.BookDto
+import com.example.bff.controller.response.BookItemDto
+import com.example.bff.controller.response.DetailDto
+import com.example.bff.controller.response.RatesDto
 import com.example.bff.service.BookBffService
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every

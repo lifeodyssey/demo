@@ -1,7 +1,7 @@
 package com.example.bff.controller
 
-import com.example.bff.dto.Book
-import com.example.bff.dto.BookDto
+import com.example.bff.controller.request.Book
+import com.example.bff.controller.response.BookDto
 import com.example.bff.service.BookBffService
 import org.apache.logging.log4j.LogManager
 import org.springframework.http.ResponseEntity

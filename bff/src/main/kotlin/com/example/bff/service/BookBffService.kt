@@ -1,8 +1,8 @@
 package com.example.bff.service
 
 import com.example.bff.apiclient.BookSvcApiClient
-import com.example.bff.dto.Book
-import com.example.bff.dto.BookDto
+import com.example.bff.controller.request.Book
+import com.example.bff.controller.response.BookDto
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 

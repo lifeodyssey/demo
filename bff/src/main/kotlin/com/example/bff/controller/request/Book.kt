@@ -1,12 +1,10 @@
-package com.example.bff.dto
+package com.example.bff.controller.request
 
+import java.math.BigDecimal
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
-import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.MongoId
-import java.math.BigDecimal
 
-@Document(collection = "book")
 data class Book(
     @MongoId @Id var bookId: String?,
     val title: String,

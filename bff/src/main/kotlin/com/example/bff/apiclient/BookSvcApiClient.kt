@@ -1,7 +1,7 @@
 package com.example.bff.apiclient
 
-import com.example.bff.dto.Book
-import com.example.bff.dto.BookDto
+import com.example.bff.controller.request.Book
+import com.example.bff.controller.response.BookDto
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping

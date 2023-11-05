@@ -1,4 +1,4 @@
-package com.example.bff.dto
+package com.example.bff.controller.response
 import com.example.bff.config.GeoJsonDeserializer
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import jakarta.validation.constraints.NotBlank
