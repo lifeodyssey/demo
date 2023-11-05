@@ -5,6 +5,7 @@ import com.example.bff.dto.BookDto
 import com.example.bff.service.BookBffService
 import org.apache.logging.log4j.LogManager
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -53,6 +54,7 @@ class BookBffController(private val bookBffService: BookBffService) {
     }
 
     @DeleteMapping("/{bookId}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun deleteBookById(@PathVariable bookId: String): ResponseEntity<Any> {
         logger.debug("Received request to delete book by id:{}", bookId)
         bookBffService.deleteBookById(bookId)
@@ -61,6 +63,7 @@ class BookBffController(private val bookBffService: BookBffService) {
     }
 
     @DeleteMapping
+    @PreAuthorize("hasRole('ADMIN')")
     fun deleteAllBooks(): ResponseEntity<Any> {
         logger.debug("Received request to delete all books")
         bookBffService.deleteAllBooks()
