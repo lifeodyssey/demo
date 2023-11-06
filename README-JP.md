@@ -9,6 +9,7 @@
 まず、ローカルマシンにdocker gradle がインストールされていることを確認してください。次に、このブランチをクローンしてターミナルで開いてください。
 
 ```bash
+git switch gxp
 chmod 755 ./BuildAndDeployToLocal.sh
 ./BuildAndDeployToLocal.sh
 ```
