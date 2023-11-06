@@ -1,0 +1,3 @@
+book:
+  svc:
+    url: http://localhost:${wiremock.server.port}

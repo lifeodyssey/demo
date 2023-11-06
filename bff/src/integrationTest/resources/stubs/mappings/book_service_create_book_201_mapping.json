@@ -1,0 +1,66 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "api/books",
+    "headers": {
+      "authorization": {
+        "equalTo": "Basic Z3hwOmd4cA=="
+      }
+    },
+    "bodyPatterns": [
+      {
+        "equalToJson": {
+          "title": "System Design Interview – An insider's guide",
+          "authors": [
+            {
+              "authorName": "Alex Xu"
+            }
+          ],
+          "rates": {
+            "rate": 4.6,
+            "rateAmount": 2144
+          },
+          "abstract": "System Design Interview - An Insider's Guide (Volume 1) provides a reliable strategy for tackling system design interview questions...",
+          "bookItems": [
+            {
+              "currency": "USD",
+              "price": 24.99,
+              "category": "Kindle",
+              "type": "E-Book",
+              "location": null
+            },
+            {
+              "currency": "USD",
+              "price": 28.49,
+              "category": "Paperback",
+              "type": "Used",
+              "location": null
+            },
+            {
+              "currency": "USD",
+              "price": 35.99,
+              "category": "Paperback",
+              "type": "New",
+              "location": null
+            }
+          ],
+          "details": {
+            "asin": "B08CMF2CQF",
+            "isbn": "979-8664653403"
+          }
+        }
+
+        }]
+  },
+  "response": {
+    "status": 201,
+    "bodyFileName": "book_service_create_book_200_response.json",
+    "transformers": [
+      "response-template"
+    ],
+    "headers": {
+      "Content-Type": "application/json",
+      "Connection": "close"
+    }
+  }
+}
