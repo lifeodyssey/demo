@@ -23,6 +23,7 @@ Although this repository is mainly written in Kotlin, it should be readable for 
 - Basic architecture of microservice
   - Backend for Frontend(BFF): combine response from different single service, handle technical problems like auth, circuit breaker,rate limiter, redirection,etc
   - Authentication and Authorization: setup of basic auth use spring security with different permissions for different api
+  - Single Responsibility: it achieved this principle by separate different microservices and BFF layer.
 - Network Isolation: the BFF layer is open to public, while book service and MongoDB are running in private network. The only interface for book service is BFF.
 - Hook, Lint and Test Coverage plugin: the githook is setup under /.githooks. One enabled, the code could not be pushed to remote repository when it could not pass test coverage check and lint check
 - Test: Unit test, Application test and Integration test are implemented based on Junit, Mockk and WireMock
