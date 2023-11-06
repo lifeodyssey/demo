@@ -64,7 +64,7 @@ class BookControllerTest {
         details = detail.toDetailEntity()
     )
 
-// TODO   refact test, seperate bookResponse and BookEntity
+// TODO   refact test, seperate bookResponse and BookEntity, fixture
 
     @Test
     fun `createBook should return book Id if created`() {
