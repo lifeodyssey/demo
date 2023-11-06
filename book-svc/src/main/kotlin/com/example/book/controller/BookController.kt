@@ -1,5 +1,6 @@
 package com.example.book.controller
 
+import com.example.book.controller.dto.BookCreationResponse
 import com.example.book.controller.dto.BookRequest
 import com.example.book.controller.dto.BookResponse
 import com.example.book.service.BookService
@@ -24,11 +25,12 @@ class BookController {
     private val logger = LogManager.getLogger(BookController::class.java)
 
     @PostMapping
-    fun createBook(@RequestBody bookRequest: BookRequest): ResponseEntity<String> {
+    fun createBook(@RequestBody bookRequest: BookRequest): ResponseEntity<BookCreationResponse> {
         logger.debug("Received request to create book:{}", bookRequest)
         val bookId = bookService.createBook(bookRequest).bookId
         logger.debug("Successfully created book:{}", bookId)
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookId)
+        val createBookResponse = BookCreationResponse(bookId = bookId)
+        return ResponseEntity.status(HttpStatus.CREATED).body(createBookResponse)
     }
 
     @GetMapping("/{bookId}")

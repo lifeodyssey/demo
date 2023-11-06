@@ -1,30 +1,30 @@
-package com.example.bff.controller.request
+package com.example.bff.controller.response
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import org.springframework.data.mongodb.core.mapping.MongoId
 import java.math.BigDecimal
 
-data class Book(
+data class BookResponse(
     @MongoId @Id var bookId: String?,
     val title: String,
-    val authors: List<Author>,
-    val rates: Rates,
+    val authors: List<AuthorResponse>,
+    val rates: RatesResponse,
     val abstract: String,
-    val bookItems: List<BookItem>? = null,
-    val details: Detail,
+    val bookItems: List<BookItemResponse>? = null,
+    val details: DetailResponse,
 )
 
-data class Author(
+data class AuthorResponse(
     val authorName: String
 )
 
-data class Detail(
+data class DetailResponse(
     val asin: String? = "",
     val isbn: String,
 )
 
-data class BookItem(
+data class BookItemResponse(
     val currency: String,
     val price: BigDecimal,
     val category: String,
@@ -32,7 +32,7 @@ data class BookItem(
     val location: GeoJsonPoint?
 )
 
-data class Rates(
+data class RatesResponse(
     val rate: BigDecimal = BigDecimal.ZERO,
     val rateAmount: Int = 0
 )

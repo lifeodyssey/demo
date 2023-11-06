@@ -1,19 +1,21 @@
 package com.example.bff.controller
 
-import com.example.bff.controller.request.Author
-import com.example.bff.controller.request.Book
-import com.example.bff.controller.request.BookItem
-import com.example.bff.controller.request.Detail
-import com.example.bff.controller.request.Rates
-import com.example.bff.controller.response.AuthorDto
-import com.example.bff.controller.response.BookDto
-import com.example.bff.controller.response.BookItemDto
-import com.example.bff.controller.response.DetailDto
-import com.example.bff.controller.response.RatesDto
+import com.example.bff.controller.request.AuthorRequest
+import com.example.bff.controller.request.BookItemRequest
+import com.example.bff.controller.request.BookRequest
+import com.example.bff.controller.request.DetailRequest
+import com.example.bff.controller.request.RatesRequest
+import com.example.bff.controller.response.AuthorResponse
+import com.example.bff.controller.response.BookCreationResponse
+import com.example.bff.controller.response.BookItemResponse
+import com.example.bff.controller.response.BookResponse
+import com.example.bff.controller.response.DetailResponse
+import com.example.bff.controller.response.RatesResponse
 import com.example.bff.service.BookBffService
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.verify
+import java.math.BigDecimal
 import org.bson.types.ObjectId
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
@@ -35,7 +37,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.math.BigDecimal
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(BookBffController::class)
@@ -44,13 +45,13 @@ import java.math.BigDecimal
 class BookBffControllerTest {
     private val bookId = ObjectId().toString()
     private val title = "System Design Interview – An insider's guide"
-    private val author = AuthorDto("Alex Xu")
-    private val rates = RatesDto()
+    private val author = AuthorRequest("Alex Xu")
+    private val rates = RatesRequest()
     private val abstract =
         "System Design Interview - An Insider's Guide (Volume 1)\n\nSystem design interviews are the most difficult to tackle of all technical interview questions. This book is Volume 1 of the System Design Interview - An insider’s guide series that provides a reliable strategy and knowledge base for approaching a broad range of system design questions. This book provides a step-by-step framework for how to tackle a system design question. It includes many real-world examples to illustrate the systematic approach, with detailed steps that you can follow.\n\nWhat’s inside?\n- An insider’s take on what interviewers really look for and why.\n- A 4-step framework for solving any system design interview question.\n- 16 real system design interview questions with detailed solutions.\n- 188 diagrams to visually explain how different systems work.\n\nTable Of Contents\nChapter 1: Scale From Zero To Millions Of Users\nChapter 2: Back-of-the-envelope Estimation\nChapter 3: A Framework For System Design Interviews\nChapter 4: Design A Rate Limiter\nChapter 5: Design Consistent Hashing\nChapter 6: Design A Key-value Store\nChapter 7: Design A Unique Id Generator In Distributed Systems\nChapter 8: Design A Url Shortener\nChapter 9: Design A Web Crawler\nChapter 10: Design A Notification System\nChapter 11: Design A News Feed System\nChapter 12: Design A Chat System\nChapter 13: Design A Search Autocomplete System\nChapter 14: Design Youtube\nChapter 15: Design Google Drive\nChapter 16: The Learning Continues"
-    private val detail = DetailDto(isbn = "979-8664653403")
+    private val detail = DetailRequest(isbn = "979-8664653403")
     private val bookItems = listOf(
-        BookItemDto(
+        BookItemRequest(
             currency = "USD",
             category = "Novel",
             price = BigDecimal.valueOf(10),
@@ -58,7 +59,7 @@ class BookBffControllerTest {
             location = GeoJsonPoint(50.0, 50.0)
         )
     )
-    private var bookDto: BookDto = BookDto(
+    private var bookRequest: BookRequest = BookRequest(
         title = title,
         authors = listOf(author),
         rates = rates,
@@ -66,15 +67,15 @@ class BookBffControllerTest {
         details = detail,
         bookItems = bookItems
     )
-    private val savedBook = Book(
+    private val savedBook = BookResponse(
         bookId = bookId,
         title = title,
-        authors = listOf(Author("Alex Xu")),
-        rates = Rates(),
+        authors = listOf(AuthorResponse("Alex Xu")),
+        rates = RatesResponse(),
         abstract = abstract,
-        details = Detail(isbn = "979-8664653403"),
+        details = DetailResponse(isbn = "979-8664653403"),
         bookItems = listOf(
-            BookItem(
+            BookItemResponse(
                 currency = "USD",
                 category = "Novel",
                 price = BigDecimal.valueOf(10),
@@ -85,7 +86,7 @@ class BookBffControllerTest {
     )
 
     @Autowired
-    lateinit var bookJson: JacksonTester<BookDto>
+    lateinit var bookJson: JacksonTester<BookRequest>
 
     @MockkBean
     lateinit var bookBffService: BookBffService
@@ -97,15 +98,21 @@ class BookBffControllerTest {
     fun `should create book successfully`() {
         // given
         val createBookRequest =
-            post("/api/books").contentType(MediaType.APPLICATION_JSON).content(bookJson.write(bookDto).json)
-        bookId
-        val expectedResponse = ResponseEntity(bookId, HttpStatus.CREATED)
-        every { bookBffService.createBook(bookDto) }.returns(expectedResponse)
+            post("/api/books").contentType(MediaType.APPLICATION_JSON).content(
+                bookJson.write(bookRequest).json
+            )
+        val expectedResponse = ResponseEntity(
+            BookCreationResponse(
+                bookId = bookId
+            ), HttpStatus.CREATED
+        )
+        every { bookBffService.createBook(bookRequest) }.returns(expectedResponse)
         // when
         mockMvc.perform(createBookRequest)
             // then
-            .andExpect(status().isCreated).andExpect(jsonPath("$").value(bookId))
-        verify { bookBffService.createBook(bookDto) }
+            .andExpect(status().isCreated).
+            andExpect(jsonPath("$.bookId").value(bookId))
+        verify { bookBffService.createBook(bookRequest) }
     }
 
     @Test
@@ -148,13 +155,13 @@ class BookBffControllerTest {
 
     @Test
     fun `should update book by id successfully`() {
-        val updatedBookDto = bookDto.copy(title = "system design volume 2")
+        val updatedBookRequest = bookRequest.copy(title = "system design volume 2")
         val updatedBook = savedBook.copy(title = "system design volume 2")
-        every { bookBffService.updateBookById(bookId, updatedBookDto) } returns ResponseEntity(
+        every { bookBffService.updateBookById(bookId, updatedBookRequest) } returns ResponseEntity(
             updatedBook, HttpStatus.OK
         )
         val updateBookRequest = put("/api/books/$bookId").contentType(MediaType.APPLICATION_JSON)
-            .content(bookJson.write(updatedBookDto).json)
+            .content(bookJson.write(updatedBookRequest).json)
         mockMvc.perform(updateBookRequest).andExpect(status().isOk).andExpect(jsonPath("$.bookId").value(bookId))
             .andExpect(jsonPath("$.title").value(updatedBook.title))
             .andExpect(jsonPath("$.authors", Matchers.hasSize<Int>(1)))
@@ -162,7 +169,7 @@ class BookBffControllerTest {
             .andExpect(jsonPath("$.rates.rate").value(rates.rate))
             .andExpect(jsonPath("$.rates.rateAmount").value(rates.rateAmount))
             .andExpect(jsonPath("$.abstract").value(abstract)).andExpect(jsonPath("$.details.isbn").value(detail.isbn))
-        verify { bookBffService.updateBookById(bookId, updatedBookDto) }
+        verify { bookBffService.updateBookById(bookId, updatedBookRequest) }
     }
 
     @Test

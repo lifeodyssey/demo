@@ -1,7 +1,8 @@
 package com.example.bff.controller
 
-import com.example.bff.controller.request.Book
-import com.example.bff.controller.response.BookDto
+import com.example.bff.controller.request.BookRequest
+import com.example.bff.controller.response.BookCreationResponse
+import com.example.bff.controller.response.BookResponse
 import com.example.bff.service.BookBffService
 import org.apache.logging.log4j.LogManager
 import org.springframework.http.ResponseEntity
@@ -22,15 +23,15 @@ class BookBffController(private val bookBffService: BookBffService) {
     private val logger = LogManager.getLogger(BookBffController::class.java)
 
     @PostMapping
-    fun createBook(@RequestBody book: BookDto): ResponseEntity<String> {
+    fun createBook(@RequestBody book: BookRequest): ResponseEntity<BookCreationResponse> {
         logger.debug("Received request to create book:{}", book)
-        val bookId = bookBffService.createBook(book)
-        logger.debug("Successfully created book:{}", bookId)
-        return bookId
+        val bookCreationResponse = bookBffService.createBook(book = book)
+        logger.debug("Successfully created book:{}", bookCreationResponse.body!!.bookId)
+        return bookCreationResponse
     }
 
     @GetMapping("/{bookId}")
-    fun findBookById(@PathVariable bookId: String): ResponseEntity<Book> {
+    fun findBookById(@PathVariable bookId: String): ResponseEntity<BookResponse> {
         logger.debug("Received request to find book by id:{}", bookId)
         val book = bookBffService.findBookById(bookId)
         logger.debug("Successfully found book by id:{}", bookId)
@@ -38,7 +39,7 @@ class BookBffController(private val bookBffService: BookBffService) {
     }
 
     @GetMapping
-    fun findAllBooks(): ResponseEntity<List<Book>> {
+    fun findAllBooks(): ResponseEntity<List<BookResponse>> {
         logger.debug("Received request to find all books ")
         val books = bookBffService.findAllBooks()
         logger.debug("Successfully find all  books")
@@ -46,7 +47,7 @@ class BookBffController(private val bookBffService: BookBffService) {
     }
 
     @PutMapping("/{bookId}")
-    fun updateBookById(@PathVariable bookId: String, @RequestBody book: BookDto): ResponseEntity<Book> {
+    fun updateBookById(@PathVariable bookId: String, @RequestBody book: BookRequest): ResponseEntity<BookResponse> {
         logger.debug("Received request to update book by id:{}", bookId)
         val updatedBook = bookBffService.updateBookById(bookId, book)
         logger.debug("Successfully update book by id:{}", bookId)

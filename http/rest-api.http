@@ -46,7 +46,7 @@ Content-Type: application/json
 
 
 > {%
-    client.global.set("bookId", response.body.trim())
+    client.global.set("bookId", response.body.bookId)
 %}
 
 ### Get all books

@@ -76,7 +76,7 @@ class BookControllerTest {
         // When
         mockMvc.perform(createBookRequest)
             // Then
-            .andExpect(status().isCreated).andExpect(jsonPath("$").value(bookId))
+            .andExpect(status().isCreated).andExpect(jsonPath("$.bookId").value(bookId))
         verify { bookService.createBook(bookRequest) }
     }
 
