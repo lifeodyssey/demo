@@ -1,22 +1,55 @@
 version: '3.8'
 
 services:
-  book-svc:
-    build: ./book-svc
-    container_name: local_book_svc
+  mongodb:
+    image: mongo:latest
+    container_name: local_mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=admin
+      - MONGO_INITDB_ROOT_USERNAME=local_mongo_username
+      - MONGO_INITDB_ROOT_PASSWORD=local_mongo_pwd
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo/local/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongodb_data:/data/db
     networks:
       - local_backend_network
 
-  bff-svc:
-    build: ./bff
-    container_name: local_bff_svc
+  book-svc:
+    build:
+      context: ./book-svc
+      dockerfile: Dockerfile
+    container_name: local_book_svc
+    restart: always
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URI=mongodb://local_mongo_username:local_mongo_pwd@mongodb:27017/admin?authSource=admin&tls=false
     ports:
-      - "3000:3000" # Expose bff on port 80 of the host
+      - "3000:3000"
     networks:
       - local_backend_network
+
+  bff:
+    build:
+      context: ./bff
+      dockerfile: Dockerfile
+    container_name: local_bff_service
+    restart: always
+    environment:
+      - BOOK_SVC_URI=http://book-svc:3000/books
+    ports:
+      - "8080:8080"
     depends_on:
       - book-svc
+    networks:
+      - local_backend_network
 
 networks:
   local_backend_network:
-    external: true
+    driver: bridge
+
+volumes:
+  mongodb_data:
