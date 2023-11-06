@@ -28,7 +28,7 @@ Although this repository is mainly written in Kotlin, it should be readable for 
   - Authentication and Authorization: setup of basic auth use spring security with different permissions for different api
   - Single Responsibility: it achieved this principle by separate different microservices and BFF layer.
 - Network Isolation: the BFF layer is open to public, while book service and MongoDB are running in private network. The only interface for book service is BFF.
-- Hook, Lint and Test Coverage plugin: the githook is setup under /.githooks. One enabled, the code could not be pushed to remote repository when it could not pass test coverage check and lint check
+- Hook, Lint , Test Coverage and Swagger plugin: the githook is set up under /.githooks. One enabled, the code could not be pushed to remote repository when it could not pass test coverage check, test and lint check. The swagger ui is available at http://localhost:8000/swagger-ui/index.html, which could help frontend and upstream services to debug 
 - Test: Unit test, Application test and Integration test are implemented based on Junit, Mockk and WireMock
 - Database migration: it use mongock to do the Database migration when changing the schema of data, like flyway for PostgreSQL.
 
@@ -39,6 +39,8 @@ Although this repository is mainly written in Kotlin, it should be readable for 
   - The PUT request should use map as request body
   - The test should extract fixture as they are using same data
   - There are no CI/CD pipeline setup in this repo
-  - The total test coverages are only around 80% and the branch specified test coverages are only about 50%
+  - The total test coverages are only around 80% and the branch specified test coverages are only about 50%. This is extremely low in bff.
   - The apiTest is not implemented, and the integration test are not fully implemented
+  - the config for in-memory mongodb (de.flapdoodle.mongodb.embedded.version) is showed in bff layer, which obviously should not appear here.
+  - BigDecimal: This class could handle the high precision calculation(more than 16 digit ) compared with Double, and should only be used for high precision calculation like money. This project use BigDecimal for 'Rate' in 'Rates' object.
 - The infra related config（like MongoDB, docker compose file） are all written in this repository, which should be in another repo use Infra-as-Code way
