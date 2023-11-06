@@ -15,7 +15,6 @@ import com.example.bff.service.BookBffService
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.verify
-import java.math.BigDecimal
 import org.bson.types.ObjectId
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
@@ -37,6 +36,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.math.BigDecimal
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(BookBffController::class)
@@ -104,14 +104,16 @@ class BookBffControllerTest {
         val expectedResponse = ResponseEntity(
             BookCreationResponse(
                 bookId = bookId
-            ), HttpStatus.CREATED
+            ),
+            HttpStatus.CREATED
         )
         every { bookBffService.createBook(bookRequest) }.returns(expectedResponse)
         // when
-        mockMvc.perform(createBookRequest)
+        mockMvc
+            .perform(createBookRequest)
             // then
-            .andExpect(status().isCreated).
-            andExpect(jsonPath("$.bookId").value(bookId))
+            .andExpect(status().isCreated)
+            .andExpect(jsonPath("$.bookId").value(bookId))
         verify { bookBffService.createBook(bookRequest) }
     }
 
