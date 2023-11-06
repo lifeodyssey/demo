@@ -42,6 +42,8 @@ services:
       - BOOK_SVC_URI=http://book-svc:3000/books
     ports:
       - "8000:8000"
+       #      host/container
+
     depends_on:
       - book-svc
     networks:
