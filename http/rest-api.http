@@ -1,0 +1,100 @@
+### Create book failed
+POST http://localhost:8000/api/books
+Authorization: {{gxp_basic_auth}}
+Content-Type: application/json
+
+{
+  "title": "System Design Interview – An insider's guide",
+  "authors": [
+    {
+      "authorName": "Alex Xu"
+    }
+  ],
+  "rates": {
+    "rate": 4.6,
+    "rateAmount": 2144
+  },
+  "abstract": "System Design Interview - An Insider's Guide (Volume 1) provides a reliable strategy for tackling system design interview questions...",
+  "bookItems": [
+    {
+      "currency": "USD",
+      "price": 24.99,
+      "category": "Kindle",
+      "type": "E-Book",
+      "location": null
+    },
+    {
+      "currency": "USD",
+      "price": 28.49,
+      "category": "Paperback",
+      "type": "Used",
+      "location": null
+    },
+    {
+      "currency": "USD",
+      "price": 35.99,
+      "category": "Paperback",
+      "type": "New",
+      "location": null
+    }
+  ],
+  "details": {
+    "asin": "B08CMF2CQF",
+    "isbn": "979-8664653403"
+  }
+}
+
+
+> {%
+    client.global.set("bookId", response.body.trim())
+%}
+
+### Get all books
+GET http://localhost:8000/api/books
+Authorization: {{gxp_basic_auth}}
+
+### Update book by ID
+PUT http://localhost:8000/api/books/{{bookId}}
+Authorization: {{admin_basic_auth}}
+Content-Type: application/json
+
+{
+  "title": "System Design Interview – An insider's guide, Updated",
+  "authors": [
+    {
+      "author": "Alex Xu"
+    }
+  ],
+  "rates": {
+    "rate": 4.6,
+    "rateAmount": 2144
+  },
+  "abstract": "System Design Interview - An Insider's Guide (Volume 1)...",
+  "prices": [
+    {
+      "currency": "$",
+      "price": "24.99",
+      "category": "kindle"
+    }
+  ],
+  "details": {
+    "ASIN": "B08CMF2CQF",
+    "ISBN": "979-8664653403"
+  },
+  "reviews": [
+    {
+      "reviewerName": "Blooms And Bugs",
+      "reviewContent": "I have tried reading several books on system design...",
+      "helpful": 2,
+      "rate": 5
+    }
+  ]
+}
+
+### Delete book by ID
+DELETE http://localhost:8000/api/books/{{bookId}}
+Authorization: {{admin_basic_auth}}
+
+### Delete all books
+DELETE http://localhost:8000/api/books
+Authorization: {{admin_basic_auth}}
