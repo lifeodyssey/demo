@@ -1,4 +1,4 @@
-### Create book failed
+### Create book
 POST http://localhost:8000/api/books
 Authorization: {{gxp_basic_auth}}
 Content-Type: application/json
