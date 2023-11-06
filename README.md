@@ -1,39 +1,39 @@
 # Backend Demo
-This code repository is a demonstration of basic work and best practices for backend development. The project uses the following tech stack:
+This code repository is a demonstration of basic CRUD and user authentication in backend microservice architecture based on Kotlin and Spring
 
-- Kotlin
-- Spring Boot
-- MongoDB
-- Mongock
-- Mockk
-- Docker
-- Jenkins
-- Nginx
-- Spring Cloud
+![gxp 1107.png](gxp%201107.png)
 
-The project follows the practices of Test-Driven Development (TDD) and Trunk-Based Development. The architecture of the project is based on microservices and backend-for-frontend.
+## How to run it locally?
 
-The project includes the following features:
+Please make sure you have installed docker in your local machine. Then please clone this branch and open it in terminal
 
-- Jenkins CI/CD pipeline and blue/green deployment mocked by Nginx
-- Basic CRUD RESTFULL API with TDD
-- MongoDB migration using Mongock
-- Exception handling
-- Logging
-## Jenkins CI/CD Pipeline and Mocked Blue/Green Deployment by Nginx
-This project demonstrates a continuous integration and continuous deployment (CI/CD) pipeline using Jenkins and Nginx. The application is able to connect to a different database, defined in the application.properties file. The pipeline is configured to automatically build, test, and deploy a sample application to a local machine. To keep the application always available, Nginx is used to perform blue/green deployment.
+```bash
+docker-compose -f docker-compose.yml up -d   --build  
+```
+docker will build the images and run services locally, including book service, bff service and a MongoDB
 
-Please note that in a real production scenario, infrastructure platforms usually have functionality to implement blue/green deployment, such as [AWS](https://d1.awsstatic.com/whitepapers/AWS_Blue_Green_Deployments.pdf). Additionally, Containers or Kubernetes clusters have commands like [`aws ecs update-service --service my-http-service --task-definition amazon-ecs-sample`](https://docs.aws.amazon.com/cli/latest/reference/ecs/update-service.html) to achieve this. Therefore, the solution presented in this project may not be suitable for use in a real production environment.
+You can open the ./http/rest-api.http and run it with local env to test it (Please make sure you are using idea Ultimate Edition and have installed [IDEA HTTP Client plugin]( https://plugins.jetbrains.com/plugin/13121-http-client))
 
-## Basic CRUD RESTFULL API with TDD
-The sample application in this project is a basic CRUD RESTFULL API that allows users to create, read, update, and delete (CRUD) items in a database. The API is built using a test-driven development (TDD) approach with an embedded MongoDB.
+![test result.png](test%20result.png)
 
-The tests include:
+Although this repository is mainly written in Kotlin, it should be readable for Javaer(Acutually the newest Java grammer is closing to Kotlin, like it has auto type detection)
 
-- Unit Tests: using mock and stub for the service layer and object mapper
-- Integration Tests: using `@WebMvcTest` for the controller layer and using mongoTemplate for the repository layer
-- End-to-End Tests: using `@SpringBootTest` for the entire application, along with a smoke test
-## MongoDB Migration Using Mongock 
-MongoDB does not require the design of a schema like that of a relational database management system (RDBMS). However, if you want to add a new non-null field to an object, you need to use Mongock to perform the migration. Otherwise, if the new field does not exist in your MongoDB and you query data and save it to a new object, there will be a null-pointer exception for the new non-null field.
+## Highlight of this demo
 
-Mongock uses mongoTemplate to query data without transferring it to an object. To disable Mongock during testing, you need to set mongock.enabled=false in the application.properties file.
+- Basic architecture of microservice
+  - Backend for Frontend(BFF): combine response from different single service, handle technical problems like auth, circuit breaker,rate limiter, redirection,etc
+  - Authentication and Authorization: setup of basic auth use spring security with different permissions for different api
+- Network Isolation: the BFF layer is open to public, while book service and MongoDB are running in private network. The only interface for book service is BFF.
+- Hook, Lint and Test Coverage plugin: the githook is setup under /.githooks. One enabled, the code could not be pushed to remote repository when it could not pass test coverage check and lint check
+- Test: Unit test, Application test and Integration test are implemented based on Junit, Mockk and WireMock
+
+## Drawback of this demo
+- Security : In this project all credentials and url are hardcoded in the code, which do not meet any production code requirement in real development. These credentials should get from environment variables and injected from infra setup(like AWS Secrets Manage).
+- The auth service is not really tested besides the HTTP script, and the auth service is not really implemented as a single service
+- There are some code smells currently, for example
+  - The PUT request should use map as request body
+  - The test should extract fixture as they are using same data
+  - There are no CI/CD pipeline setup in this repo
+  - The total test coverages are only around 80% and the branch specified test coverages are only about 50%
+  - The apiTest is not implemented, and the integration test are not fully implemented
+- The infra related config（like MongoDB, docker compose file） are all written in this repository, which should be in another repo use Infra-as-Code way
