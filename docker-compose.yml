@@ -3,22 +3,20 @@ version: '3.8'
 services:
   book-svc:
     build: ./book-svc
-    container_name: book_svc
+    container_name: local_book_svc
     networks:
-      - backend_network
-    depends_on:
-      - mongodb
+      - local_backend_network
 
-  bff:
+  bff-svc:
     build: ./bff
-    container_name: bff_service
+    container_name: local_bff_svc
     ports:
       - "3000:3000" # Expose bff on port 80 of the host
     networks:
-      - backend_network
+      - local_backend_network
     depends_on:
       - book-svc
 
 networks:
-  backend_network:
+  local_backend_network:
     external: true

@@ -1,1 +1,4 @@
-java -jar -Dspring.data.mongodb.uri="$MONGODB_URI" Demo-0.0.2.jar
+#java -jar -Dspring.data.mongodb.uri="$MONGODB_URI" /app/book-svc.jar
+
+java -jar /app/book-svc.jar
+
