@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 
-@FeignClient(name = "book-svc", url = "\${book.svc.url}")
+@FeignClient(name = "book-svc", url = "\${book.svc.url}/books")
 interface BookSvcApiClient {
     @PostMapping
     fun createBook(@RequestBody book: BookRequest): ResponseEntity<BookCreationResponse>

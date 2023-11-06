@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/api/book")
 class BookBffController(private val bookBffService: BookBffService) {
 
     private val logger = LogManager.getLogger(BookBffController::class.java)

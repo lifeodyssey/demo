@@ -1,22 +1,27 @@
-import com.example.bff.apiclient.BookSvcApiClient
+package com.example.bff.apiclient
+
+import com.example.bff.BaseIntegrationTest
 import com.example.bff.controller.request.AuthorRequest
 import com.example.bff.controller.request.BookItemRequest
 import com.example.bff.controller.request.BookRequest
 import com.example.bff.controller.request.DetailRequest
 import com.example.bff.controller.request.RatesRequest
+import com.github.tomakehurst.wiremock.WireMockServer
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import java.math.BigDecimal
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
+
 import org.springframework.http.HttpStatus
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeAll
 
-@SpringBootTest(
-    webEnvironment = RANDOM_PORT)
 class BookServiceClientIntegrationTest : BaseIntegrationTest() {
+
+
     @Autowired
     private lateinit var bookSvcApiClient: BookSvcApiClient
+
 
     @Test
     fun `test should create book success with valid request`() {
@@ -31,7 +36,7 @@ class BookServiceClientIntegrationTest : BaseIntegrationTest() {
                     price = BigDecimal("24.99"),
                     category = "Kindle",
                     type = "E-Book",
-                    location = null // Assuming location data isn't provided or needed for the test.
+                    location = null
                 ),
                 BookItemRequest(
                     currency = "USD",

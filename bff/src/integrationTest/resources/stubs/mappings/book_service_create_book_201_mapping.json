@@ -1,12 +1,7 @@
 {
   "request": {
     "method": "POST",
-    "url": "api/books",
-    "headers": {
-      "authorization": {
-        "equalTo": "Basic Z3hwOmd4cA=="
-      }
-    },
+    "url": "/books",
     "bodyPatterns": [
       {
         "equalToJson": {
@@ -49,12 +44,12 @@
             "isbn": "979-8664653403"
           }
         }
-
-        }]
+      }
+    ]
   },
   "response": {
     "status": 201,
-    "bodyFileName": "book_service_create_book_200_response.json",
+    "bodyFileName": "book_service_create_book_201_response.json",
     "transformers": [
       "response-template"
     ],
