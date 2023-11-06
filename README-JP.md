@@ -9,7 +9,8 @@
 まず、ローカルマシンにdockerがインストールされていることを確認してください。次に、このブランチをクローンしてターミナルで開いてください。
 
 ```bash
-docker-compose -f docker-compose.yml up -d   --build  
+chmod 755 ./BuildAndDeployToLocal.sh
+./BuildAndDeployToLocal.sh
 ```
 dockerはイメージをビルドし、bookサービス、bffサービス、そしてMongoDBを含むサービスをローカルで実行します。
 
@@ -36,7 +37,7 @@ dockerはイメージをビルドし、bookサービス、bffサービス、そ�
 - 現在いくつかのcode smellがあります。例えば、
   - PUTリクエストはリクエストボディとしてmapを使用すべきです。
   - テストでは同じデータを使用しているのでfixtureを抽出すべきです。
-  - このリポジトリにCI/CDパイプラインの設定がありません。
+  - このリポジトリにCI/CDパイプラインの設定がありません。今は：'BuildAndDeploToLocal.sh'　を使でいます。
   - 総テストカバレッジは約80％、ブランチ特定のテストカバレッジは約50％となっており、BFFにおいては非常に低い水準です。
   - apiTestが実装されておらず、統合テストも完全には実装されていません。
   - インメモリMongoDBの設定（de.flapdoodle.embed.mongo.version）がBFFレイヤーに表示されていますが、明らかにここには存在すべきではありません。

@@ -11,7 +11,8 @@ This code repository is a demonstration of basic CRUD and user authentication in
 Please make sure you have installed docker in your local machine. Then please clone this branch and open it in terminal
 
 ```bash
-docker-compose -f docker-compose.yml up -d   --build  
+chmod 755 ./BuildAndDeployToLocal.sh
+./BuildAndDeployToLocal.sh
 ```
 docker will build the images and run services locally, including book service, bff service and a MongoDB
 
@@ -38,7 +39,7 @@ Although this repository is mainly written in Kotlin, it should be readable for 
 - There are some code smells currently, for example
   - The PUT request should use map as request body
   - The test should extract fixture as they are using same data
-  - There are no CI/CD pipeline setup in this repo
+  - There are no CI/CD pipeline setup in this repo. Currently,use 'BuildAndDeploToLocal.sh' instead
   - The total test coverages are only around 80% and the branch specified test coverages are only about 50%. This is extremely low in bff.
   - The apiTest is not implemented, and the integration test are not fully implemented
   - the config for in-memory mongodb (de.flapdoodle.mongodb.embedded.version) is showed in bff layer, which obviously should not appear here.
