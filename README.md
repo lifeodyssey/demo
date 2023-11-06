@@ -8,7 +8,7 @@ This code repository is a demonstration of basic CRUD and user authentication in
 
 ## How to run it locally?
 
-Please make sure you have installed docker in your local machine. Then please clone this branch and open it in terminal
+Please make sure you have installed docker and gradle in your local machine. Then please clone this branch and open it in terminal
 
 ```bash
 chmod 755 ./BuildAndDeployToLocal.sh
