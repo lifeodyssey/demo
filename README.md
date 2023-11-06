@@ -26,6 +26,7 @@ Although this repository is mainly written in Kotlin, it should be readable for 
 - Network Isolation: the BFF layer is open to public, while book service and MongoDB are running in private network. The only interface for book service is BFF.
 - Hook, Lint and Test Coverage plugin: the githook is setup under /.githooks. One enabled, the code could not be pushed to remote repository when it could not pass test coverage check and lint check
 - Test: Unit test, Application test and Integration test are implemented based on Junit, Mockk and WireMock
+- Database migration: it use mongock to do the Database migration when changing the schema of data, like flyway for PostgreSQL.
 
 ## Drawback of this demo
 - Security : In this project all credentials and url are hardcoded in the code, which do not meet any production code requirement in real development. These credentials should get from environment variables and injected from infra setup(like AWS Secrets Manage).
