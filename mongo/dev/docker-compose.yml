@@ -9,18 +9,17 @@ services:
       - MONGO_INITDB_DATABASE=admin
       - MONGO_INITDB_ROOT_USERNAME=dev_mongo_username
       - MONGO_INITDB_ROOT_PASSWORD=dev_mongo_pwd
-    ports:
-      - "27018:27017"
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - type: volume
         source: mongodb_data
         target: /data/db
     networks:
-      - mongo_network
+      - backend_network
 
 networks:
-  mongo_network:
+  backend_network:
     driver: bridge
+
 volumes:
   mongodb_data:
