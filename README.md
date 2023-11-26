@@ -1,6 +1,8 @@
 # Backend Demo
 This code repository is a demonstration of basic work and best practices for backend development. The project uses the following tech stack:
 
+Note: This branch has some configuration related to jenkins, so please check out to [mensetsu](https://github.com/lifeodyssey/demo/tree/mensetsu) to see the version could run in local smoothly.
+
 - Kotlin
 - Spring Boot
 - MongoDB
