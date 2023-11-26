@@ -18,7 +18,7 @@ data class AuthorResponse(
 )
 
 data class RatesResponse(
-    val rate: BigDecimal = BigDecimal.ZERO,
+    val rate: Double = 0.0,
     val rateAmount: Int = 0
 )
 
