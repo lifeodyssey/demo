@@ -18,7 +18,7 @@ class BookRequestToBookEntityMapperTest {
         val bookRequest = BookRequest(
             title = "The Great Gatsby",
             authors = listOf(AuthorRequest(authorName = "F. Scott")),
-            rates = RatesRequest(rate = BigDecimal.valueOf(4.0), rateAmount = 10),
+            rates = RatesRequest(4.0, rateAmount = 10),
             abstract = "A novel about the corruption of the American Dream.",
             bookItems = listOf(
                 BookItemRequest(

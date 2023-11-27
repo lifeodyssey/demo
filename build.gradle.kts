@@ -4,7 +4,6 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 java.targetCompatibility = JavaVersion.VERSION_17
 
-
 plugins {
     id("org.springframework.boot") version "3.1.3"
     id("io.spring.dependency-management") version "1.1.3"
@@ -46,7 +45,6 @@ allprojects {
     }
     group = "com.example"
     version = "0.0.2-SNAPSHOT"
-
 
     val integrationTestName = "integrationTest"
     val apiTestName = "apiTest"
@@ -113,7 +111,6 @@ allprojects {
             compileOnly("jakarta.servlet:jakarta.servlet-api:6.0.0")
 //            implementation("org.springframework.security:spring-security-config")
 //            implementation("org.springframework.security:spring-security-web")
-
 
             // kotlin
             implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -253,7 +250,5 @@ allprojects {
                 jvmTarget = "17"
             }
         }
-
     }
 }
-

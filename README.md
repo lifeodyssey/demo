@@ -35,7 +35,6 @@ Although this repository is mainly written in Kotlin, it should be readable for 
 - Database migration: it use mongock to do the Database migration when changing the schema of data, like flyway for PostgreSQL.
 
 ## Drawback of this demo
-- Security : In this project all credentials and url are hardcoded in the code, which do not meet any production code requirement in real development. These credentials should get from environment variables and injected from infra setup(like AWS Secrets Manage).
 - The auth service is not really tested besides the HTTP script, and the auth service is not really implemented as a single service
 - There are some code smells currently, for example
   - The PUT request should use map as request body
@@ -44,5 +43,4 @@ Although this repository is mainly written in Kotlin, it should be readable for 
   - The total test coverages are only around 80% and the branch specified test coverages are only about 50%. This is extremely low in bff.
   - The apiTest is not implemented, and the integration test are not fully implemented
   - the config for in-memory mongodb (de.flapdoodle.mongodb.embedded.version) is showed in bff layer, which obviously should not appear here.
-  - BigDecimal: This class could handle the high precision calculation(more than 16 digit ) compared with Double, and should only be used for high precision calculation like money. This project use BigDecimal for 'Rate' in 'Rates' object.
 - The infra related config（like MongoDB, docker compose file） are all written in this repository, which should be in another repo use Infra-as-Code way
