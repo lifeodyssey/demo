@@ -18,7 +18,7 @@ class BookEntityToBookResponseMapperTest {
             bookId = "1",
             title = "The Great Gatsby",
             authors = listOf(Author(authorName = "F. Scott")),
-            rates = Rates(rate =4.0, rateAmount = 10),
+            rates = Rates(rate = 4.0, rateAmount = 10),
             abstract = "A novel about the corruption of the American Dream.",
             bookItems = listOf(
                 BookItem(

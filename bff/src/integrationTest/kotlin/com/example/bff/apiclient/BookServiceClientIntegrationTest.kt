@@ -22,7 +22,7 @@ class BookServiceClientIntegrationTest : BaseIntegrationTest() {
         val bookCreationRequest = BookRequest(
             title = "System Design Interview – An insider's guide",
             authors = listOf(AuthorRequest(authorName = "Alex Xu")),
-            rates = RatesRequest(rate = BigDecimal("4.6"), rateAmount = 2144),
+            rates = RatesRequest(rate = 4.6, rateAmount = 2144),
             abstract = "System Design Interview - An Insider's Guide (Volume 1) provides a reliable strategy for tackling system design interview questions...",
             bookItems = listOf(
                 BookItemRequest(

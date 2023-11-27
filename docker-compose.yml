@@ -41,7 +41,7 @@ services:
     container_name: local_bff_service
     restart: always
     environment:
-      - BOOK_SVC_URI=http://book-svc:3000/books
+      - BOOK_SVC_URL=${BOOK_SVC_URL}
     ports:
       - "8000:8000"
        #      host/container
