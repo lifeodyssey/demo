@@ -7,15 +7,12 @@ import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import java.math.BigDecimal
 
 data class BookRequest(
-    @NotBlank(message = "Title is required")
-    val title: String,
-    @NotBlank(message = "Author is required")
-    val authors: List<AuthorRequest>,
+    @NotBlank(message = "Title is required") val title: String,
+    @NotBlank(message = "Author is required") val authors: List<AuthorRequest>,
     val rates: RatesRequest,
     val abstract: String = "",
     val bookItems: List<BookItemRequest>? = null,
-    @NotBlank(message = "Details is required")
-    val details: DetailRequest,
+    @NotBlank(message = "Details is required") val details: DetailRequest,
 )
 
 data class AuthorRequest(
@@ -32,12 +29,10 @@ data class BookItemRequest(
     val price: BigDecimal,
     val category: String,
     val type: String?,
-    @JsonDeserialize(using = GeoJsonDeserializer::class)
-    val location: GeoJsonPoint?
+    @JsonDeserialize(using = GeoJsonDeserializer::class) val location: GeoJsonPoint?
 )
 
 data class DetailRequest(
     val asin: String? = null,
-    @NotBlank(message = "ISBN is required")
-    val isbn: String,
+    @NotBlank(message = "ISBN is required") val isbn: String,
 )

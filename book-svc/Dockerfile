@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM eclipse-temurin:17-jdk-alpine
 
 COPY /build/libs/book-svc-0.0.2-SNAPSHOT.jar /app/book-svc.jar
 COPY /entrypoint.sh /app/entrypoint.sh
