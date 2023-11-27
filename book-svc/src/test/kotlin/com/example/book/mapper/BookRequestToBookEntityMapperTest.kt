@@ -40,7 +40,7 @@ class BookRequestToBookEntityMapperTest {
         Assertions.assertThat(book.title).isEqualTo("The Great Gatsby")
         Assertions.assertThat(book.authors.size).isEqualTo(1)
         Assertions.assertThat(book.authors[0].authorName).isEqualTo("F. Scott")
-        Assertions.assertThat(book.rates.rate).isEqualTo(BigDecimal.valueOf(4.0))
+        Assertions.assertThat(book.rates.rate).isEqualTo(4.0)
         Assertions.assertThat(book.rates.rateAmount).isEqualTo(10)
         Assertions.assertThat(book.abstract).isEqualTo("A novel about the corruption of the American Dream.")
         Assertions.assertThat(book.bookItems!!.size).isEqualTo(1)
