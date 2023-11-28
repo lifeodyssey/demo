@@ -4,7 +4,7 @@ Read it in [日本語](https://github.com/lifeodyssey/demo/blob/gxp/README-JP.md
 
 This code repository is a demonstration of basic CRUD and user authentication in backend microservice architecture based on Kotlin and Spring
 
-![gxp 1107.png](gxp%201107.png)
+![arche.png](arche.png)
 
 ## How to run it locally?
 
